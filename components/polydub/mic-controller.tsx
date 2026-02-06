@@ -8,7 +8,7 @@ import { Microphone, MicrophoneSlash, Circle, WifiHigh, WifiSlash, WifiMedium } 
 
 interface MicControllerProps {
   isRecording: boolean
-  onStart: () => void
+  onStart: (sampleRate?: number) => void
   onStop: () => void
   onAudioData: (chunk: ArrayBuffer) => void
   connectionStatus: 'connected' | 'connecting' | 'disconnected'
@@ -63,15 +63,15 @@ export function MicController({
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
-          sampleRate: 16000,
+          // Let device decide sample rate to avoid mismatch
         }
       })
       
       mediaStreamRef.current = stream
       setPermissionGranted(true)
 
-      // Create audio context
-      const audioContext = new AudioContext({ sampleRate: 16000 })
+      // Create audio context without forcing sample rate
+      const audioContext = new AudioContext()
       audioContextRef.current = audioContext
 
       // Create analyser for visualization
@@ -83,14 +83,17 @@ export function MicController({
       const source = audioContext.createMediaStreamSource(stream)
       source.connect(analyser)
 
-      // Create script processor for audio chunks (500ms buffer)
-      const bufferSize = 8192 // ~512ms at 16kHz
+      // Create script processor for audio chunks
+      // Buffer size needs to be a power of 2. 
+      // At 48k, 4096 is ~85ms. At 16k, 4096 is ~256ms.
+      const bufferSize = 4096 
       const processor = audioContext.createScriptProcessor(bufferSize, 1, 1)
       processorRef.current = processor
 
       processor.onaudioprocess = (e) => {
         const inputData = e.inputBuffer.getChannelData(0)
         // Convert Float32Array to Int16Array for transmission
+        // Note: This sends raw audio at context sample rate (e.g. 44.1k or 48k)
         const int16Data = new Int16Array(inputData.length)
         for (let i = 0; i < inputData.length; i++) {
           const s = Math.max(-1, Math.min(1, inputData[i]))
@@ -117,7 +120,7 @@ export function MicController({
       }
       updateLevel()
 
-      onStart()
+      onStart(audioContext.sampleRate) // Pass detected rate
     } catch (error) {
       console.error('Failed to start recording:', error)
       setPermissionGranted(false)
@@ -215,7 +218,7 @@ export function MicController({
           <Button
             size="lg"
             onClick={handleToggle}
-            disabled={connectionStatus === 'disconnected'}
+            disabled={connectionStatus === 'connecting'}
             className={`
               relative w-32 h-32 rounded-full text-lg font-semibold
               transition-all duration-300 shadow-lg

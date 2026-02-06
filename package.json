@@ -6,12 +6,14 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "server": "tsx server/index.ts"
   },
   "dependencies": {
+    "@deepgram/sdk": "^4.11.3",
     "@hookform/resolvers": "^3.10.0",
-    "@lobehub/icons": "3.0.2",
-    "@lobehub/ui": "latest",
+    "@lobehub/icons": "^1.59.1",
+    "@lobehub/ui": "^1.153.8",
     "@phosphor-icons/react": "2.1.10",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",
@@ -47,10 +49,12 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
     "date-fns": "4.1.0",
+    "dotenv": "^17.2.4",
     "embla-carousel-react": "8.5.1",
     "input-otp": "1.4.1",
+    "lingo.dev": "^0.131.1",
     "lucide-react": "^0.454.0",
-    "next": "16.0.10",
+    "next": "^16.1.6",
     "next-themes": "^0.4.6",
     "react": "19.2.0",
     "react-day-picker": "9.8.0",
@@ -62,6 +66,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2",
+    "ws": "^8.19.0",
     "zod": "3.25.76"
   },
   "devDependencies": {
@@ -69,9 +74,21 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ws": "^8.18.1",
     "postcss": "^8.5",
     "tailwindcss": "^4.1.9",
+    "tsx": "^4.21.0",
     "tw-animate-css": "1.3.3",
     "typescript": "^5"
+  },
+  "overrides": {
+    "lingo.dev": {
+      "next": "$next",
+      "@modelcontextprotocol/sdk": "^1.26.0",
+      "fast-xml-parser": "^5.3.4",
+      "diff": "^8.0.3",
+      "tmp": "^0.2.5",
+      "lodash": "^4.17.21"
+    }
   }
 }

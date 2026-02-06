@@ -21,19 +21,24 @@ export function AudioPlayback({
   const [isMuted, setIsMuted] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   
+  const activeSourcesRef = useRef<number>(0)
+  const nextStartTimeRef = useRef<number>(0)
   const audioContextRef = useRef<AudioContext | null>(null)
   const gainNodeRef = useRef<GainNode | null>(null)
-  const isProcessingRef = useRef(false)
 
   // Initialize audio context
   useEffect(() => {
     if (typeof window !== 'undefined' && !audioContextRef.current) {
-      audioContextRef.current = new AudioContext()
-      gainNodeRef.current = audioContextRef.current.createGain()
-      gainNodeRef.current.connect(audioContextRef.current.destination)
+      // Use system default sample rate to avoid cracking/artifacts
+      // The createBuffer below handles the resampling from 24kHz
+      const ctx = new window.AudioContext()
+      audioContextRef.current = ctx
+      gainNodeRef.current = ctx.createGain()
+      gainNodeRef.current.connect(ctx.destination)
     }
 
     return () => {
+      // Don't close immediately to avoid cutting off tail, but for cleanup it's fine
       if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
         audioContextRef.current.close()
       }
@@ -49,46 +54,76 @@ export function AudioPlayback({
 
   // Process audio queue
   const processQueue = useCallback(async () => {
-    if (isProcessingRef.current || audioQueue.length === 0 || !isEnabled) {
+    if (audioQueue.length === 0 || !isEnabled || !audioContextRef.current || !gainNodeRef.current) {
       return
     }
 
-    if (!audioContextRef.current || audioContextRef.current.state === 'suspended') {
-      await audioContextRef.current?.resume()
+    const ctx = audioContextRef.current
+
+    if (ctx.state === 'suspended') {
+      await ctx.resume()
     }
 
-    isProcessingRef.current = true
-    setIsPlaying(true)
-
+    // Process only the first chunk, then let parent update trigger next
+    const audioData = audioQueue[0]
+    
     try {
-      const audioData = audioQueue[0]
+      // Parse Linear16 PCM (signed 16-bit integers)
+      // Note: Deepgram sends raw PCM without headers
+      const int16Data = new Int16Array(audioData)
+      const float32Data = new Float32Array(int16Data.length)
       
-      // Decode audio data (assuming MP3 or WAV from Deepgram TTS)
-      const audioBuffer = await audioContextRef.current!.decodeAudioData(audioData.slice(0))
-      
-      // Create source and play
-      const source = audioContextRef.current!.createBufferSource()
-      source.buffer = audioBuffer
-      source.connect(gainNodeRef.current!)
-      
-      source.onended = () => {
-        onAudioPlayed()
-        isProcessingRef.current = false
-        setIsPlaying(false)
+      // Convert to Float32 (-1.0 to 1.0)
+      for (let i = 0; i < int16Data.length; i++) {
+        float32Data[i] = int16Data[i] / 32768.0
       }
+
+      // Create buffer
+      const buffer = ctx.createBuffer(1, float32Data.length, 24000)
+      buffer.getChannelData(0).set(float32Data)
+
+      // Schedule playback
+      const source = ctx.createBufferSource()
+      source.buffer = buffer
+      source.connect(gainNodeRef.current)
+
+      // Schedule to start at the end of the previous chunk or now if verified
+      const currentTime = ctx.currentTime
+      // Ensure we don't schedule in the past
+      const startTime = Math.max(currentTime, nextStartTimeRef.current)
       
-      source.start()
-    } catch (error) {
-      console.error('Error playing audio:', error)
+      source.start(startTime)
+      
+      // Update next start time
+      nextStartTimeRef.current = startTime + buffer.duration
+      
+      // Update UI state
+      activeSourcesRef.current++
+      setIsPlaying(true)
+      
+      // Consume chunk IMMEDIATELY from parent state
       onAudioPlayed()
-      isProcessingRef.current = false
-      setIsPlaying(false)
+
+      // Handle cleanup when this specific chunk ends
+      source.onended = () => {
+           activeSourcesRef.current--
+           if (activeSourcesRef.current <= 0) {
+              activeSourcesRef.current = 0
+              setIsPlaying(false)
+              // Reset time ref if we run dry, to avoid large gaps on resume
+              nextStartTimeRef.current = ctx.currentTime
+           }
+      }
+    } catch (err) {
+      console.error("PCM Playback error:", err)
+      // Consume even on error to prevent blocking
+      onAudioPlayed()
     }
-  }, [audioQueue, onAudioPlayed, isEnabled])
+  }, [audioQueue, isEnabled, onAudioPlayed])
 
   // Process queue when new audio arrives
   useEffect(() => {
-    if (audioQueue.length > 0 && !isProcessingRef.current && isEnabled) {
+    if (audioQueue.length > 0 && isEnabled) {
       processQueue()
     }
   }, [audioQueue, processQueue, isEnabled])

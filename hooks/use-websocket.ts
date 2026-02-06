@@ -13,7 +13,7 @@ interface UseWebSocketOptions {
 }
 
 interface UseWebSocketReturn {
-  connect: () => void
+  connect: (sampleRate?: number) => void
   disconnect: () => void
   sendAudio: (chunk: ArrayBuffer) => void
   connectionStatus: 'connected' | 'connecting' | 'disconnected'
@@ -45,7 +45,7 @@ export function useWebSocket({
     }
   }, [])
 
-  const connect = useCallback(() => {
+  const connect = useCallback((sampleRate?: number) => {
     cleanup()
     setConnectionStatus('connecting')
     setError(null)
@@ -54,6 +54,9 @@ export function useWebSocket({
       const wsUrl = new URL(url)
       wsUrl.searchParams.set('source', sourceLanguage)
       wsUrl.searchParams.set('target', targetLanguage)
+      if (sampleRate) {
+        wsUrl.searchParams.set('sample_rate', sampleRate.toString())
+      }
       
       const ws = new WebSocket(wsUrl.toString())
       wsRef.current = ws
@@ -69,6 +72,11 @@ export function useWebSocket({
       ws.onclose = (event) => {
         console.log('[WebSocket] Disconnected:', event.code, event.reason)
         setConnectionStatus('disconnected')
+        
+        if (event.code !== 1000) {
+          setError(`Connection closed (${event.code}${event.reason ? ': ' + event.reason : ''})`)
+        }
+        
         wsRef.current = null
       }
 

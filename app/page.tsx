@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { MicController } from "@/components/polydub/mic-controller"
@@ -69,8 +69,8 @@ export default function Home() {
   })
 
   // Handle recording start
-  const handleStart = useCallback(() => {
-    connect()
+  const handleStart = useCallback((sampleRate?: number) => {
+    connect(sampleRate)
     setIsRecording(true)
     setTranscripts([])
     setPartialTranscript(undefined)
@@ -88,6 +88,14 @@ export default function Home() {
   const handleMicAudioData = useCallback((chunk: ArrayBuffer) => {
     sendAudio(chunk)
   }, [sendAudio])
+
+  // Sync recording state with connection status
+  // If connection drops, stop recording UI
+  useEffect(() => {
+    if (isRecording && connectionStatus === 'disconnected') {
+      setIsRecording(false)
+    }
+  }, [isRecording, connectionStatus])
 
   return (
     <div className="min-h-screen bg-background">
