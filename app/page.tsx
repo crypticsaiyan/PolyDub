@@ -1,82 +1,93 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { VideoUpload } from "@/components/polydub/video-upload"
-import { VideoPlayer } from "@/components/polydub/video-player"
+import { MicController } from "@/components/polydub/mic-controller"
 import { LanguageSelector } from "@/components/polydub/language-selector"
-import { Button } from "@/components/ui/button"
-import { Sparkle } from "@phosphor-icons/react"
+import { TranscriptView, TranscriptEntry } from "@/components/polydub/transcript-view"
+import { AudioPlayback } from "@/components/polydub/audio-playback"
+import { useWebSocket } from "@/hooks/use-websocket"
+import { Badge } from "@/components/ui/badge"
+import { 
+  Sparkle, 
+  Microphone, 
+  Translate, 
+  SpeakerHigh,
+  Lightning,
+  ArrowRight,
+  Waveform,
+  Globe
+} from "@phosphor-icons/react"
 
-// TODO: Replace mock data with real processing logic
-interface ProcessingChunk {
-  id: number
-  status: "pending" | "processing" | "completed"
-  progress: number
-}
+// WebSocket server URL - update this for production
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"
 
 export default function Home() {
-  const [selectedVideo, setSelectedVideo] = useState<File | null>(null)
-  const [sourceLanguage, setSourceLanguage] = useState("en")
+  const [sourceLanguage, setSourceLanguage] = useState("auto")
   const [targetLanguage, setTargetLanguage] = useState("es")
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [chunks, setChunks] = useState<ProcessingChunk[]>([])
-  const [currentChunk, setCurrentChunk] = useState(0)
+  const [isRecording, setIsRecording] = useState(false)
+  const [transcripts, setTranscripts] = useState<TranscriptEntry[]>([])
+  const [partialTranscript, setPartialTranscript] = useState<{ original: string; translated?: string } | undefined>()
+  const [audioQueue, setAudioQueue] = useState<ArrayBuffer[]>([])
 
-  // TODO: Implement real video processing
-  // TODO: Connect to backend API for video chunking
-  // TODO: Implement progressive audio dubbing
-  // TODO: Handle WebSocket connection for real-time updates
-  const handleStartDubbing = () => {
-    if (!selectedVideo) return
-    
-    // Mock: Initialize chunks (replace with actual chunk detection)
-    const mockChunks: ProcessingChunk[] = Array.from({ length: 8 }, (_, i) => ({
-      id: i + 1,
-      status: "pending" as const,
-      progress: 0,
-    }))
-    
-    setChunks(mockChunks)
-    setIsProcessing(true)
-    setCurrentChunk(0)
+  // Handle new transcript entries
+  const handleTranscript = useCallback((entry: TranscriptEntry) => {
+    setTranscripts(prev => [...prev, entry])
+    setPartialTranscript(undefined)
+  }, [])
 
-    // Mock: Simulate progressive processing
-    let chunkIndex = 0
-    const interval = setInterval(() => {
-      setChunks(prev => 
-        prev.map((chunk, idx) => {
-          if (idx === chunkIndex) {
-            return { ...chunk, status: "processing", progress: 50 }
-          }
-          if (idx < chunkIndex) {
-            return { ...chunk, status: "completed", progress: 100 }
-          }
-          return chunk
-        })
-      )
-      
-      setTimeout(() => {
-        setChunks(prev => 
-          prev.map((chunk, idx) => 
-            idx === chunkIndex 
-              ? { ...chunk, status: "completed", progress: 100 }
-              : chunk
-          )
-        )
-        chunkIndex++
-        setCurrentChunk(chunkIndex)
-        
-        if (chunkIndex >= mockChunks.length) {
-          clearInterval(interval)
-          setIsProcessing(false)
-        }
-      }, 1500)
-    }, 3000)
-  }
+  // Handle partial transcripts
+  const handlePartialTranscript = useCallback((partial: { original: string; translated?: string }) => {
+    setPartialTranscript(partial)
+  }, [])
 
-  const canStartDubbing = selectedVideo && sourceLanguage && targetLanguage && !isProcessing
+  // Handle incoming audio
+  const handleAudioData = useCallback((audio: ArrayBuffer) => {
+    setAudioQueue(prev => [...prev, audio])
+  }, [])
+
+  // Handle audio played
+  const handleAudioPlayed = useCallback(() => {
+    setAudioQueue(prev => prev.slice(1))
+  }, [])
+
+  // WebSocket connection
+  const { 
+    connect, 
+    disconnect, 
+    sendAudio, 
+    connectionStatus,
+    error 
+  } = useWebSocket({
+    url: WS_URL,
+    sourceLanguage,
+    targetLanguage,
+    onTranscript: handleTranscript,
+    onPartialTranscript: handlePartialTranscript,
+    onAudioData: handleAudioData,
+  })
+
+  // Handle recording start
+  const handleStart = useCallback(() => {
+    connect()
+    setIsRecording(true)
+    setTranscripts([])
+    setPartialTranscript(undefined)
+    setAudioQueue([])
+  }, [connect])
+
+  // Handle recording stop
+  const handleStop = useCallback(() => {
+    disconnect()
+    setIsRecording(false)
+    setPartialTranscript(undefined)
+  }, [disconnect])
+
+  // Handle audio data from microphone
+  const handleMicAudioData = useCallback((chunk: ArrayBuffer) => {
+    sendAudio(chunk)
+  }, [sendAudio])
 
   return (
     <div className="min-h-screen bg-background">
@@ -85,20 +96,26 @@ export default function Home() {
       <main>
         {/* Hero Section */}
         <section className="relative overflow-hidden border-b border-border">
-          <div className="mx-auto max-w-[1400px] px-6 lg:px-12 py-24 sm:py-32">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent" />
+          
+          <div className="relative mx-auto max-w-[1400px] px-6 lg:px-12 py-16 sm:py-24">
             <div className="mx-auto max-w-2xl text-center">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5">
                 <Sparkle className="h-4 w-4 text-accent" weight="fill" />
                 <span className="text-sm font-medium text-accent">
-                  Powered by Lingo.dev
+                  Powered by Lingo.dev + Deepgram
                 </span>
               </div>
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl mb-6">
                 PolyDub
+                <span className="block text-2xl sm:text-3xl font-medium text-muted-foreground mt-2">
+                  Real-Time Voice Translator
+                </span>
               </h1>
               <p className="text-lg leading-8 text-muted-foreground max-w-xl mx-auto">
-                Real-time video dubbing that preserves background audio while translating vocals. 
-                Upload your video, select languages, and watch the magic happen.
+                Speak in any language and hear instant translations. 
+                Powered by cutting-edge AI for natural, real-time voice translation.
               </p>
             </div>
           </div>
@@ -110,36 +127,45 @@ export default function Home() {
             <div className="grid gap-8 lg:grid-cols-2">
               {/* Left Column: Controls */}
               <div className="space-y-6">
-                <VideoUpload 
-                  onVideoSelect={setSelectedVideo}
-                  selectedVideo={selectedVideo}
-                />
-                
+                {/* Language Selector */}
                 <LanguageSelector
                   sourceLanguage={sourceLanguage}
                   targetLanguage={targetLanguage}
                   onSourceLanguageChange={setSourceLanguage}
                   onTargetLanguageChange={setTargetLanguage}
+                  disabled={isRecording}
                 />
 
-                <Button
-                  size="lg"
-                  className="w-full"
-                  disabled={!canStartDubbing}
-                  onClick={handleStartDubbing}
-                >
-                  <Sparkle className="h-5 w-5 mr-2" weight="fill" />
-                  Start PolyDub
-                </Button>
+                {/* Microphone Controller */}
+                <MicController
+                  isRecording={isRecording}
+                  onStart={handleStart}
+                  onStop={handleStop}
+                  onAudioData={handleMicAudioData}
+                  connectionStatus={connectionStatus}
+                />
+
+                {/* Audio Playback */}
+                <AudioPlayback
+                  audioQueue={audioQueue}
+                  onAudioPlayed={handleAudioPlayed}
+                  isEnabled={isRecording}
+                />
+
+                {/* Error display */}
+                {error && (
+                  <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
+                    <p className="text-sm text-destructive">{error}</p>
+                  </div>
+                )}
               </div>
 
-              {/* Right Column: Video Player & Status */}
+              {/* Right Column: Transcript */}
               <div>
-                <VideoPlayer
-                  videoFile={selectedVideo}
-                  isProcessing={isProcessing}
-                  chunks={chunks}
-                  currentChunk={currentChunk}
+                <TranscriptView
+                  entries={transcripts}
+                  isListening={isRecording}
+                  currentPartial={partialTranscript}
                 />
               </div>
             </div>
@@ -154,38 +180,97 @@ export default function Home() {
                 How It Works
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                PolyDub processes your video in real-time, delivering progressive results
+                Real-time voice translation in three simple steps
               </p>
             </div>
             
             <div className="grid gap-8 sm:grid-cols-3">
               <div className="text-center">
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10 text-accent font-bold text-xl">
-                  1
+                <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10 text-accent">
+                  <Microphone className="h-8 w-8" weight="fill" />
                 </div>
-                <h3 className="mb-2 font-semibold">Upload Video</h3>
+                <h3 className="mb-2 font-semibold text-lg">Speak</h3>
                 <p className="text-sm text-muted-foreground">
-                  Select your video file and configure source/target languages
+                  Select your languages and start speaking naturally into your microphone
                 </p>
               </div>
               
-              <div className="text-center">
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10 text-accent font-bold text-xl">
-                  2
+              <div className="text-center relative">
+                <div className="hidden sm:block absolute top-8 -left-4 right-full">
+                  <ArrowRight className="h-5 w-5 text-muted-foreground/30" />
                 </div>
-                <h3 className="mb-2 font-semibold">Process Chunks</h3>
+                <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10 text-accent">
+                  <Translate className="h-8 w-8" weight="fill" />
+                </div>
+                <h3 className="mb-2 font-semibold text-lg">Translate</h3>
                 <p className="text-sm text-muted-foreground">
-                  Video is split into chunks and dubbed progressively in real-time
+                  AI transcribes and translates your speech in real-time using Lingo.dev
                 </p>
               </div>
               
-              <div className="text-center">
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10 text-accent font-bold text-xl">
-                  3
+              <div className="text-center relative">
+                <div className="hidden sm:block absolute top-8 -left-4 right-full">
+                  <ArrowRight className="h-5 w-5 text-muted-foreground/30" />
                 </div>
-                <h3 className="mb-2 font-semibold">Watch & Share</h3>
+                <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10 text-accent">
+                  <SpeakerHigh className="h-8 w-8" weight="fill" />
+                </div>
+                <h3 className="mb-2 font-semibold text-lg">Listen</h3>
                 <p className="text-sm text-muted-foreground">
-                  Play your dubbed video with vocals translated and background audio intact
+                  Hear the translated speech instantly with natural-sounding AI voice
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Tech Stack Section */}
+        <section className="py-16 sm:py-20 border-t border-border bg-card/30">
+          <div className="mx-auto max-w-5xl px-6 lg:px-12">
+            <div className="text-center mb-12">
+              <Badge variant="outline" className="mb-4 text-accent border-accent/30">
+                <Lightning className="h-3 w-3 mr-1" weight="fill" />
+                Tech Stack
+              </Badge>
+              <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl mb-4">
+                Built for the Lingo.dev Hackathon
+              </h2>
+            </div>
+            
+            <div className="grid gap-6 sm:grid-cols-3">
+              <div className="p-6 rounded-xl bg-card border border-border">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                    <Waveform className="h-5 w-5 text-accent" weight="fill" />
+                  </div>
+                  <h3 className="font-semibold">Deepgram</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Real-time speech-to-text and text-to-speech with Aura voices
+                </p>
+              </div>
+              
+              <div className="p-6 rounded-xl bg-card border border-border">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                    <Globe className="h-5 w-5 text-accent" weight="fill" />
+                  </div>
+                  <h3 className="font-semibold">Lingo.dev</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  AI-powered translation for natural, context-aware results
+                </p>
+              </div>
+              
+              <div className="p-6 rounded-xl bg-card border border-border">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                    <Lightning className="h-5 w-5 text-accent" weight="fill" />
+                  </div>
+                  <h3 className="font-semibold">WebSockets</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Bi-directional streaming for ultra-low latency communication
                 </p>
               </div>
             </div>
