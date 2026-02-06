@@ -14,9 +14,9 @@ import { ArrowsLeftRight, Globe, Translate } from "@phosphor-icons/react"
 
 interface LanguageSelectorProps {
   sourceLanguage: string
-  targetLanguage: string
+  targetLanguages: string[]
   onSourceLanguageChange: (lang: string) => void
-  onTargetLanguageChange: (lang: string) => void
+  onToggleTargetLanguage: (lang: string) => void
   disabled?: boolean
 }
 
@@ -62,43 +62,46 @@ const STT_LANGUAGES = [
   { code: "bg", name: "Bulgarian", flag: "🇧🇬" },
   { code: "hr", name: "Croatian", flag: "🇭🇷" },
   { code: "sk", name: "Slovak", flag: "🇸🇰" },
-  { code: "th", name: "Thai", flag: "🇹🇭" }, // Nova-2 supported, keeping for completeness
   { code: "he", name: "Hebrew", flag: "🇮🇱" },
   { code: "ms", name: "Malay", flag: "🇲🇾" },
   { code: "tl", name: "Tagalog", flag: "🇵🇭" },
   { code: "fa", name: "Persian", flag: "🇮🇷" },
+  { code: "be", name: "Belarusian", flag: "🇧🇾" },
+  { code: "bn", name: "Bengali", flag: "🇧🇩" },
+  { code: "bs", name: "Bosnian", flag: "🇧🇦" },
+  { code: "ca", name: "Catalan", flag: "🏳️" }, 
+  { code: "et", name: "Estonian", flag: "🇪🇪" },
+  { code: "kn", name: "Kannada", flag: "🇮🇳" },
+  { code: "lv", name: "Latvian", flag: "🇱🇻" },
+  { code: "lt", name: "Lithuanian", flag: "🇱🇹" },
+  { code: "mk", name: "Macedonian", flag: "🇲🇰" },
+  { code: "mr", name: "Marathi", flag: "🇮🇳" },
+  { code: "sr", name: "Serbian", flag: "🇷🇸" },
+  { code: "sl", name: "Slovenian", flag: "🇸🇮" },
+  { code: "ta", name: "Tamil", flag: "🇮🇳" },
+  { code: "te", name: "Telugu", flag: "🇮🇳" },
+  { code: "ur", name: "Urdu", flag: "🇵🇰" },
 ]
 
 export function LanguageSelector({
   sourceLanguage,
-  targetLanguage,
+  targetLanguages,
   onSourceLanguageChange,
-  onTargetLanguageChange,
+  onToggleTargetLanguage,
   disabled = false,
 }: LanguageSelectorProps) {
-  // Check if current source is a valid target language to allow swapping
-  const canSwap = sourceLanguage !== "auto" && TTS_LANGUAGES.some(l => l.code === sourceLanguage)
-
-  const handleSwapLanguages = () => {
-    if (!canSwap) return
-    
-    const temp = sourceLanguage
-    onSourceLanguageChange(targetLanguage)
-    onTargetLanguageChange(temp)
-  }
-
   return (
     <Card>
       <CardContent className="py-5">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-6">
           {/* Source Language */}
-          <div className="flex-1 space-y-1.5">
+          <div className="space-y-2">
             <Label 
               htmlFor="source-language" 
               className="text-xs text-muted-foreground flex items-center gap-1.5"
             >
               <Globe className="h-3.5 w-3.5" />
-              From
+              I am speaking
             </Label>
             <Select 
               value={sourceLanguage} 
@@ -113,7 +116,6 @@ export function LanguageSelector({
                   <SelectItem 
                     key={lang.code} 
                     value={lang.code}
-                    disabled={lang.code === targetLanguage}
                   >
                     <span className="flex items-center gap-2">
                        <span className="text-base">{lang.flag}</span>
@@ -125,48 +127,42 @@ export function LanguageSelector({
             </Select>
           </div>
 
-          {/* Swap Button */}
-          <div className="pt-5">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleSwapLanguages}
-              disabled={!canSwap || disabled}
-              className="rounded-full hover:bg-accent/10"
-              title={canSwap ? "Swap languages" : "Cannot swap (Target does not support this Source language)"}
-            >
-              <ArrowsLeftRight className="h-5 w-5 text-muted-foreground" />
-            </Button>
-          </div>
-
-          {/* Target Language */}
-          <div className="flex-1 space-y-1.5">
+          {/* Target Languages (Multi-select) */}
+          <div className="space-y-2">
             <Label 
-              htmlFor="target-language" 
               className="text-xs text-muted-foreground flex items-center gap-1.5"
             >
               <Translate className="h-3.5 w-3.5" />
-              To
+              Broadcast to
             </Label>
-            <Select 
-              value={targetLanguage} 
-              onValueChange={onTargetLanguageChange}
-              disabled={disabled}
-            >
-              <SelectTrigger id="target-language" className="w-full">
-                <SelectValue placeholder="Select language" />
-              </SelectTrigger>
-              <SelectContent>
-                {TTS_LANGUAGES.filter(lang => lang.code !== sourceLanguage).map((lang) => (
-                  <SelectItem key={lang.code} value={lang.code}>
-                    <span className="flex items-center gap-2">
-                      <span className="text-base">{lang.flag}</span>
-                      <span className="truncate">{lang.name}</span>
+            <div className="flex flex-wrap gap-2">
+              {TTS_LANGUAGES.map((lang) => {
+                const isSelected = targetLanguages.includes(lang.code)
+                return (
+                  <Button
+                    key={lang.code}
+                    variant={isSelected ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => onToggleTargetLanguage(lang.code)}
+                    disabled={disabled}
+                    className={`gap-2 h-9 transition-all ${
+                      isSelected ? "ring-2 ring-background ring-offset-2" : "hover:border-primary/50"
+                    }`}
+                  >
+                    <span className="text-base">{lang.flag}</span>
+                    <span>
+                      <span className="opacity-50 font-mono mr-1 uppercase text-[10px]">{lang.code}</span>
+                      {lang.name}
                     </span>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                  </Button>
+                )
+              })}
+            </div>
+            {targetLanguages.length === 0 && (
+              <p className="text-xs text-amber-500 font-medium animate-pulse">
+                * Select at least one language to broadcast
+              </p>
+            )}
           </div>
         </div>
       </CardContent>

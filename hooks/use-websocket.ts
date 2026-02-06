@@ -6,7 +6,7 @@ import type { TranscriptEntry } from "@/components/polydub/transcript-view"
 interface UseWebSocketOptions {
   url: string
   sourceLanguage: string
-  targetLanguage: string
+  targetLanguages: string[]
   onTranscript: (entry: TranscriptEntry) => void
   onPartialTranscript: (partial: { original: string; translated?: string }) => void
   onAudioData: (audio: ArrayBuffer) => void
@@ -23,7 +23,7 @@ interface UseWebSocketReturn {
 export function useWebSocket({
   url,
   sourceLanguage,
-  targetLanguage,
+  targetLanguages,
   onTranscript,
   onPartialTranscript,
   onAudioData,
@@ -53,7 +53,8 @@ export function useWebSocket({
     try {
       const wsUrl = new URL(url)
       wsUrl.searchParams.set('source', sourceLanguage)
-      wsUrl.searchParams.set('target', targetLanguage)
+      // Send comma-separated list of target languages
+      wsUrl.searchParams.set('targets', targetLanguages.join(','))
       if (sampleRate) {
         wsUrl.searchParams.set('sample_rate', sampleRate.toString())
       }
@@ -106,7 +107,7 @@ export function useWebSocket({
                 translated: message.translated,
                 timestamp: message.timestamp || Date.now(),
                 sourceLanguage: message.sourceLanguage || sourceLanguage,
-                targetLanguage: message.targetLanguage || targetLanguage,
+                targetLanguage: message.targetLanguage || 'multi', // fallbacks
               })
               break
               
@@ -135,7 +136,7 @@ export function useWebSocket({
       setError('Failed to connect')
       setConnectionStatus('disconnected')
     }
-  }, [url, sourceLanguage, targetLanguage, onTranscript, onPartialTranscript, onAudioData, cleanup])
+  }, [url, sourceLanguage, targetLanguages, onTranscript, onPartialTranscript, onAudioData, cleanup])
 
   const disconnect = useCallback(() => {
     cleanup()

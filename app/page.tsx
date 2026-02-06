@@ -25,7 +25,7 @@ const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"
 
 export default function Home() {
   const [sourceLanguage, setSourceLanguage] = useState("auto")
-  const [targetLanguage, setTargetLanguage] = useState("es")
+  const [targetLanguages, setTargetLanguages] = useState<string[]>(["es"])
   const [isRecording, setIsRecording] = useState(false)
   const [transcripts, setTranscripts] = useState<TranscriptEntry[]>([])
   const [partialTranscript, setPartialTranscript] = useState<{ original: string; translated?: string } | undefined>()
@@ -44,12 +44,26 @@ export default function Home() {
 
   // Handle incoming audio
   const handleAudioData = useCallback((audio: ArrayBuffer) => {
-    setAudioQueue(prev => [...prev, audio])
+    // For Host, we might NOT want to play audio, but we store it if we want debugging or local monitoring.
+    // User requested "transcripts and audio to be only shown at the routes".
+    // So for Host, we ignore incoming audio.
+    // setAudioQueue(prev => [...prev, audio])
   }, [])
 
   // Handle audio played
   const handleAudioPlayed = useCallback(() => {
     setAudioQueue(prev => prev.slice(1))
+  }, [])
+
+  // Toggle Target Language Logic
+  const handleToggleTargetLanguage = useCallback((lang: string) => {
+     setTargetLanguages(prev => {
+        if (prev.includes(lang)) {
+           return prev.filter(l => l !== lang)
+        } else {
+           return [...prev, lang]
+        }
+     })
   }, [])
 
   // WebSocket connection
@@ -62,7 +76,7 @@ export default function Home() {
   } = useWebSocket({
     url: WS_URL,
     sourceLanguage,
-    targetLanguage,
+    targetLanguages,
     onTranscript: handleTranscript,
     onPartialTranscript: handlePartialTranscript,
     onAudioData: handleAudioData,
@@ -138,9 +152,9 @@ export default function Home() {
                 {/* Language Selector */}
                 <LanguageSelector
                   sourceLanguage={sourceLanguage}
-                  targetLanguage={targetLanguage}
+                  targetLanguages={targetLanguages}
                   onSourceLanguageChange={setSourceLanguage}
-                  onTargetLanguageChange={setTargetLanguage}
+                  onToggleTargetLanguage={handleToggleTargetLanguage}
                   disabled={isRecording}
                 />
 
@@ -153,12 +167,14 @@ export default function Home() {
                   connectionStatus={connectionStatus}
                 />
 
-                {/* Audio Playback */}
+                {/* NOTE: AudioPlayback removed for Host as per user request */}
+                {/* 
                 <AudioPlayback
                   audioQueue={audioQueue}
                   onAudioPlayed={handleAudioPlayed}
                   isEnabled={isRecording}
                 />
+                */}
 
                 {/* Error display */}
                 {error && (

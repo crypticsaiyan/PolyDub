@@ -34,58 +34,47 @@ export class TTSService {
   }
 
   public async streamAudio(text: string, targetLang: string = 'en', onChunk: (chunk: Buffer) => void): Promise<void> {
-    return new Promise((resolve) => {
-      try {
-        if (!text || text.trim().length === 0) {
-          resolve();
-          return;
+    try {
+      if (!text || text.trim().length === 0) {
+        return;
+      }
+
+      console.log(`[TTS] Requesting audio for: "${text}" (${targetLang})`);
+      const model = this.getVoiceForLanguage(targetLang);
+
+      // REST API request for MP3 (easier for browser decoding)
+      const response = await this.deepgramClient.speak.request(
+        { text },
+        { 
+          model: model,
+          encoding: "mp3",
+        }
+      );
+
+      // Get audio buffer
+      const stream = await response.getStream();
+      
+      if (stream) {
+        const reader = stream.getReader();
+        const chunks: Buffer[] = [];
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          if (value) {
+            chunks.push(Buffer.from(value));
+          }
         }
 
-        console.log(`[TTS] Streaming audio (Live) for: "${text}" (${targetLang})`);
-        const model = this.getVoiceForLanguage(targetLang);
-
-        const dgConnection = this.deepgramClient.speak.live({
-            model: model,
-            encoding: "linear16",
-            sample_rate: 24000,
-        });
-
-        dgConnection.on("Open", () => {
-             dgConnection.sendText(text);
-             dgConnection.flush();
-        });
-
-        dgConnection.on("Audio", (data: any) => {
-            if (data) {
-                onChunk(Buffer.from(data));
-            }
-        });
-
-        dgConnection.on("Flushed", () => {
-            console.log("[TTS] Flushed, closing connection");
-            try {
-               // @ts-ignore
-               if (dgConnection.finish) dgConnection.finish();
-               // @ts-ignore
-               else if (dgConnection.close) dgConnection.close();
-            } catch (e) {
-               console.log("Close error", e);
-            }
-        });
-
-        dgConnection.on("Error", (err: any) => {
-            console.error("[TTS] Live Error:", err);
-            resolve();
-        });
-        
-        dgConnection.on("Close", () => {
-            resolve();
-        });
-
-      } catch (error) {
-        console.error("[TTS] Error:", error);
-        resolve();
+        // Combine all chunks into one valid MP3 buffer
+        if (chunks.length > 0) {
+           const completeBuffer = Buffer.concat(chunks);
+           onChunk(completeBuffer);
+        }
       }
-    });
+      
+    } catch (error) {
+      console.error("[TTS] Error:", error);
+    }
   }
 }
