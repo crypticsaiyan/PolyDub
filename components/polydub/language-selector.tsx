@@ -278,11 +278,11 @@ export function LanguageSelector({
                                         <Button
                                             variant="ghost" 
                                             size="icon"
-                                            className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground"
+                                            className="h-7 w-7 shrink-0 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
                                             disabled={disabled || (playingVoiceId !== null && playingVoiceId !== currentVoice)}
                                             onClick={() => handlePreview(langCode, currentVoice, `Hello, this is ${getVoiceName(langCode, currentVoice)}.`)}
                                         >
-                                            <SpeakerHigh className={`h-3.5 w-3.5 ${playingVoiceId === currentVoice ? "animate-pulse text-accent" : ""}`} weight={playingVoiceId === currentVoice ? "fill" : "regular"} />
+                                            <SpeakerHigh className={`h-3.5 w-3.5 ${playingVoiceId === currentVoice ? "animate-pulse text-primary" : ""}`} weight={playingVoiceId === currentVoice ? "fill" : "regular"} />
                                         </Button>
                                      </div>
                                    )}

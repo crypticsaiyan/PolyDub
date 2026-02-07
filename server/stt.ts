@@ -20,16 +20,25 @@ export class STTService {
 
   public async start() {
     try {
-      this.connection = this.deepgramClient.listen.live({
-        model: "nova-3",
-        language: this.options.sourceLanguage, // Use language code or 'multi'
-        smart_format: true,
+      const deepgramOptions: any = {
+        model: "nova-2",
         encoding: "linear16",
         sample_rate: this.options.sampleRate || 16000,
         channels: 1,
         interim_results: true,
-        endpointing: 300, // Detect end of speech after 300ms silence
-      });
+        endpointing: 300,
+      };
+
+      if (this.options.sourceLanguage === 'multi' || this.options.sourceLanguage === 'auto') {
+        // Fallback to English for now to test connection
+        deepgramOptions.language = 'en-US';
+      } else {
+        deepgramOptions.language = this.options.sourceLanguage;
+      }
+
+      console.log("[STT] Connecting with simplified options:", JSON.stringify(deepgramOptions, null, 2));
+
+      this.connection = this.deepgramClient.listen.live(deepgramOptions);
 
       if (!this.connection) {
         throw new Error("Failed to create Deepgram connection");

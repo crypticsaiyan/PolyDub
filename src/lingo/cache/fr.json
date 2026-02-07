@@ -127,6 +127,19 @@
     "1f71bf6c66fe": "Українська",
     "0e5412853c22": "Écoutez la traduction en direct en {expression0}",
     "41a683cc0bb5": "EN DIRECT",
-    "fdd21070f43a": "Liens de diffusion"
+    "fdd21070f43a": "Liens de diffusion",
+    "75f0733f7e3f": "Logo PolyDub",
+    "24a97cf0f97a": "Salles",
+    "744c68adda3a": "Chargement...",
+    "537e5d14c19b": "Salle",
+    "745bb214d87f": "Utilisateur",
+    "6b4401f9a243": "Je parle :",
+    "d6f638ee82fd": "J'entends :",
+    "f8b29fcd40e8": "Erreur : {error}",
+    "3a64010e7a91": "Caméra éteinte",
+    "7edd4c7d5269": "Rejoignez pour commencer la diffusion",
+    "10e145ca2957": "{expression0} Vous {expression1}",
+    "91b24fa02581": "En attente de parole...",
+    "103b835dab47": "En train de parler..."
   }
 }

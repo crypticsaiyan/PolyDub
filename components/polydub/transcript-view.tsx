@@ -4,15 +4,17 @@ import { useRef, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Translate, Waveform, ArrowRight } from "@phosphor-icons/react"
+import { Translate, Waveform, ArrowRight, User } from "@phosphor-icons/react"
 
 export interface TranscriptEntry {
   id: string
+  userId?: string
   original: string
   translated: string
   timestamp: number
   sourceLanguage: string
   targetLanguage: string
+  color?: string
 }
 
 interface TranscriptViewProps {
@@ -21,6 +23,7 @@ interface TranscriptViewProps {
   currentPartial?: {
     original: string
     translated?: string
+    color?: string
   }
 }
 
@@ -49,86 +52,95 @@ export function TranscriptView({
   }
 
   return (
-    <Card className="flex flex-col h-full">
-      <CardHeader className="pb-3 border-b border-border">
+    <Card className="flex flex-col h-full bg-card/50 backdrop-blur-sm border-border/50 shadow-none">
+      <CardHeader className="pb-3 border-b border-border/50 px-4 py-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Translate className="h-5 w-5 text-accent" weight="duotone" />
+          <CardTitle className="flex items-center gap-2 text-sm font-medium">
+            <Translate className="h-4 w-4 text-primary" weight="duotone" />
             Live Transcript
           </CardTitle>
           {isListening && (
-            <Badge variant="outline" className="text-accent border-accent/30 bg-accent/10">
-              <Waveform className="h-3 w-3 mr-1.5 animate-pulse" weight="fill" />
+            <Badge variant="outline" className="text-xs h-5 px-1.5 border-primary/20 text-primary bg-primary/5">
+              <Waveform className="h-3 w-3 mr-1 animate-pulse" weight="fill" />
               Live
             </Badge>
           )}
         </div>
       </CardHeader>
       
-      <CardContent className="flex-1 p-0 overflow-hidden min-h-[300px]">
-        <ScrollArea className="h-full" ref={scrollRef}>
-          <div className="p-4 space-y-4">
-            {entries.length === 0 && !currentPartial ? (
-                <div className="flex flex-col items-center justify-center py-4 text-center">
-                  <Translate className="h-6 w-6 text-muted-foreground/50 mb-2" />
-                  <p className="text-xs text-muted-foreground/50">
-                    Live transcript...
-                  </p>
+      <CardContent className="flex-1 p-0 overflow-hidden min-h-[200px] relative">
+        <div className="absolute inset-0 overflow-y-auto p-4 space-y-4" ref={scrollRef}>
+          {entries.length === 0 && !currentPartial ? (
+              <div className="flex flex-col items-center justify-center h-full text-center py-8">
+                <div className="bg-secondary/50 p-3 rounded-full mb-3">
+                    <Translate className="h-5 w-5 text-muted-foreground/60" />
                 </div>
-            ) : (
-              <>
-                {entries.map((entry) => (
+                <p className="text-xs text-muted-foreground">
+                  Waiting for speech...
+                </p>
+              </div>
+          ) : (
+            <>
+              {entries.map((entry) => (
+                <div 
+                  key={entry.id} 
+                  className="space-y-1.5 animate-in fade-in slide-in-from-bottom-2 duration-300"
+                >
+                  <div className="flex items-center justify-between text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">
+                    <div className="flex items-center gap-1.5">
+                       {entry.userId ? (
+                           <span 
+                             className="flex items-center gap-1 px-1.5 py-0.5 rounded text-white shadow-sm"
+                             style={{ backgroundColor: entry.color || 'var(--secondary)' }}
+                           >
+                               <User weight="bold" /> {entry.userId.slice(0,8)}
+                           </span>
+                       ) : (
+                           <span>Unknown</span>
+                       )}
+                       <span>{formatTime(entry.timestamp)}</span>
+                    </div>
+                    <div className="flex items-center gap-1 opacity-60">
+                      {entry.sourceLanguage} <ArrowRight className="h-2 w-2" /> {entry.targetLanguage}
+                    </div>
+                  </div>
+                  
                   <div 
-                    key={entry.id} 
-                    className="space-y-2 pb-3 border-b border-border/50 last:border-0"
+                    className="pl-3 border-l-2 space-y-1"
+                    style={{ borderColor: entry.color ? `${entry.color}40` : 'var(--primary)/20' }}
                   >
-                    {/* Timestamp */}
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <span>{formatTime(entry.timestamp)}</span>
-                      <span className="flex items-center gap-1">
-                        {entry.sourceLanguage.toUpperCase()}
-                        <ArrowRight className="h-3 w-3" />
-                        {entry.targetLanguage.toUpperCase()}
-                      </span>
-                    </div>
-                    
-                    {/* Original text */}
-                    <div className="text-sm text-muted-foreground pl-3 border-l-2 border-muted">
-                      {entry.original}
-                    </div>
-                    
-                    {/* Translated text */}
-                    <div className="text-base font-medium text-foreground pl-3 border-l-2 border-accent">
-                      {entry.translated}
-                    </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        {entry.original}
+                      </p>
+                      <p className="text-sm font-medium text-foreground leading-relaxed">
+                        {entry.translated}
+                      </p>
                   </div>
-                ))}
+                </div>
+              ))}
 
-                {/* Current partial transcript (in progress) */}
-                {currentPartial && (
-                  <div className="space-y-2 animate-pulse">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <span>{formatTime(Date.now())}</span>
-                      <Waveform className="h-3 w-3 animate-pulse text-accent" />
-                    </div>
-                    
-                    {/* Partial original */}
-                    <div className="text-sm text-muted-foreground pl-3 border-l-2 border-muted italic">
-                      {currentPartial.original}
-                    </div>
-                    
-                    {/* Partial translated (if available) */}
-                    {currentPartial.translated && (
-                      <div className="text-base font-medium text-foreground/70 pl-3 border-l-2 border-accent/50 italic">
-                        {currentPartial.translated}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        </ScrollArea>
+              {currentPartial && (
+                <div className="space-y-1.5 opacity-70">
+                   <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">
+                       <span className="bg-primary/10 text-primary px-1.5 py-0.5 rounded flex items-center gap-1">
+                           <Waveform className="animate-pulse" weight="bold" /> Speaking...
+                       </span>
+                   </div>
+                   <div className="pl-3 border-l-2 border-primary/50 space-y-1">
+                      <p className="text-xs text-muted-foreground/80 italic">
+                        {currentPartial.original}
+                      </p>
+                      {currentPartial.translated && (
+                          <p className="text-sm font-medium text-foreground/80 italic">
+                            {currentPartial.translated}
+                          </p>
+                      )}
+                   </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </CardContent>
     </Card>
   )

@@ -126,6 +126,19 @@
     "ae79241d6c4c": "Polski",
     "1f71bf6c66fe": "Українська",
     "0e5412853c22": "Escucha la traducción en vivo en {expression0}",
-    "41a683cc0bb5": "EN VIVO"
+    "41a683cc0bb5": "EN VIVO",
+    "75f0733f7e3f": "Logo de PolyDub",
+    "24a97cf0f97a": "Salas",
+    "744c68adda3a": "Cargando...",
+    "537e5d14c19b": "Sala",
+    "745bb214d87f": "Usuario",
+    "6b4401f9a243": "Yo hablo:",
+    "d6f638ee82fd": "Yo escucho:",
+    "f8b29fcd40e8": "Error: {error}",
+    "3a64010e7a91": "Cámara apagada",
+    "7edd4c7d5269": "Únete para comenzar a transmitir",
+    "10e145ca2957": "{expression0} Tú {expression1}",
+    "91b24fa02581": "Esperando voz...",
+    "103b835dab47": "Hablando..."
   }
 }

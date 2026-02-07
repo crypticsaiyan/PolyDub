@@ -36,6 +36,9 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-4">
+          <Button variant="ghost" asChild>
+            <Link href="/rooms">Rooms</Link>
+          </Button>
           <LocaleSwitcher />
         </div>
       </div>
