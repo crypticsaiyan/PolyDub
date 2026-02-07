@@ -243,7 +243,7 @@ export function LanguageSelector({
                              const langInfo = TTS_LANGUAGES.find(l => l.code === langCode)
                              const voiceOptions = VOICE_OPTIONS[langCode] || []
                              const currentVoice = targetVoices[langCode] || (voiceOptions[0]?.id || '')
-                             const url = typeof window !== 'undefined' ? `${window.location.origin}/audio/${langCode}` : ''
+                             const url = typeof window !== 'undefined' ? `${window.location.origin}/broadcast/${langCode}` : ''
 
                              if (!langInfo) return null
 

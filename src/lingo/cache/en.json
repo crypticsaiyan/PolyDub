@@ -207,6 +207,20 @@
     "6df70fe3cd91": "Start Broadcast",
     "2a7946418226": "Rooms",
     "eea45395a4bd": "Many-to-many multilingual meetings. Collaborate with video and real-time dubbing.",
-    "2f1dd386c5ca": "Join a Room"
+    "2f1dd386c5ca": "Join a Room",
+    "c0a3ba3aece2": "Join Broadcast",
+    "bf3afece714f": "Listen to the live translation in {expression0}",
+    "a40e1f6c860e": "Join & Enable Audio",
+    "5198bd2373f1": "Click below to start listening. Ensure your speakers are on.",
+    "26316f6f4788": "Broadcast Unavailable",
+    "6b32189d2409": "Retry Connection",
+    "6cd0fb4f0652": "Record Session",
+    "91c1fa066aab": "Stop & Save",
+    "728d5b579242": "PolyDub Live",
+    "a7bfc48ec358": "Live Transcripts",
+    "b50e684f600b": "Real-time translations appearing here",
+    "4287511d8d05": "Download Transcript",
+    "3a33eb2b07a3": "Waiting for speaker to start talking...",
+    "23e8cff90c0f": "Make sure your audio output device is set correctly."
   }
 }

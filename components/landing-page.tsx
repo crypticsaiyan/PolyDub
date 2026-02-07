@@ -59,7 +59,7 @@ export function LandingPage() {
                       asChild 
                       className="w-full bg-[var(--color-keppel-600)] hover:bg-[var(--color-keppel-500)] text-[var(--color-keppel-50)] hover:text-[var(--color-keppel-950)] font-semibold transition-all shadow-lg shadow-[var(--color-keppel-900)]/20 relative z-10"
                     >
-                       <Link href="/app">
+                       <Link href="/broadcast">
                           Start Broadcast <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>

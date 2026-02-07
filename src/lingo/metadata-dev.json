@@ -1054,10 +1054,206 @@
         "line": 313,
         "column": 18
       }
+    },
+    "c0a3ba3aece2": {
+      "type": "content",
+      "sourceText": "Join Broadcast",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "c0a3ba3aece2",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 234,
+        "column": 12
+      }
+    },
+    "bf3afece714f": {
+      "type": "content",
+      "sourceText": "Listen to the live translation in {expression0}",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "bf3afece714f",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 235,
+        "column": 12
+      }
+    },
+    "a40e1f6c860e": {
+      "type": "content",
+      "sourceText": "Join & Enable Audio",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "a40e1f6c860e",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 240,
+        "column": 12
+      }
+    },
+    "5198bd2373f1": {
+      "type": "content",
+      "sourceText": "Click below to start listening. Ensure your speakers are on.",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "5198bd2373f1",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 243,
+        "column": 12
+      }
+    },
+    "26316f6f4788": {
+      "type": "content",
+      "sourceText": "Broadcast Unavailable",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "26316f6f4788",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 261,
+        "column": 12
+      }
+    },
+    "6b32189d2409": {
+      "type": "content",
+      "sourceText": "Retry Connection",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "6b32189d2409",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 267,
+        "column": 13
+      }
+    },
+    "6cd0fb4f0652": {
+      "type": "content",
+      "sourceText": "Record Session",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "6cd0fb4f0652",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 293,
+        "column": 20
+      }
+    },
+    "91c1fa066aab": {
+      "type": "content",
+      "sourceText": "Stop & Save",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "91c1fa066aab",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 303,
+        "column": 20
+      }
+    },
+    "728d5b579242": {
+      "type": "content",
+      "sourceText": "PolyDub Live",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "728d5b579242",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 323,
+        "column": 17
+      }
+    },
+    "a7bfc48ec358": {
+      "type": "content",
+      "sourceText": "Live Transcripts",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "a7bfc48ec358",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 353,
+        "column": 17
+      }
+    },
+    "b50e684f600b": {
+      "type": "content",
+      "sourceText": "Real-time translations appearing here",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "b50e684f600b",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 357,
+        "column": 17
+      }
+    },
+    "4287511d8d05": {
+      "type": "content",
+      "sourceText": "Download Transcript",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "4287511d8d05",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 368,
+        "column": 16
+      }
+    },
+    "3a33eb2b07a3": {
+      "type": "content",
+      "sourceText": "Waiting for speaker to start talking...",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "3a33eb2b07a3",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 377,
+        "column": 18
+      }
+    },
+    "23e8cff90c0f": {
+      "type": "content",
+      "sourceText": "Make sure your audio output device is set correctly.",
+      "context": {
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/broadcast/[lang]/page.tsx"
+      },
+      "hash": "23e8cff90c0f",
+      "location": {
+        "filePath": "../app/broadcast/[lang]/page.tsx",
+        "line": 393,
+        "column": 8
+      }
     }
   },
   "stats": {
-    "totalEntries": 75,
-    "lastUpdated": "2026-02-07T23:05:31.243Z"
+    "totalEntries": 89,
+    "lastUpdated": "2026-02-07T23:13:44.653Z"
   }
 }
