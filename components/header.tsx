@@ -30,12 +30,15 @@ export function Header() {
               className="object-contain"
             />
           </div>
-          <span className="text-xl font-bold tracking-tight text-foreground">
+          <span className="text-xl font-bold tracking-tight text-foreground font-heading">
             PolyDub
           </span>
         </Link>
 
         <div className="flex items-center gap-4">
+          <Button variant="ghost" asChild>
+            <Link href="/app">Broadcast</Link>
+          </Button>
           <Button variant="ghost" asChild>
             <Link href="/rooms">Rooms</Link>
           </Button>

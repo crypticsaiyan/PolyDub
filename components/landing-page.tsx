@@ -31,30 +31,62 @@ export function LandingPage() {
           </video>
           <div className="absolute inset-0 bg-[var(--color-baltic-sea-950)]/50 -z-10" />
           <div className="relative mx-auto max-w-[1400px] px-6 lg:px-12 py-20">
-            <div className="mx-auto max-w-2xl text-center">
+            <div className="mx-auto max-w-4xl text-center">
               <p className="mb-6 text-sm font-medium tracking-wide text-[var(--color-keppel-400)] uppercase">
-                Real-time video dubbing
+                Global Communication Platform
               </p>
               <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl text-[var(--color-baltic-sea-50)] leading-[1.12]">
-                Speak once.
+                Connect in any language.
                 <br />
-                <span className="text-[var(--color-keppel-400)]">Listen in any language.</span>
+                <span className="text-[var(--color-keppel-400)]">Live.</span>
               </h1>
-              <p className="mt-6 text-lg text-[var(--color-baltic-sea-200)] max-w-xl mx-auto leading-relaxed">
-                PolyDub turns your voice into live translation. Choose your languages, hit the mic, and your audience hears you in theirs—with natural AI voice and minimal delay.
+              <p className="mt-6 text-lg text-[var(--color-baltic-sea-200)] max-w-2xl mx-auto leading-relaxed">
+                PolyDub powers seamless cross-language communication. Whether you're broadcasting to the world or collaborating with a team, our AI translates and dubs your voice in real-time.
               </p>
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-[var(--color-keppel-500)] hover:bg-[var(--color-keppel-400)] text-[var(--color-keppel-950)] font-semibold rounded-lg px-6 h-12"
-                >
-                  <Link href="/app">
-                    Try PolyDub
-                    <ArrowRight className="ml-2 h-4 w-4" weight="bold" />
-                  </Link>
-                </Button>
+              
+              <div className="mt-12 grid gap-6 sm:grid-cols-2 max-w-2xl mx-auto">
+                 {/* Option 1: Broadcast */}
+                 <div className="group relative rounded-2xl bg-[var(--color-baltic-sea-900)]/10 backdrop-blur-md border border-[var(--color-baltic-sea-700)] p-8 hover:border-[var(--color-keppel-500)] transition-all hover:-translate-y-1">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-keppel-500)]/5 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity pointer-events-none" />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-baltic-sea-800)] text-[var(--color-keppel-400)] mb-5 mx-auto group-hover:bg-[var(--color-keppel-500)] group-hover:text-[var(--color-keppel-950)] transition-colors">
+                       <SpeakerHigh className="h-6 w-6" weight="fill" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-[var(--color-baltic-sea-50)] mb-2">Broadcast</h3>
+                    <p className="text-sm text-[var(--color-baltic-sea-300)] mb-6 leading-relaxed">
+                       One-to-many live translation. Perfect for keynote speeches, webinars, and events.
+                    </p>
+                    <Button 
+                      asChild 
+                      className="w-full bg-[var(--color-keppel-600)] hover:bg-[var(--color-keppel-500)] text-[var(--color-keppel-50)] hover:text-[var(--color-keppel-950)] font-semibold transition-all shadow-lg shadow-[var(--color-keppel-900)]/20 relative z-10"
+                    >
+                       <Link href="/app">
+                          Start Broadcast <ArrowRight className="ml-2 h-4 w-4" />
+                       </Link>
+                    </Button>
+                 </div>
+
+                 {/* Option 2: Rooms */}
+                 <div className="group relative rounded-2xl bg-[var(--color-baltic-sea-900)]/10 backdrop-blur-md border border-[var(--color-baltic-sea-700)] p-8 hover:border-[var(--color-keppel-500)] transition-all hover:-translate-y-1">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-keppel-500)]/5 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity pointer-events-none" />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-baltic-sea-800)] text-[var(--color-keppel-400)] mb-5 mx-auto group-hover:bg-[var(--color-keppel-500)] group-hover:text-[var(--color-keppel-950)] transition-colors">
+                       <Globe className="h-6 w-6" weight="fill" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-[var(--color-baltic-sea-50)] mb-2">Rooms</h3>
+                    <p className="text-sm text-[var(--color-baltic-sea-300)] mb-6 leading-relaxed">
+                       Many-to-many multilingual meetings. Collaborate with video and real-time dubbing.
+                    </p>
+                    <Button 
+                      asChild 
+                      className="w-full bg-[var(--color-keppel-600)] hover:bg-[var(--color-keppel-500)] text-[var(--color-keppel-50)] hover:text-[var(--color-keppel-950)] font-semibold transition-all shadow-lg shadow-[var(--color-keppel-900)]/20 relative z-10"
+                    >
+                       <Link href="/rooms">
+                          Join a Room <ArrowRight className="ml-2 h-4 w-4" />
+                       </Link>
+                    </Button>
+                    
+                 </div>
               </div>
+
             </div>
           </div>
         </section>
