@@ -744,10 +744,320 @@
         "line": 82,
         "column": 23
       }
+    },
+    "b41c1bb25756": {
+      "type": "attribute",
+      "sourceText": "Language",
+      "context": {
+        "attributeName": "placeholder",
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "b41c1bb25756",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 28,
+        "column": 8
+      }
+    },
+    "41aa5800fe09": {
+      "type": "content",
+      "sourceText": "English",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "41aa5800fe09",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 31,
+        "column": 8
+      }
+    },
+    "3812554436ea": {
+      "type": "content",
+      "sourceText": "Español",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "3812554436ea",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 32,
+        "column": 8
+      }
+    },
+    "ea365f51a58c": {
+      "type": "content",
+      "sourceText": "Français",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "ea365f51a58c",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 33,
+        "column": 8
+      }
+    },
+    "97c7b7f1f1b1": {
+      "type": "content",
+      "sourceText": "Deutsch",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "97c7b7f1f1b1",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 34,
+        "column": 8
+      }
+    },
+    "1198c3a0c80c": {
+      "type": "content",
+      "sourceText": "Italiano",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "1198c3a0c80c",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 35,
+        "column": 8
+      }
+    },
+    "47a64916b5c3": {
+      "type": "content",
+      "sourceText": "Nederlands",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "47a64916b5c3",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 36,
+        "column": 8
+      }
+    },
+    "0cffaa27fa97": {
+      "type": "content",
+      "sourceText": "日本語",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "0cffaa27fa97",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 37,
+        "column": 8
+      }
+    },
+    "04a83680075c": {
+      "type": "content",
+      "sourceText": "Português",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "04a83680075c",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 38,
+        "column": 8
+      }
+    },
+    "c8f3fd6c5898": {
+      "type": "content",
+      "sourceText": "中文",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "c8f3fd6c5898",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 39,
+        "column": 8
+      }
+    },
+    "7b99798a59ea": {
+      "type": "content",
+      "sourceText": "हिन्दी",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "7b99798a59ea",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 40,
+        "column": 8
+      }
+    },
+    "6832f5b3d5d5": {
+      "type": "content",
+      "sourceText": "العربية",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "6832f5b3d5d5",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 41,
+        "column": 8
+      }
+    },
+    "b294ea8d462b": {
+      "type": "content",
+      "sourceText": "한국어",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "b294ea8d462b",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 42,
+        "column": 8
+      }
+    },
+    "9d4f8316aa20": {
+      "type": "content",
+      "sourceText": "Türkçe",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "9d4f8316aa20",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 43,
+        "column": 8
+      }
+    },
+    "3db60c0eb186": {
+      "type": "content",
+      "sourceText": "Tiếng Việt",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "3db60c0eb186",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 44,
+        "column": 8
+      }
+    },
+    "ae79241d6c4c": {
+      "type": "content",
+      "sourceText": "Polski",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "ae79241d6c4c",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 45,
+        "column": 8
+      }
+    },
+    "1f71bf6c66fe": {
+      "type": "content",
+      "sourceText": "Українська",
+      "context": {
+        "componentName": "LocaleSwitcher",
+        "filePath": "../components/locale-switcher.tsx"
+      },
+      "hash": "1f71bf6c66fe",
+      "location": {
+        "filePath": "../components/locale-switcher.tsx",
+        "line": 46,
+        "column": 8
+      }
+    },
+    "ce891159c045": {
+      "type": "content",
+      "sourceText": "I am speaking",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "ce891159c045",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 161,
+        "column": 14
+      }
+    },
+    "80383b1d5083": {
+      "type": "attribute",
+      "sourceText": "Select language",
+      "context": {
+        "attributeName": "placeholder",
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "80383b1d5083",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 174,
+        "column": 18
+      }
+    },
+    "a85976411e0a": {
+      "type": "content",
+      "sourceText": "Broadcast Languages",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "a85976411e0a",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 196,
+        "column": 17
+      }
+    },
+    "d23061a2a8bc": {
+      "type": "content",
+      "sourceText": "Channel Configuration",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "d23061a2a8bc",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 231,
+        "column": 13
+      }
+    },
+    "6ad782f95f6d": {
+      "type": "content",
+      "sourceText": "Select languages on the left<br0></br0>to configure channels",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "6ad782f95f6d",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 313,
+        "column": 18
+      }
     }
   },
   "stats": {
-    "totalEntries": 53,
-    "lastUpdated": "2026-02-07T22:46:47.764Z"
+    "totalEntries": 75,
+    "lastUpdated": "2026-02-07T23:05:31.243Z"
   }
 }

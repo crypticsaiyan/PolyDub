@@ -143,7 +143,7 @@ export function LanguageSelector({
   };
 
   const copyLink = (langCode: string) => {
-    const url = `${window.location.origin}/audio/${langCode}`
+    const url = `${window.location.origin}/broadcast/${langCode}`
     navigator.clipboard.writeText(url)
     toast.success(`${langCode.toUpperCase()} link copied`)
   }
@@ -295,7 +295,7 @@ export function LanguageSelector({
                                         className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground gap-1.5 font-mono"
                                         onClick={() => copyLink(langCode)}
                                       >
-                                        <span>/audio/{langCode}</span>
+                                        <span>/broadcast/{langCode}</span>
                                         <Copy className="h-3 w-3" />
                                       </Button>
                                    </div>
