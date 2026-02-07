@@ -49,7 +49,7 @@ export function TranscriptView({
   }
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col h-full">
       <CardHeader className="pb-3 border-b border-border">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-lg">
@@ -65,18 +65,16 @@ export function TranscriptView({
         </div>
       </CardHeader>
       
-      <CardContent className="flex-1 p-0 overflow-hidden">
-        <ScrollArea className="h-[300px]" ref={scrollRef}>
+      <CardContent className="flex-1 p-0 overflow-hidden min-h-[300px]">
+        <ScrollArea className="h-full" ref={scrollRef}>
           <div className="p-4 space-y-4">
             {entries.length === 0 && !currentPartial ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-                  <Translate className="h-8 w-8 text-muted-foreground" />
+                <div className="flex flex-col items-center justify-center py-4 text-center">
+                  <Translate className="h-6 w-6 text-muted-foreground/50 mb-2" />
+                  <p className="text-xs text-muted-foreground/50">
+                    Live transcript...
+                  </p>
                 </div>
-                <p className="text-sm text-muted-foreground max-w-[200px]">
-                  Start speaking to see real-time translations appear here
-                </p>
-              </div>
             ) : (
               <>
                 {entries.map((entry) => (

@@ -83,36 +83,45 @@ export function useWebSocket({
         setConnectionStatus('disconnected')
         
         if (event.code !== 1000) {
-          setError(`Connection closed (${event.code}${event.reason ? ': ' + event.reason : ''})`)
+           // Suppress visible error for clean UI as requested
+           // setError(`Connection closed (${event.code}${event.reason ? ': ' + event.reason : ''})`)
         }
         
         wsRef.current = null
       }
 
-      ws.onerror = (event) => {
-        console.error('[WebSocket] Error:', event)
-        setError('Connection error')
+      ws.onerror = (_event) => {
+        // console.error('[WebSocket] Error:', event)
+        // setError('Connection error')
         setConnectionStatus('disconnected')
       }
 
       ws.onmessage = (event) => {
         // Handle binary audio data
+        // Handle binary audio data
+        if (event.data instanceof Blob) {
+            // If we receive a Blob (which shouldn't happen if binaryType is arraybuffer, but just in case)
+             // We can't synchronously read it here easily for audio playback
+             return;
+        }
+
         if (event.data instanceof ArrayBuffer) {
           onAudioData(event.data)
           return
         }
-
-        // Handle JSON messages
-        try {
-          const message = JSON.parse(event.data)
+        
+        // Handle text messages (JSON)
+        if (typeof event.data === 'string') {
+             try {
+                const message = JSON.parse(event.data)
           
-          switch (message.type) {
-            case 'transcript':
+                  switch (message.type) {
+                    case 'transcript':
               // Final transcript with translation
               onTranscript({
                 id: message.id || crypto.randomUUID(),
-                original: message.original,
-                translated: message.translated,
+                original: message.original || '',
+                translated: message.translated || '',
                 timestamp: message.timestamp || Date.now(),
                 sourceLanguage: message.sourceLanguage || sourceLanguage,
                 targetLanguage: message.targetLanguage || 'multi', // fallbacks
@@ -127,16 +136,18 @@ export function useWebSocket({
               })
               break
               
-            case 'error':
-              console.error('[WebSocket] Server error:', message.message)
-              setError(message.message)
-              break
-              
-            default:
-              console.log('[WebSocket] Unknown message type:', message.type)
-          }
-        } catch (e) {
-          console.error('[WebSocket] Failed to parse message:', e)
+                case 'error':
+                  console.error('[WebSocket] Server error:', message.message)
+                  setError(message.message)
+                  break
+                  
+                default:
+                  console.log('[WebSocket] Unknown message type:', message.type)
+              }
+             } catch (e) {
+                // Ignore parse errors (might be non-JSON mixed content?)
+                // console.error('[WebSocket] Failed to parse message:', e) 
+             }
         }
       }
     } catch (e) {

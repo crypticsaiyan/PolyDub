@@ -167,14 +167,15 @@ export function MicController({
   const getConnectionColor = () => {
     switch (connectionStatus) {
       case 'connected':
-        return 'text-green-400 border-green-400/30 bg-green-400/10'
+        return 'text-green-500 border-green-500/20 bg-green-500/10'
       case 'connecting':
-        return 'text-yellow-400 border-yellow-400/30 bg-yellow-400/10'
+        return 'text-yellow-500 border-yellow-500/20 bg-yellow-500/10'
       case 'disconnected':
-        return 'text-red-400 border-red-400/30 bg-red-400/10'
+        return 'text-muted-foreground border-border bg-muted/50'
     }
   }
 
+  // Generate audio level bars
   // Generate audio level bars
   const bars = Array.from({ length: 20 }, (_, i) => {
     const threshold = (i + 1) / 20
@@ -182,13 +183,13 @@ export function MicController({
     return (
       <div
         key={i}
-        className={`w-1.5 rounded-full transition-all duration-75 ${
+        className={`w-1 rounded-full transition-all duration-75 ${
           isActive 
             ? 'bg-accent' 
             : 'bg-muted-foreground/20'
         }`}
         style={{
-          height: `${Math.max(8, (i + 1) * 2)}px`,
+          height: `${Math.max(4, (i + 1) * 1.5)}px`,
         }}
       />
     )
@@ -196,77 +197,51 @@ export function MicController({
 
   return (
     <Card className="overflow-hidden">
-      <CardContent className="p-6">
-        {/* Connection Status Badge */}
-        <div className="flex justify-center mb-6">
-          <Badge 
-            variant="outline" 
-            className={`${getConnectionColor()} flex items-center gap-1.5`}
-          >
-            {getConnectionIcon()}
-            <span className="capitalize">{connectionStatus}</span>
-          </Badge>
-        </div>
-
-        {/* Audio Level Visualization */}
-        <div className="flex items-end justify-center gap-0.5 h-12 mb-6">
-          {bars}
-        </div>
-
-        {/* Main Control Button */}
-        <div className="flex justify-center">
+      <CardContent className="p-3 flex items-center justify-between gap-4">
+        {/* Left: Button & Status */}
+        <div className="flex items-center gap-3">
           <Button
-            size="lg"
+            size="icon"
             onClick={handleToggle}
             disabled={connectionStatus === 'connecting'}
             className={`
-              relative w-32 h-32 rounded-full text-lg font-semibold
-              transition-all duration-300 shadow-lg
+              relative w-10 h-10 rounded-full shrink-0
+              transition-all duration-300
               ${isRecording 
-                ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/30' 
-                : 'bg-accent hover:bg-accent/90 text-accent-foreground shadow-accent/30'
+                ? 'bg-destructive hover:bg-destructive/90 text-destructive-foreground' 
+                : 'bg-primary hover:bg-primary/90 text-primary-foreground'
               }
             `}
           >
-            {/* Pulsing ring when recording */}
-            {isRecording && (
-              <>
-                <span className="absolute inset-0 rounded-full bg-red-500/50 animate-ping" />
-                <span className="absolute inset-0 rounded-full bg-red-500/30 animate-pulse" />
-              </>
+            {isRecording ? (
+              <MicrophoneSlash className="h-5 w-5" weight="fill" />
+            ) : (
+              <Microphone className="h-5 w-5" weight="fill" />
             )}
-            
-            <span className="relative flex flex-col items-center gap-1">
-              {isRecording ? (
-                <>
-                  <MicrophoneSlash className="h-8 w-8" weight="fill" />
-                  <span className="text-xs">STOP</span>
-                </>
-              ) : (
-                <>
-                  <Microphone className="h-8 w-8" weight="fill" />
-                  <span className="text-xs">START</span>
-                </>
-              )}
-            </span>
           </Button>
+
+          <div className="flex flex-col gap-0.5">
+             <div className="flex items-center gap-2">
+                <span className="text-sm font-medium leading-none">
+                  {isRecording ? 'Broadcasting' : 'Mic Ready'}
+                </span>
+                <Badge 
+                  variant="outline" 
+                  className={`${getConnectionColor()} px-1.5 py-0 text-[10px] h-4 gap-1`}
+                >
+                  {getConnectionIcon()}
+                  <span className="capitalize">{connectionStatus}</span>
+                </Badge>
+             </div>
+             <p className="text-[10px] text-muted-foreground">
+               {isRecording ? 'Listening...' : 'Click to start'}
+             </p>
+          </div>
         </div>
 
-        {/* Status Text */}
-        <div className="text-center mt-6">
-          {isRecording ? (
-            <div className="flex items-center justify-center gap-2 text-red-400">
-              <Circle className="h-2 w-2 animate-pulse" weight="fill" />
-              <span className="text-sm font-medium">Listening...</span>
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              {permissionGranted === false 
-                ? 'Microphone access denied. Please allow access and refresh.'
-                : 'Click to start translating your voice'
-              }
-            </p>
-          )}
+        {/* Right: Audio Visualizer */}
+        <div className="flex items-end justify-end gap-0.5 h-6">
+          {bars}
         </div>
       </CardContent>
     </Card>

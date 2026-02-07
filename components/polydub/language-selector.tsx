@@ -12,8 +12,10 @@ import {
 } from "@/components/ui/select"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowsLeftRight, Globe, Translate, SpeakerHigh } from "@phosphor-icons/react"
+import { ArrowsLeftRight, Globe, Translate, SpeakerHigh, Link as LinkIcon, Copy, Check, X } from "@phosphor-icons/react"
 import { Separator } from "@/components/ui/separator"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { toast } from "sonner"
 
 interface LanguageSelectorProps {
   sourceLanguage: string
@@ -137,156 +139,181 @@ export function LanguageSelector({
           
       } catch (e) {
           console.error("Preview failed", e);
-          setPlayingVoiceId(null);
-      }
+          setPlayingVoiceId(null)      }
   };
+
+  const copyLink = (langCode: string) => {
+    const url = `${window.location.origin}/audio/${langCode}`
+    navigator.clipboard.writeText(url)
+    toast.success(`${langCode.toUpperCase()} link copied`)
+  }
 
   return (
     <Card>
-      <CardContent className="py-5">
-        <div className="flex flex-col gap-6">
-          {/* Source Language */}
-          <div className="space-y-2">
-            <Label 
-              htmlFor="source-language" 
-              className="text-xs text-muted-foreground flex items-center gap-1.5"
-            >
-              <Globe className="h-3.5 w-3.5" />
-              I am speaking
-            </Label>
-            <Select 
-              value={sourceLanguage} 
-              onValueChange={onSourceLanguageChange}
-              disabled={disabled}
-            >
-              <SelectTrigger id="source-language" className="w-full">
-                <SelectValue placeholder="Select language" />
-              </SelectTrigger>
-              <SelectContent>
-                {STT_LANGUAGES.map((lang) => (
-                  <SelectItem 
-                    key={lang.code} 
-                    value={lang.code}
-                  >
-                    <span className="flex items-center gap-2">
-                       <span className="text-base">{lang.flag}</span>
-                       <span className="truncate">{lang.name}</span>
-                    </span>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+      <CardContent className="p-4">
 
-          <Separator className="bg-border/50" />
-
-          {/* Target Languages (Multi-select) */}
-          <div className="space-y-3">
-            <Label 
-              className="text-xs text-muted-foreground flex items-center gap-1.5"
-            >
-              <Translate className="h-3.5 w-3.5" />
-              Broadcast to
-            </Label>
-            <div className="flex flex-wrap gap-2">
-              {TTS_LANGUAGES.map((lang) => {
-                const isSelected = targetLanguages.includes(lang.code)
-                return (
-                  <Button
-                    key={lang.code}
-                    variant={isSelected ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => onToggleTargetLanguage(lang.code)}
-                    disabled={disabled}
-                    className={`gap-2 h-9 transition-all ${
-                      isSelected ? "ring-2 ring-background ring-offset-2" : "hover:border-primary/50"
-                    }`}
-                  >
-                    <span className="text-base">{lang.flag}</span>
-                    <span>
-                      <span className="opacity-50 font-mono mr-1 uppercase text-[10px]">{lang.code}</span>
-                      {lang.name}
-                    </span>
-                  </Button>
-                )
-              })}
+        <div className="grid gap-6 lg:grid-cols-12 items-start h-full">
+          
+          {/* Left Column: Selections (Span 5) */}
+          <div className="lg:col-span-4 flex flex-col gap-6 h-full">
+            {/* Source Language */}
+            <div className="space-y-2">
+              <Label 
+                htmlFor="source-language" 
+                className="text-xs text-muted-foreground flex items-center gap-1.5"
+              >
+                <Globe className="h-3.5 w-3.5" />
+                I am speaking
+              </Label>
+              <Select 
+                value={sourceLanguage} 
+                onValueChange={onSourceLanguageChange}
+                disabled={disabled}
+              >
+                <SelectTrigger id="source-language" className="w-full">
+                  <SelectValue placeholder="Select language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {STT_LANGUAGES.map((lang) => (
+                    <SelectItem 
+                      key={lang.code} 
+                      value={lang.code}
+                    >
+                      <span className="flex items-center gap-2">
+                         <span className="text-base">{lang.flag}</span>
+                         <span className="truncate">{lang.name}</span>
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            {targetLanguages.length === 0 && (
-              <p className="text-xs text-amber-500 font-medium animate-pulse">
-                * Select at least one language to broadcast
-              </p>
-            )}
+
+            <Separator className="bg-border/50 lg:hidden" />
+
+            {/* Target Languages */}
+             <div className="space-y-2 flex-1">
+                 <Label 
+                   className="text-xs text-muted-foreground flex items-center gap-1.5"
+                 >
+                   <Translate className="h-3.5 w-3.5" />
+                   Broadcast Languages
+                 </Label>
+                 <div className="flex flex-wrap gap-2">
+                   {TTS_LANGUAGES.map((lang) => {
+                     const isSelected = targetLanguages.includes(lang.code)
+                     return (
+                       <div
+                         key={lang.code}
+                         onClick={() => onToggleTargetLanguage(lang.code)}
+                         className={`
+                           cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-all border
+                           ${isSelected 
+                             ? "bg-primary text-primary-foreground border-primary hover:bg-primary/90 shadow-sm" 
+                             : "bg-background text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
+                           }
+                         `}
+                       >
+                         <span>{lang.flag}</span>
+                         <span>{lang.name}</span>
+                         {isSelected && <Check className="h-3 w-3" weight="bold" />}
+                       </div>
+                     )
+                   })}
+                 </div>
+             </div>
           </div>
 
-          {/* Voice Settings (Only show if target languages selected) */}
-          {targetLanguages.length > 0 && onVoiceChange && (
-             <div className="space-y-3 animate-in slide-in-from-top-2 fade-in duration-300">
-                <Label 
-                  className="text-xs text-muted-foreground flex items-center gap-1.5"
-                >
-                  <SpeakerHigh className="h-3.5 w-3.5" />
-                  Voice Settings
-                </Label>
-                <div className="grid gap-3">
-                   {targetLanguages.map(langCode => {
-                      const langInfo = TTS_LANGUAGES.find(l => l.code === langCode)
-                      const voiceOptions = VOICE_OPTIONS[langCode] || []
-                      const currentVoice = targetVoices[langCode] || (voiceOptions[0]?.id || '')
 
-                      if (voiceOptions.length === 0) return null
 
-                      return (
-                         <div key={langCode} className="flex items-center gap-2">
-                            <div className="flex flex-1 items-center justify-between gap-3 p-2 rounded-lg bg-muted/40 border text-sm">
-                               <div className="flex items-center gap-2">
-                                  <span className="text-lg">{langInfo?.flag}</span>
-                                  <span className="font-medium text-muted-foreground">{langInfo?.name}</span>
-                               </div>
-                               <Select
-                                  value={currentVoice}
-                                  onValueChange={(val) => onVoiceChange(langCode, val)}
-                                  disabled={disabled}
-                               >
-                                  <SelectTrigger className="h-8 w-[180px] bg-background">
-                                     <SelectValue />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                     {voiceOptions.map(v => (
-                                        <SelectItem key={v.id} value={v.id}>
-                                           <span className="flex items-center justify-between w-full gap-2">
-                                               <span>{v.name}</span>
-                                               <span className="text-xs opacity-50 px-1 border rounded">{v.gender}</span>
-                                           </span>
-                                        </SelectItem>
-                                     ))}
-                                  </SelectContent>
-                               </Select>
-                            </div>
-                            
-                            <Button
-                                variant="ghost" 
-                                size="icon"
-                                className={`h-9 w-9 shrink-0 transition-colors ${
-                                    playingVoiceId === currentVoice 
-                                        ? "bg-muted text-foreground" 
-                                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                                }`}
-                                disabled={disabled || (playingVoiceId !== null && playingVoiceId !== currentVoice)}
-                                onClick={() => handlePreview(langCode, currentVoice, `Hello, this is ${getVoiceName(langCode, currentVoice)}.`)}
-                            >
-                                {playingVoiceId === currentVoice ? (
-                                    <SpeakerHigh className="h-4 w-4 animate-pulse" weight="fill" />
-                                ) : (
-                                    <SpeakerHigh className="h-4 w-4" />
-                                )}
-                            </Button>
-                         </div>
-                      )
-                   })}
+          {/* Right Column: Configuration (Span 7) */}
+          <div className="lg:col-span-8 h-full flex flex-col">
+             <Label 
+               className="text-xs text-muted-foreground flex items-center gap-1.5 mb-2"
+             >
+               <LinkIcon className="h-3.5 w-3.5" />
+               Channel Configuration
+             </Label>
+             
+             {targetLanguages.length > 0 ? (
+                <div className="rounded-lg border bg-muted/30 flex-1 overflow-hidden">
+                   <ScrollArea className="h-[280px]">
+                      <div className="divide-y divide-border/50">
+                        {targetLanguages.map(langCode => {
+                             const langInfo = TTS_LANGUAGES.find(l => l.code === langCode)
+                             const voiceOptions = VOICE_OPTIONS[langCode] || []
+                             const currentVoice = targetVoices[langCode] || (voiceOptions[0]?.id || '')
+                             const url = typeof window !== 'undefined' ? `${window.location.origin}/audio/${langCode}` : ''
+
+                             if (!langInfo) return null
+
+                             return (
+                                <div key={langCode} className="grid grid-cols-[auto_1fr_auto] gap-3 p-3 text-sm hover:bg-muted/50 transition-colors items-center">
+                                   {/* Language Info */}
+                                   <div className="flex items-center gap-2 w-24 shrink-0">
+                                      <span className="text-lg">{langInfo.flag}</span>
+                                      <span className="font-medium text-muted-foreground text-xs">{langInfo.name}</span>
+                                   </div>
+
+                                   {/* Voice Select */}
+                                   {onVoiceChange && voiceOptions.length > 0 && (
+                                     <div className="flex items-center gap-1.5">
+                                        <Select
+                                            value={currentVoice}
+                                            onValueChange={(val) => onVoiceChange(langCode, val)}
+                                            disabled={disabled}
+                                        >
+                                            <SelectTrigger className="h-7 w-[140px] bg-background text-xs border-muted-foreground/20">
+                                               <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                               {voiceOptions.map(v => (
+                                                  <SelectItem key={v.id} value={v.id} className="text-xs">
+                                                     <span>{v.name}</span>
+                                                  </SelectItem>
+                                               ))}
+                                            </SelectContent>
+                                        </Select>
+                                        
+                                        <Button
+                                            variant="ghost" 
+                                            size="icon"
+                                            className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground"
+                                            disabled={disabled || (playingVoiceId !== null && playingVoiceId !== currentVoice)}
+                                            onClick={() => handlePreview(langCode, currentVoice, `Hello, this is ${getVoiceName(langCode, currentVoice)}.`)}
+                                        >
+                                            <SpeakerHigh className={`h-3.5 w-3.5 ${playingVoiceId === currentVoice ? "animate-pulse text-accent" : ""}`} weight={playingVoiceId === currentVoice ? "fill" : "regular"} />
+                                        </Button>
+                                     </div>
+                                   )}
+
+                                   {/* Link Copy */}
+                                   <div className="flex items-center gap-1 pl-3 border-l ml-auto">
+                                      <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground gap-1.5 font-mono"
+                                        onClick={() => copyLink(langCode)}
+                                      >
+                                        <span>/audio/{langCode}</span>
+                                        <Copy className="h-3 w-3" />
+                                      </Button>
+                                   </div>
+                                </div>
+                             )
+                        })}
+                      </div>
+                   </ScrollArea>
                 </div>
-             </div>
-          )}
-
+             ) : (
+               <div className="flex flex-col items-center justify-center p-8 h-[280px] rounded-lg border border-dashed bg-muted/20 text-muted-foreground text-sm text-center">
+                  <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center mb-3">
+                    <Translate className="h-5 w-5 opacity-50" />
+                  </div>
+                  <p>Select languages on the left<br/>to configure channels</p>
+               </div>
+             )}
+          </div>
         </div>
       </CardContent>
     </Card>

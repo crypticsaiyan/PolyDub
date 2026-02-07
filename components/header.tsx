@@ -34,19 +34,6 @@ export function Header() {
 
         <div className="flex items-center gap-4">
           <LocaleSwitcher />
-          {isLanding && (
-            <Button
-              asChild
-              size="sm"
-              className="bg-[var(--color-keppel-500)] hover:bg-[var(--color-keppel-400)] text-[var(--color-keppel-950)] font-medium rounded-lg"
-            >
-              <Link href="/app">Try PolyDub</Link>
-            </Button>
-          )}
-          <div className="hidden sm:flex items-center gap-2 rounded-full border border-[var(--color-keppel-800)] bg-[var(--color-keppel-950)]/50 px-4 py-1.5">
-            <Lightning className="h-4 w-4 text-[var(--color-keppel-400)]" weight="fill" />
-            <span className="text-sm font-medium text-[var(--color-keppel-400)]">Lingo.dev Hackathon</span>
-          </div>
         </div>
       </div>
     </header>

@@ -10,7 +10,7 @@
       "hash": "03f226c20593",
       "location": {
         "filePath": "../app/layout.tsx",
-        "line": 16,
+        "line": 18,
         "column": 9
       }
     },
@@ -24,7 +24,7 @@
       "hash": "e284e517e575",
       "location": {
         "filePath": "../app/layout.tsx",
-        "line": 18,
+        "line": 20,
         "column": 4
       }
     },
@@ -38,7 +38,7 @@
       "hash": "a6297cc0521b",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 31,
+        "line": 35,
         "column": 14
       }
     },
@@ -52,7 +52,7 @@
       "hash": "a808fbbdd0a5",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 34,
+        "line": 38,
         "column": 14
       }
     },
@@ -66,7 +66,7 @@
       "hash": "9e349cea20d4",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 39,
+        "line": 43,
         "column": 14
       }
     },
@@ -80,7 +80,7 @@
       "hash": "63a06a0a7d25",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 48,
+        "line": 52,
         "column": 18
       }
     },
@@ -94,7 +94,7 @@
       "hash": "413445294443",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 69,
+        "line": 65,
         "column": 12
       }
     },
@@ -108,7 +108,7 @@
       "hash": "b574af044abb",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 72,
+        "line": 68,
         "column": 12
       }
     },
@@ -122,7 +122,7 @@
       "hash": "a2c44d4f4868",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 80,
+        "line": 76,
         "column": 16
       }
     },
@@ -136,7 +136,7 @@
       "hash": "3bad38b5b92e",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 81,
+        "line": 77,
         "column": 16
       }
     },
@@ -150,7 +150,7 @@
       "hash": "18b24bde0401",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 89,
+        "line": 85,
         "column": 16
       }
     },
@@ -164,7 +164,7 @@
       "hash": "74a217c3e9c4",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 90,
+        "line": 86,
         "column": 16
       }
     },
@@ -178,7 +178,7 @@
       "hash": "24059f6abcf1",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 98,
+        "line": 94,
         "column": 16
       }
     },
@@ -192,7 +192,7 @@
       "hash": "7c4d756804a2",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 99,
+        "line": 95,
         "column": 16
       }
     },
@@ -206,7 +206,7 @@
       "hash": "c067d89c01dd",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 110,
+        "line": 106,
         "column": 12
       }
     },
@@ -220,7 +220,7 @@
       "hash": "6df9adb45269",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 113,
+        "line": 109,
         "column": 12
       }
     },
@@ -234,7 +234,7 @@
       "hash": "37582051a6c2",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 121,
+        "line": 117,
         "column": 16
       }
     },
@@ -248,7 +248,7 @@
       "hash": "ddfd4d0457ae",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 122,
+        "line": 118,
         "column": 16
       }
     },
@@ -262,7 +262,7 @@
       "hash": "5e2230e193de",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 130,
+        "line": 126,
         "column": 16
       }
     },
@@ -276,7 +276,7 @@
       "hash": "c4c13a370c84",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 131,
+        "line": 127,
         "column": 16
       }
     },
@@ -290,7 +290,7 @@
       "hash": "342cf17ff39d",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 139,
+        "line": 135,
         "column": 16
       }
     },
@@ -304,7 +304,7 @@
       "hash": "92d2e0aaad0f",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 140,
+        "line": 136,
         "column": 16
       }
     },
@@ -318,7 +318,7 @@
       "hash": "21314739a288",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 152,
+        "line": 153,
         "column": 14
       }
     },
@@ -332,7 +332,7 @@
       "hash": "919039b154e9",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 155,
+        "line": 156,
         "column": 14
       }
     },
@@ -346,7 +346,7 @@
       "hash": "19cd9c8c8461",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 163,
+        "line": 164,
         "column": 16
       }
     },
@@ -360,7 +360,7 @@
       "hash": "3b73eb8d6a20",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 181,
+        "line": 158,
         "column": 14
       }
     },
@@ -374,7 +374,7 @@
       "hash": "6ca2facce171",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 184,
+        "line": 185,
         "column": 14
       }
     },
@@ -388,7 +388,7 @@
       "hash": "6840d263d08a",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 190,
+        "line": 191,
         "column": 14
       }
     },
@@ -402,7 +402,7 @@
       "hash": "59ce934aa007",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 196,
+        "line": 197,
         "column": 14
       }
     },
@@ -417,8 +417,8 @@
       "hash": "cf74177eda3a",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 202,
-        "column": 14
+        "line": 156,
+        "column": 10
       }
     },
     "e8be48850f4d": {
@@ -432,8 +432,8 @@
       "hash": "e8be48850f4d",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 209,
-        "column": 14
+        "line": 168,
+        "column": 15
       }
     },
     "7c94e89c1e22": {
@@ -446,7 +446,7 @@
       "hash": "7c94e89c1e22",
       "location": {
         "filePath": "../components/landing-page.tsx",
-        "line": 219,
+        "line": 178,
         "column": 12
       }
     },
@@ -488,7 +488,7 @@
       "hash": "fbafc8494518",
       "location": {
         "filePath": "../components/header.tsx",
-        "line": 48,
+        "line": 39,
         "column": 12
       }
     },
@@ -657,7 +657,7 @@
       "hash": "baafc455de2e",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 150,
+        "line": 132,
         "column": 14
       }
     },
@@ -671,7 +671,7 @@
       "hash": "af1a7b87c9c3",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 153,
+        "line": 135,
         "column": 14
       }
     },
@@ -685,7 +685,7 @@
       "hash": "f1ee3c6834f2",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 162,
+        "line": 144,
         "column": 16
       }
     },
@@ -699,7 +699,7 @@
       "hash": "8bb83df6bc28",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 163,
+        "line": 145,
         "column": 16
       }
     },
@@ -713,7 +713,7 @@
       "hash": "67a49ebf31b6",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 171,
+        "line": 153,
         "column": 16
       }
     },
@@ -727,7 +727,7 @@
       "hash": "02bf0adcb6ef",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 172,
+        "line": 154,
         "column": 16
       }
     },
@@ -741,7 +741,7 @@
       "hash": "13544a1f0b21",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 180,
+        "line": 162,
         "column": 16
       }
     },
@@ -755,7 +755,7 @@
       "hash": "28320bf594fa",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 181,
+        "line": 163,
         "column": 16
       }
     },
@@ -769,7 +769,7 @@
       "hash": "c829e032d5d6",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 192,
+        "line": 174,
         "column": 14
       }
     },
@@ -783,7 +783,7 @@
       "hash": "6503c45ec126",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 202,
+        "line": 184,
         "column": 18
       }
     },
@@ -797,7 +797,7 @@
       "hash": "d10508c067d1",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 204,
+        "line": 186,
         "column": 16
       }
     },
@@ -811,7 +811,7 @@
       "hash": "d7dc518e3d95",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 213,
+        "line": 195,
         "column": 18
       }
     },
@@ -825,7 +825,7 @@
       "hash": "65ec530a95fa",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 215,
+        "line": 197,
         "column": 16
       }
     },
@@ -839,7 +839,7 @@
       "hash": "3154b02a8206",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 224,
+        "line": 206,
         "column": 18
       }
     },
@@ -853,7 +853,7 @@
       "hash": "974188c0fd4c",
       "location": {
         "filePath": "../app/app/page.tsx",
-        "line": 226,
+        "line": 208,
         "column": 16
       }
     },
@@ -937,7 +937,7 @@
       "hash": "01491c815701",
       "location": {
         "filePath": "../components/polydub/mic-controller.tsx",
-        "line": 260,
+        "line": 246,
         "column": 14
       }
     },
@@ -951,8 +951,8 @@
       "hash": "ce891159c045",
       "location": {
         "filePath": "../components/polydub/language-selector.tsx",
-        "line": 150,
-        "column": 12
+        "line": 161,
+        "column": 14
       }
     },
     "80383b1d5083": {
@@ -966,8 +966,8 @@
       "hash": "80383b1d5083",
       "location": {
         "filePath": "../components/polydub/language-selector.tsx",
-        "line": 163,
-        "column": 16
+        "line": 174,
+        "column": 18
       }
     },
     "2cf628971260": {
@@ -980,7 +980,7 @@
       "hash": "2cf628971260",
       "location": {
         "filePath": "../components/polydub/language-selector.tsx",
-        "line": 185,
+        "line": 191,
         "column": 12
       }
     },
@@ -994,7 +994,7 @@
       "hash": "e3cc3fc73355",
       "location": {
         "filePath": "../components/polydub/language-selector.tsx",
-        "line": 215,
+        "line": 221,
         "column": 14
       }
     },
@@ -1008,7 +1008,7 @@
       "hash": "431a0e20abbe",
       "location": {
         "filePath": "../components/polydub/language-selector.tsx",
-        "line": 224,
+        "line": 230,
         "column": 16
       }
     },
@@ -1754,10 +1754,179 @@
         "line": 140,
         "column": 18
       }
+    },
+    "804ac71c1516": {
+      "type": "content",
+      "sourceText": "Made with <span0>❤️</span0> by PolyDub Team",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "804ac71c1516",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 153,
+        "column": 10
+      }
+    },
+    "5bdfca0625bf": {
+      "type": "content",
+      "sourceText": "<div0><div0><div0><Cube0></Cube0></div0><span0>PolyDub</span0></div0><div1><a0><GithubLogo0></GithubLogo0></a0></div1></div0>v> <div1><p0>© {expression0} PolyDub. Lingo.dev Hackathon project. </p0></div1>",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "5bdfca0625bf",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 176,
+        "column": 8
+      }
+    },
+    "1a1bd1402162": {
+      "type": "content",
+      "sourceText": "Made with",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "1a1bd1402162",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 8,
+        "column": 10
+      }
+    },
+    "cfe613f0cac2": {
+      "type": "content",
+      "sourceText": "by PolyDub Team",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "cfe613f0cac2",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 10,
+        "column": 10
+      }
+    },
+    "e2264eb5a2d9": {
+      "type": "attribute",
+      "sourceText": "GitHub",
+      "context": {
+        "attributeName": "aria-label",
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "e2264eb5a2d9",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 8,
+        "column": 8
+      }
+    },
+    "f0ecaf1c37b5": {
+      "type": "content",
+      "sourceText": "GitHub",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "f0ecaf1c37b5",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 16,
+        "column": 10
+      }
+    },
+    "fdd21070f43a": {
+      "type": "content",
+      "sourceText": "Broadcast Links",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "fdd21070f43a",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 301,
+        "column": 14
+      }
+    },
+    "ebc5710b1023": {
+      "type": "content",
+      "sourceText": "Live transcript...",
+      "context": {
+        "componentName": "TranscriptView",
+        "filePath": "../components/polydub/transcript-view.tsx"
+      },
+      "hash": "ebc5710b1023",
+      "location": {
+        "filePath": "../components/polydub/transcript-view.tsx",
+        "line": 74,
+        "column": 18
+      }
+    },
+    "a85976411e0a": {
+      "type": "content",
+      "sourceText": "Broadcast Languages",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "a85976411e0a",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 196,
+        "column": 17
+      }
+    },
+    "dd7dc74112da": {
+      "type": "content",
+      "sourceText": "Select languages above to configure broadcasting",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "dd7dc74112da",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 302,
+        "column": 15
+      }
+    },
+    "d23061a2a8bc": {
+      "type": "content",
+      "sourceText": "Channel Configuration",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "d23061a2a8bc",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 231,
+        "column": 13
+      }
+    },
+    "6ad782f95f6d": {
+      "type": "content",
+      "sourceText": "Select languages on the left<br0></br0>to configure channels",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "6ad782f95f6d",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 313,
+        "column": 18
+      }
     }
   },
   "stats": {
-    "totalEntries": 125,
-    "lastUpdated": "2026-02-07T10:37:46.345Z"
+    "totalEntries": 137,
+    "lastUpdated": "2026-02-07T12:24:01.314Z"
   }
 }
