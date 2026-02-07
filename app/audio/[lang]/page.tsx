@@ -233,7 +233,7 @@ export default function AudioListenerPage() {
             </div>
             <CardTitle>Join Broadcast</CardTitle>
             <CardDescription>
-              Listen to the live translation in <strong>{langCode.toUpperCase()}</strong>
+              Listen to the live translation in {langCode.toUpperCase()}
             </CardDescription>
           </CardHeader>
           <CardContent>

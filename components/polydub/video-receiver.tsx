@@ -43,13 +43,19 @@ export const VideoReceiver = forwardRef<VideoReceiverRef, VideoReceiverProps>(fu
 
   useEffect(() => {
     // Determine WS URL
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
-    const host = window.location.hostname === "localhost" 
-      ? "localhost:8080" 
-      : window.location.host
-    
-    // Connect as LISTENER VIDEO
-    const finalUrl = `${protocol}//${host}?role=listener-video`
+    let finalUrl = wsUrl
+    try {
+        const urlObj = new URL(wsUrl)
+        urlObj.protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
+        if (window.location.hostname === "localhost") {
+             urlObj.hostname = "localhost"
+             urlObj.port = "8080"
+        }
+        urlObj.searchParams.set("role", "listener-video")
+        finalUrl = urlObj.toString()
+    } catch (e) {
+        finalUrl = `${wsUrl}?role=listener-video`
+    }
     
     console.log("Connecting to Video Stream:", finalUrl)
     

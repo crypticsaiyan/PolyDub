@@ -57,11 +57,26 @@ export function WebcamBroadcaster({ wsUrl }: WebcamBroadcasterProps) {
        }
 
        // 2. Connect WebSocket
-       const cleanUrl = wsUrl.replace("ws://", "").replace("wss://", "").split("/")[0]
-       const protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
-       // Use correct port if localhost
-       const finalUrl = `${protocol}//${window.location.hostname === "localhost" ? "localhost:8080" : cleanUrl}?role=host-video`
+       let finalUrl = wsUrl
+       try {
+           const urlObj = new URL(wsUrl)
+           // Adjust protocol based on current page
+           urlObj.protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
+           
+           // If on localhost, force localhost:8080 to ensure dev server connection
+           if (window.location.hostname === "localhost") {
+               urlObj.hostname = "localhost"
+               urlObj.port = "8080"
+           }
+           
+           urlObj.searchParams.set("role", "host-video")
+           finalUrl = urlObj.toString()
+       } catch (e) {
+           console.warn("Invalid WS URL", wsUrl)
+           finalUrl = `${wsUrl}?role=host-video`
+       }
        
+       console.log("Connecting video WS to:", finalUrl)
        const ws = new WebSocket(finalUrl)
        wsRef.current = ws
 
@@ -83,7 +98,7 @@ export function WebcamBroadcaster({ wsUrl }: WebcamBroadcasterProps) {
                        // Convert to Blob (JPEG) and send
                        // quality 0.5 is good balance
                        canvas.toBlob((blob) => {
-                           if (blob) ws.send(blob)
+                           if (blob && ws.readyState === WebSocket.OPEN) ws.send(blob)
                        }, 'image/jpeg', 0.5)
                    }
                }
@@ -92,7 +107,8 @@ export function WebcamBroadcaster({ wsUrl }: WebcamBroadcasterProps) {
 
        ws.onerror = (e) => {
            console.error("Video WS Error", e)
-           setError("Connection rejected")
+           // Improve error message
+           setError("Connection failed. Check if server is running.")
            stopBroadcast()
        }
 

@@ -1,0 +1,807 @@
+{
+  "entries": {
+    "63130e4a4ff7": {
+      "type": "content",
+      "sourceText": "Video Broadcast",
+      "context": {
+        "componentName": "WebcamBroadcaster",
+        "filePath": "../components/polydub/webcam-broadcaster.tsx"
+      },
+      "hash": "63130e4a4ff7",
+      "location": {
+        "filePath": "../components/polydub/webcam-broadcaster.tsx",
+        "line": 119,
+        "column": 13
+      }
+    },
+    "d4d6d435e32d": {
+      "type": "content",
+      "sourceText": "Share webcam with listeners",
+      "context": {
+        "componentName": "WebcamBroadcaster",
+        "filePath": "../components/polydub/webcam-broadcaster.tsx"
+      },
+      "hash": "d4d6d435e32d",
+      "location": {
+        "filePath": "../components/polydub/webcam-broadcaster.tsx",
+        "line": 130,
+        "column": 10
+      }
+    },
+    "0f2d8cd2679b": {
+      "type": "content",
+      "sourceText": "Camera Off",
+      "context": {
+        "componentName": "WebcamBroadcaster",
+        "filePath": "../components/polydub/webcam-broadcaster.tsx"
+      },
+      "hash": "0f2d8cd2679b",
+      "location": {
+        "filePath": "../components/polydub/webcam-broadcaster.tsx",
+        "line": 149,
+        "column": 26
+      }
+    },
+    "3d9c725e5baa": {
+      "type": "content",
+      "sourceText": "STOP",
+      "context": {
+        "componentName": "MicController",
+        "filePath": "../components/polydub/mic-controller.tsx"
+      },
+      "hash": "3d9c725e5baa",
+      "location": {
+        "filePath": "../components/polydub/mic-controller.tsx",
+        "line": 243,
+        "column": 18
+      }
+    },
+    "41a04ed10c97": {
+      "type": "content",
+      "sourceText": "START",
+      "context": {
+        "componentName": "MicController",
+        "filePath": "../components/polydub/mic-controller.tsx"
+      },
+      "hash": "41a04ed10c97",
+      "location": {
+        "filePath": "../components/polydub/mic-controller.tsx",
+        "line": 248,
+        "column": 18
+      }
+    },
+    "01491c815701": {
+      "type": "content",
+      "sourceText": "Listening...",
+      "context": {
+        "componentName": "MicController",
+        "filePath": "../components/polydub/mic-controller.tsx"
+      },
+      "hash": "01491c815701",
+      "location": {
+        "filePath": "../components/polydub/mic-controller.tsx",
+        "line": 260,
+        "column": 14
+      }
+    },
+    "3f5b77e54f9f": {
+      "type": "content",
+      "sourceText": "Powered by Lingo.dev + Deepgram",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "3f5b77e54f9f",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 139,
+        "column": 16
+      }
+    },
+    "0d689aa38a8f": {
+      "type": "content",
+      "sourceText": "PolyDub <span0>Real-Time Voice Translator </span0>",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "0d689aa38a8f",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 143,
+        "column": 14
+      }
+    },
+    "1d3aba497dad": {
+      "type": "content",
+      "sourceText": "Speak in any language and hear instant translations. Powered by cutting-edge AI for natural, real-time voice translation.",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "1d3aba497dad",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 149,
+        "column": 14
+      }
+    },
+    "feb796d2e655": {
+      "type": "content",
+      "sourceText": "How It Works",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "feb796d2e655",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 210,
+        "column": 14
+      }
+    },
+    "5253bb8f1e75": {
+      "type": "content",
+      "sourceText": "Real-time voice translation in three simple steps",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "5253bb8f1e75",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 213,
+        "column": 14
+      }
+    },
+    "6d557ecb857b": {
+      "type": "content",
+      "sourceText": "Speak",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "6d557ecb857b",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 223,
+        "column": 16
+      }
+    },
+    "0b836d80cd4b": {
+      "type": "content",
+      "sourceText": "Select your languages and start speaking naturally into your microphone",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "0b836d80cd4b",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 224,
+        "column": 16
+      }
+    },
+    "b5edcbb00163": {
+      "type": "content",
+      "sourceText": "Translate",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "b5edcbb00163",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 236,
+        "column": 16
+      }
+    },
+    "4f9c6513e85b": {
+      "type": "content",
+      "sourceText": "AI transcribes and translates your speech in real-time using Lingo.dev",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "4f9c6513e85b",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 237,
+        "column": 16
+      }
+    },
+    "8b3fb643ad11": {
+      "type": "content",
+      "sourceText": "Listen",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "8b3fb643ad11",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 249,
+        "column": 16
+      }
+    },
+    "d11d1f9e388a": {
+      "type": "content",
+      "sourceText": "Hear the translated speech instantly with natural-sounding AI voice",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "d11d1f9e388a",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 250,
+        "column": 16
+      }
+    },
+    "0f4d74b26291": {
+      "type": "content",
+      "sourceText": "Tech Stack",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "0f4d74b26291",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 262,
+        "column": 14
+      }
+    },
+    "9f6022217a97": {
+      "type": "content",
+      "sourceText": "Built for the Lingo.dev Hackathon",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "9f6022217a97",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 266,
+        "column": 14
+      }
+    },
+    "033f2b926d91": {
+      "type": "content",
+      "sourceText": "Deepgram",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "033f2b926d91",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 277,
+        "column": 18
+      }
+    },
+    "befd8097d02c": {
+      "type": "content",
+      "sourceText": "Real-time speech-to-text and text-to-speech with Aura voices",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "befd8097d02c",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 279,
+        "column": 16
+      }
+    },
+    "49fa015acc50": {
+      "type": "content",
+      "sourceText": "Lingo.dev",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "49fa015acc50",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 289,
+        "column": 18
+      }
+    },
+    "f4d56d345f07": {
+      "type": "content",
+      "sourceText": "AI-powered translation for natural, context-aware results",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "f4d56d345f07",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 291,
+        "column": 16
+      }
+    },
+    "20c126a47352": {
+      "type": "content",
+      "sourceText": "WebSockets",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "20c126a47352",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 301,
+        "column": 18
+      }
+    },
+    "5489105d1513": {
+      "type": "content",
+      "sourceText": "Bi-directional streaming for ultra-low latency communication",
+      "context": {
+        "componentName": "Home",
+        "filePath": "page.tsx"
+      },
+      "hash": "5489105d1513",
+      "location": {
+        "filePath": "page.tsx",
+        "line": 303,
+        "column": 16
+      }
+    },
+    "1695cce92c22": {
+      "type": "content",
+      "sourceText": "Live Transcript",
+      "context": {
+        "componentName": "TranscriptView",
+        "filePath": "../components/polydub/transcript-view.tsx"
+      },
+      "hash": "1695cce92c22",
+      "location": {
+        "filePath": "../components/polydub/transcript-view.tsx",
+        "line": 55,
+        "column": 10
+      }
+    },
+    "174396e4da70": {
+      "type": "content",
+      "sourceText": "Live",
+      "context": {
+        "componentName": "TranscriptView",
+        "filePath": "../components/polydub/transcript-view.tsx"
+      },
+      "hash": "174396e4da70",
+      "location": {
+        "filePath": "../components/polydub/transcript-view.tsx",
+        "line": 60,
+        "column": 12
+      }
+    },
+    "1835f9233d17": {
+      "type": "content",
+      "sourceText": "Start speaking to see real-time translations appear here",
+      "context": {
+        "componentName": "TranscriptView",
+        "filePath": "../components/polydub/transcript-view.tsx"
+      },
+      "hash": "1835f9233d17",
+      "location": {
+        "filePath": "../components/polydub/transcript-view.tsx",
+        "line": 76,
+        "column": 16
+      }
+    },
+    "167a68efd859": {
+      "type": "metadata",
+      "sourceText": "PolyDub | Real-Time Video Dubbing",
+      "context": {
+        "fieldPath": "title",
+        "filePath": "layout.tsx"
+      },
+      "hash": "167a68efd859",
+      "location": {
+        "filePath": "layout.tsx",
+        "line": 16,
+        "column": 9
+      }
+    },
+    "edd0a58d318f": {
+      "type": "metadata",
+      "sourceText": "Real-time video dubbing that preserves background audio while translating vocals. Upload, translate, and share dubbed videos instantly.",
+      "context": {
+        "fieldPath": "description",
+        "filePath": "layout.tsx"
+      },
+      "hash": "edd0a58d318f",
+      "location": {
+        "filePath": "layout.tsx",
+        "line": 18,
+        "column": 4
+      }
+    },
+    "b2fbca8b9b4e": {
+      "type": "content",
+      "sourceText": "Anchor",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "b2fbca8b9b4e",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 14,
+        "column": 14
+      }
+    },
+    "2f44016d458a": {
+      "type": "content",
+      "sourceText": "Container infrastructure for the next generation of autonomous agents.",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "2f44016d458a",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 16,
+        "column": 12
+      }
+    },
+    "7a063718227f": {
+      "type": "content",
+      "sourceText": "Product",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "7a063718227f",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 44,
+        "column": 14
+      }
+    },
+    "587f1a4c4303": {
+      "type": "content",
+      "sourceText": "Features",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "587f1a4c4303",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 47,
+        "column": 18
+      }
+    },
+    "e699cf3f03d0": {
+      "type": "content",
+      "sourceText": "Pricing",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "e699cf3f03d0",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 55,
+        "column": 18
+      }
+    },
+    "ab1ab5fa6ea5": {
+      "type": "content",
+      "sourceText": "Changelog",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "ab1ab5fa6ea5",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 63,
+        "column": 18
+      }
+    },
+    "7148c8b31548": {
+      "type": "content",
+      "sourceText": "Developers",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "7148c8b31548",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 73,
+        "column": 14
+      }
+    },
+    "a072403189ec": {
+      "type": "content",
+      "sourceText": "Documentation",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "a072403189ec",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 76,
+        "column": 18
+      }
+    },
+    "209963a76aa7": {
+      "type": "content",
+      "sourceText": "API Reference",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "209963a76aa7",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 84,
+        "column": 18
+      }
+    },
+    "b23af8006c51": {
+      "type": "content",
+      "sourceText": "Examples",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "b23af8006c51",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 92,
+        "column": 18
+      }
+    },
+    "475a6e64b099": {
+      "type": "content",
+      "sourceText": "Company",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "475a6e64b099",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 102,
+        "column": 14
+      }
+    },
+    "a72e1ff4fee9": {
+      "type": "content",
+      "sourceText": "About",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "a72e1ff4fee9",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 105,
+        "column": 18
+      }
+    },
+    "f84942b88807": {
+      "type": "content",
+      "sourceText": "Blog",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "f84942b88807",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 113,
+        "column": 18
+      }
+    },
+    "4bb0949435b3": {
+      "type": "content",
+      "sourceText": "Careers",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "4bb0949435b3",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 121,
+        "column": 18
+      }
+    },
+    "b93c77b99338": {
+      "type": "content",
+      "sourceText": "Legal",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "b93c77b99338",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 131,
+        "column": 14
+      }
+    },
+    "1665af49ee3c": {
+      "type": "content",
+      "sourceText": "Privacy",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "1665af49ee3c",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 134,
+        "column": 18
+      }
+    },
+    "2d20e6305d3f": {
+      "type": "content",
+      "sourceText": "Terms",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "2d20e6305d3f",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 142,
+        "column": 18
+      }
+    },
+    "81e345df60d7": {
+      "type": "content",
+      "sourceText": "Security",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "81e345df60d7",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 150,
+        "column": 18
+      }
+    },
+    "ab34e4f5b604": {
+      "type": "content",
+      "sourceText": "© 2025 Anchor. All rights reserved.",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "ab34e4f5b604",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 163,
+        "column": 10
+      }
+    },
+    "89dfeb69a287": {
+      "type": "content",
+      "sourceText": "All systems operational",
+      "context": {
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
+      },
+      "hash": "89dfeb69a287",
+      "location": {
+        "filePath": "../components/footer.tsx",
+        "line": 166,
+        "column": 12
+      }
+    },
+    "ce891159c045": {
+      "type": "content",
+      "sourceText": "I am speaking",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "ce891159c045",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 150,
+        "column": 12
+      }
+    },
+    "80383b1d5083": {
+      "type": "attribute",
+      "sourceText": "Select language",
+      "context": {
+        "attributeName": "placeholder",
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "80383b1d5083",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 163,
+        "column": 16
+      }
+    },
+    "2cf628971260": {
+      "type": "content",
+      "sourceText": "Broadcast to",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "2cf628971260",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 185,
+        "column": 12
+      }
+    },
+    "e3cc3fc73355": {
+      "type": "content",
+      "sourceText": "* Select at least one language to broadcast",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "e3cc3fc73355",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 215,
+        "column": 14
+      }
+    },
+    "431a0e20abbe": {
+      "type": "content",
+      "sourceText": "Voice Settings",
+      "context": {
+        "componentName": "LanguageSelector",
+        "filePath": "../components/polydub/language-selector.tsx"
+      },
+      "hash": "431a0e20abbe",
+      "location": {
+        "filePath": "../components/polydub/language-selector.tsx",
+        "line": 224,
+        "column": 16
+      }
+    },
+    "a2497907f123": {
+      "type": "content",
+      "sourceText": "PolyDub",
+      "context": {
+        "componentName": "Header",
+        "filePath": "../components/header.tsx"
+      },
+      "hash": "a2497907f123",
+      "location": {
+        "filePath": "../components/header.tsx",
+        "line": 25,
+        "column": 10
+      }
+    },
+    "fbafc8494518": {
+      "type": "content",
+      "sourceText": "Lingo.dev Hackathon",
+      "context": {
+        "componentName": "Header",
+        "filePath": "../components/header.tsx"
+      },
+      "hash": "fbafc8494518",
+      "location": {
+        "filePath": "../components/header.tsx",
+        "line": 41,
+        "column": 12
+      }
+    }
+  },
+  "stats": {
+    "totalEntries": 57,
+    "lastUpdated": "2026-02-07T05:50:17.590Z"
+  }
+}

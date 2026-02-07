@@ -74,6 +74,55 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+/* PolyDub brand: baltic-sea (blue-gray), keppel (teal accent) */
+:root {
+  --color-baltic-sea-50: oklch(0.98 0.005 250);
+  --color-baltic-sea-100: oklch(0.94 0.01 250);
+  --color-baltic-sea-200: oklch(0.85 0.02 250);
+  --color-baltic-sea-300: oklch(0.7 0.03 250);
+  --color-baltic-sea-400: oklch(0.55 0.04 250);
+  --color-baltic-sea-500: oklch(0.45 0.05 250);
+  --color-baltic-sea-600: oklch(0.35 0.05 250);
+  --color-baltic-sea-700: oklch(0.28 0.04 250);
+  --color-baltic-sea-800: oklch(0.2 0.03 250);
+  --color-baltic-sea-900: oklch(0.14 0.02 250);
+  --color-baltic-sea-950: oklch(0.09 0.02 250);
+  --color-keppel-100: oklch(0.95 0.03 175);
+  --color-keppel-200: oklch(0.88 0.06 175);
+  --color-keppel-300: oklch(0.78 0.1 175);
+  --color-keppel-400: oklch(0.68 0.12 175);
+  --color-keppel-500: oklch(0.58 0.12 175);
+  --color-keppel-600: oklch(0.48 0.1 175);
+  --color-keppel-700: oklch(0.38 0.08 175);
+  --color-keppel-800: oklch(0.28 0.06 175);
+  --color-keppel-900: oklch(0.2 0.05 175);
+  --color-keppel-950: oklch(0.12 0.04 175);
+}
+
+.dark {
+  --color-baltic-sea-50: oklch(0.98 0.005 250);
+  --color-baltic-sea-100: oklch(0.94 0.01 250);
+  --color-baltic-sea-200: oklch(0.85 0.02 250);
+  --color-baltic-sea-300: oklch(0.7 0.03 250);
+  --color-baltic-sea-400: oklch(0.55 0.04 250);
+  --color-baltic-sea-500: oklch(0.45 0.05 250);
+  --color-baltic-sea-600: oklch(0.35 0.05 250);
+  --color-baltic-sea-700: oklch(0.28 0.04 250);
+  --color-baltic-sea-800: oklch(0.2 0.03 250);
+  --color-baltic-sea-900: oklch(0.14 0.02 250);
+  --color-baltic-sea-950: oklch(0.09 0.02 250);
+  --color-keppel-100: oklch(0.95 0.03 175);
+  --color-keppel-200: oklch(0.88 0.06 175);
+  --color-keppel-300: oklch(0.78 0.1 175);
+  --color-keppel-400: oklch(0.68 0.12 175);
+  --color-keppel-500: oklch(0.58 0.12 175);
+  --color-keppel-600: oklch(0.48 0.1 175);
+  --color-keppel-700: oklch(0.38 0.08 175);
+  --color-keppel-800: oklch(0.28 0.06 175);
+  --color-keppel-900: oklch(0.2 0.05 175);
+  --color-keppel-950: oklch(0.12 0.04 175);
+}
+
 @theme inline {
   --font-sans: 'Geist', 'Geist Fallback';
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';

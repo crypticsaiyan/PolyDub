@@ -12,6 +12,7 @@
   "dependencies": {
     "@deepgram/sdk": "^4.11.3",
     "@hookform/resolvers": "^3.10.0",
+    "@lingo.dev/compiler": "^0.3.6",
     "@lobehub/icons": "^1.59.1",
     "@lobehub/ui": "^1.153.8",
     "@phosphor-icons/react": "2.1.10",
@@ -50,6 +51,7 @@
     "cmdk": "1.0.4",
     "date-fns": "4.1.0",
     "dotenv": "^17.2.4",
+    "dotted-map": "^2.2.3",
     "embla-carousel-react": "8.5.1",
     "input-otp": "1.4.1",
     "lingo.dev": "^0.131.1",
