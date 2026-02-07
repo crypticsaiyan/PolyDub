@@ -49,7 +49,7 @@ export function TranscriptView({
   }
 
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="flex flex-col">
       <CardHeader className="pb-3 border-b border-border">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-lg">

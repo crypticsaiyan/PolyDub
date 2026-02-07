@@ -31,6 +31,8 @@ const ttsService = new TTSService(DEEPGRAM_API_KEY);
 const listeners = new Map<string, Set<WebSocket>>();
 // Store active broadcasts (languages currently being streamed by a host)
 const activeBroadcasts = new Set<string>();
+// Video Listeners
+const videoListeners = new Set<WebSocket>();
 
 console.log(`[Server] Starting WebSocket server on port ${PORT}`);
 
@@ -44,15 +46,25 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const targetsParam = url.searchParams.get("targets") || "es";
     const targetLangs = targetsParam.split(',').filter(t => t.length > 0);
     const sampleRate = parseInt(url.searchParams.get("sample_rate") || "16000", 10);
+    const voicesParam = url.searchParams.get("voices");
     
-    console.log(`[Server] Host connected: ${sourceLang} -> [${targetLangs.join(', ')}]`);
+    let targetVoices: Record<string, string> = {};
+    if (voicesParam) {
+       try {
+           targetVoices = JSON.parse(voicesParam);
+       } catch (e) {
+           console.error("Failed to parse voices param", e);
+       }
+    }
+    
+    console.log(`[Server] Host connected: ${sourceLang} -> [${targetLangs.join(', ')}]`, targetVoices);
 
     // Register active broadcasts
     targetLangs.forEach(lang => activeBroadcasts.add(lang));
 
     // Simple debounce/throttle for partial translations
     let lastPartialTime = 0;
-    const PARTIAL_INTERVAL = 1000; // Reduced to 1s for snappier text updates
+    const PARTIAL_INTERVAL = 1000;
     let partialTranslateInProgress = false;
 
     const sttService = new STTService({
@@ -66,18 +78,17 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           ? detectedLanguage 
           : (sourceLang === 'auto' ? 'en' : sourceLang);
 
-        // Send original transcript back to Host immediately (for confidence that mic works)
+        // Send original transcript back to Host immediately
         if (ws.readyState === WebSocket.OPEN) {
           const msg: any = {
             type: isFinal ? "transcript" : "partial",
             original: text,
-            translated: "", // Host doesn't need translation displayed
+            translated: "", 
             timestamp: now,
             sourceLanguage: actualSourceLang,
             targetLanguage: "multi" 
           };
           
-          // Only send partial updates if meaningful change
           if (!isFinal) {
              ws.send(JSON.stringify(msg));
           }
@@ -114,7 +125,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
 
                     // C. TTS Streaming (Only if listeners exist)
                     if (translatedText) {
-                      console.log(`[Broadcast] Requesting TTS for ${lang}: "${translatedText.slice(0, 30)}..."`);
+                      const voiceId = targetVoices[lang];
+                      console.log(`[Broadcast] Requesting TTS for ${lang} (Voice: ${voiceId || 'default'}): "${translatedText.slice(0, 30)}..."`);
+                      
                       await ttsService.streamAudio(translatedText, lang, (chunk) => {
                         console.log(`[Broadcast] Received audio chunk for ${lang}, size: ${chunk.length} bytes. Sending to ${specificListeners?.size} listeners.`);
                         specificListeners.forEach(l => {
@@ -124,11 +137,10 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
                              console.warn(`[Broadcast] Skipped closed listener for ${lang}`);
                           }
                         });
-                        // Also send to Host if they are tracking it (but we usually skip host audio now)
                         if (lang === targetLangs[0] && ws.readyState === WebSocket.OPEN) {
                            // ws.send(chunk); 
                         }
-                      });
+                      }, voiceId);
                     }
                   } 
                } catch (err) {
@@ -222,6 +234,25 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
       console.error(`[Server] Listener error: ${err.message}`);
       listeners.get(listenLang)?.delete(ws);
     });
+  }
+  // VIDEO RELAY LOGIC
+  else if (role === 'host-video') {
+    console.log("[Server] Video Host connected");
+    ws.on('message', (message) => {
+      // Broadcast video frames to all active video listeners
+      // Note: Video is language-agnostic for now (everyone sees same video)
+      videoListeners.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(message);
+        }
+      });
+    });
+    ws.on('close', () => console.log("[Server] Video Host disconnected"));
+  }
+  else if (role === 'listener-video') {
+    console.log("[Server] Video Listener connected");
+    videoListeners.add(ws);
+    ws.on('close', () => videoListeners.delete(ws));
   }
 });
 

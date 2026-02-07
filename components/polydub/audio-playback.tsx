@@ -18,13 +18,15 @@ interface AudioPlaybackProps {
   onAudioPlayed: () => void
   isEnabled: boolean
   audioContext?: AudioContext | null
+  recordingDestination?: MediaStreamAudioDestinationNode | null
 }
 
 export function AudioPlayback({ 
   audioQueue, 
   onAudioPlayed,
   isEnabled,
-  audioContext
+  audioContext,
+  recordingDestination
 }: AudioPlaybackProps) {
   const [volume, setVolume] = useState(80)
   const [isMuted, setIsMuted] = useState(false)
@@ -140,6 +142,11 @@ export function AudioPlayback({
       const source = ctx.createBufferSource()
       source.buffer = audioBuffer
       source.connect(gainNodeRef.current)
+      
+      // Also connect to recording destination if provided
+      if (recordingDestination) {
+         source.connect(recordingDestination)
+      }
 
       const currentTime = ctx.currentTime
       const startTime = Math.max(currentTime, nextStartTimeRef.current)

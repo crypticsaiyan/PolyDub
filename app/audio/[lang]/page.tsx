@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Globe, Broadcast, Waveform } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
+import { VideoReceiver, VideoReceiverRef } from "@/components/polydub/video-receiver"
 
 interface Message {
   type: string
@@ -30,6 +31,14 @@ export default function AudioListenerPage() {
   
   // Lifted AudioContext to ensure user activation works
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null)
+  const [hasAudioStarted, setHasAudioStarted] = useState(false)
+  
+  // Recording State
+  const [isRecording, setIsRecording] = useState(false)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const recordedChunksRef = useRef<Blob[]>([])
+  const videoReceiverRef = useRef<VideoReceiverRef>(null)
+  const recordingDestRef = useRef<MediaStreamAudioDestinationNode | null>(null)
   
   const wsRef = useRef<WebSocket | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -41,6 +50,20 @@ export default function AudioListenerPage() {
   useEffect(() => {
     scrollToBottom()
   }, [messages])
+
+  // Initialize Recording Destination when AudioContext is ready
+  useEffect(() => {
+     if (audioContext && !recordingDestRef.current) {
+         try {
+             // Create a destination node that we can record from
+             const dest = audioContext.createMediaStreamDestination()
+             recordingDestRef.current = dest
+             console.log("Recording destination created")
+         } catch (e) {
+             console.error("Failed to create recording destination", e)
+         }
+     }
+  }, [audioContext])
 
   // Join handler to unlock Audio Context & Permissions
   const handleJoin = async () => {
@@ -58,6 +81,7 @@ export default function AudioListenerPage() {
     }
   }
 
+  // ... useEffect for WebSocket ...
   useEffect(() => {
     if (!hasJoined) return
 
@@ -84,6 +108,7 @@ export default function AudioListenerPage() {
       if (event.data instanceof ArrayBuffer) {
         console.log("Received Audio Chunk:", event.data.byteLength, "bytes")
         setAudioQueue(prev => [...prev, event.data])
+        setHasAudioStarted(true)
         return
       }
       
@@ -117,6 +142,84 @@ export default function AudioListenerPage() {
 
   const handleAudioPlayed = () => {
     setAudioQueue((prev) => prev.slice(1))
+  }
+
+  const handleStartRecording = () => {
+      if (!recordingDestRef.current || !videoReceiverRef.current) {
+          console.error("Recording not ready (No AudioContext or VideoRef)")
+          return
+      }
+
+      const videoStream = videoReceiverRef.current.captureStream()
+      const audioStream = recordingDestRef.current.stream
+      
+      if (!videoStream) {
+          console.error("Failed to capture video stream")
+          return 
+      }
+
+      // Combine tracks: Video from Canvas, Audio from WebAudio destination
+      const combinedStream = new MediaStream([
+          ...videoStream.getVideoTracks(),
+          ...audioStream.getAudioTracks()
+      ])
+
+      try {
+          const recorder = new MediaRecorder(combinedStream, {
+              mimeType: 'video/webm;codecs=vp9,opus'
+          })
+          
+          recordedChunksRef.current = []
+          
+          recorder.ondataavailable = (e) => {
+              if (e.data.size > 0) {
+                  recordedChunksRef.current.push(e.data)
+              }
+          }
+
+          recorder.onstop = () => {
+              const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' })
+              const url = URL.createObjectURL(blob)
+              const a = document.createElement('a')
+              a.href = url
+              a.download = `polydub-recording-${langCode}-${Date.now()}.webm`
+              document.body.appendChild(a)
+              a.click()
+              document.body.removeChild(a)
+              URL.revokeObjectURL(url)
+              setIsRecording(false)
+          }
+
+          recorder.start(1000) // Collect chunks every second
+          mediaRecorderRef.current = recorder
+          setIsRecording(true)
+          console.log("Recording started")
+      } catch (e) {
+          console.error("Failed to start MediaRecorder", e)
+      }
+  }
+
+  const handleStopRecording = () => {
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+          mediaRecorderRef.current.stop()
+          console.log("Recording stopped")
+      }
+  }
+
+  const handleDownloadTranscript = () => {
+      const content = messages.map(m => 
+          `[${new Date(m.timestamp).toLocaleTimeString()}] ${m.sourceLanguage?.toUpperCase() || '?'} -> ${m.targetLanguage?.toUpperCase() || '?'}:\nOriginal: ${m.original}\nTranslated: ${m.translated}\n`
+      ).join('\n')
+      
+      const blob = new Blob([content], { type: 'text/plain' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `transcript-${langCode}-${Date.now()}.txt`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
   }
 
   // 1. Join Screen
@@ -170,41 +273,85 @@ export default function AudioListenerPage() {
      )
   }
 
-  // 3. Main Player
+
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8 flex flex-col items-center justify-center">
-      <div className="w-full max-w-md space-y-6">
+    <div className="min-h-screen bg-background p-4 md:p-8 flex flex-col items-center">
+      <div className="w-full max-w-5xl space-y-6">
         
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <div className="flex justify-center mb-4">
-             <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center animate-pulse">
-                <Broadcast className="h-8 w-8 text-primary" weight="fill" />
-             </div>
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight">PolyDub Live Broadcast</h1>
-          <div className="flex items-center justify-center gap-2 text-muted-foreground">
-             <Badge variant="outline" className="gap-1 border-primary/20">
-               <span className={`h-2 w-2 rounded-full ${isConnected ? "bg-green-500 animate-pulse" : "bg-gray-400"}`} />
-               {isConnected ? "Live" : "Connecting..."}
-             </Badge>
-             <span className="flex items-center gap-1 text-sm">
-               <Globe className="h-4 w-4" />
-               Listening in <strong>{langCode.toUpperCase()}</strong>
-             </span>
-          </div>
+        {/* Video Player - Primary Focus */}
+        <div className="relative group rounded-lg overflow-hidden border border-border/50 shadow-sm">
+            <VideoReceiver 
+                ref={videoReceiverRef}
+                wsUrl="ws://localhost:8080" 
+                delayMs={8000} 
+                startRendering={hasAudioStarted} 
+            />
+            
+            {/* Recording Controls Overlay */}
+            <div className="absolute bottom-4 right-4 flex gap-2">
+                {!isRecording ? (
+                    <Button 
+                        variant="secondary" 
+                        size="sm" 
+                        onClick={handleStartRecording} 
+                        className="shadow-lg backdrop-blur-md bg-background/80 hover:bg-background/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                        <div className="h-2 w-2 rounded-full bg-red-500 mr-2" />
+                        Record Session
+                    </Button>
+                ) : (
+                    <Button 
+                        variant="destructive" 
+                        size="sm" 
+                        onClick={handleStopRecording} 
+                        className="shadow-lg animate-pulse"
+                    >
+                        <div className="h-2 w-2 rounded-sm bg-white mr-2" />
+                        Stop & Save
+                    </Button>
+                )}
+            </div>
         </div>
 
-        {/* Audio Player */}
-        <AudioPlayback 
-          audioQueue={audioQueue}
-          onAudioPlayed={handleAudioPlayed}
-          isEnabled={true}
-          audioContext={audioContext}
-        />
+        {/* Header Info */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between px-2 gap-4">
+           <div className="flex items-center gap-3">
+              <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+                 <Broadcast className="h-5 w-5 text-primary" weight="fill" />
+              </div>
+              <div>
+                 <h1 className="text-lg font-bold tracking-tight">PolyDub Live</h1>
+                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Badge variant="outline" className="gap-1 border-primary/20 h-5 px-1.5">
+                      <span className={`h-1.5 w-1.5 rounded-full ${isConnected ? "bg-green-500 animate-pulse" : "bg-gray-400"}`} />
+                      {isConnected ? "Live" : "Connecting..."}
+                    </Badge>
+                    <span className="flex items-center gap-1">
+                      <Globe className="h-3 w-3" />
+                      {langCode.toUpperCase()}
+                    </span>
+                 </div>
+              </div>
+           </div>
+           
+           <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+               <Button variant="outline" size="sm" onClick={handleDownloadTranscript} className="h-8 gap-1 text-xs shrink-0">
+                   <Waveform className="h-3 w-3" />
+                   Download Transcript
+               </Button>
+               {/* Audio Controls */}
+               <AudioPlayback 
+                  audioQueue={audioQueue}
+                  onAudioPlayed={handleAudioPlayed}
+                  isEnabled={true}
+                  audioContext={audioContext}
+                  recordingDestination={recordingDestRef.current}
+               />
+           </div>
+        </div>
 
         {/* Transcript Feed */}
-        <Card className="h-[400px] flex flex-col">
+        <Card className="h-[300px] flex flex-col overflow-hidden shadow-sm">
           <CardHeader className="pb-2">
              <CardTitle className="text-sm font-medium flex items-center gap-2">
                <Waveform className="h-4 w-4" />
@@ -212,7 +359,7 @@ export default function AudioListenerPage() {
              </CardTitle>
              <CardDescription>Real-time translations appearing here</CardDescription>
           </CardHeader>
-          <CardContent className="flex-1 p-0">
+          <CardContent className="flex-1 min-h-0 p-0">
             <ScrollArea className="h-full p-4">
               <div className="space-y-4">
                 {messages.length === 0 && (
@@ -222,8 +369,8 @@ export default function AudioListenerPage() {
                 )}
                 {messages.map((msg, i) => (
                   <div key={i} className="flex flex-col gap-1 p-3 rounded-lg bg-muted/50 border">
-                    <p className="text-sm font-semibold text-primary">{msg.translated}</p>
-                    <p className="text-xs text-muted-foreground italic">Original ({msg.sourceLanguage}): {msg.original}</p>
+                    <p className="text-sm font-semibold text-primary break-words">{msg.translated}</p>
+                    <p className="text-xs text-muted-foreground italic break-words">Original ({msg.sourceLanguage}): {msg.original}</p>
                   </div>
                 ))}
                 <div ref={messagesEndRef} />
@@ -232,8 +379,8 @@ export default function AudioListenerPage() {
           </CardContent>
         </Card>
         
-        <div className="text-center text-xs text-muted-foreground">
-           Make sure your audio output device is set correctly above.
+        <div className="text-center text-xs text-muted-foreground pt-4 border-t border-border/50">
+           Make sure your audio output device is set correctly.
         </div>
 
       </div>

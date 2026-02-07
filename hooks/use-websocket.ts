@@ -7,6 +7,7 @@ interface UseWebSocketOptions {
   url: string
   sourceLanguage: string
   targetLanguages: string[]
+  targetVoices?: Record<string, string> // New prop: Map<lang, voiceId>
   onTranscript: (entry: TranscriptEntry) => void
   onPartialTranscript: (partial: { original: string; translated?: string }) => void
   onAudioData: (audio: ArrayBuffer) => void
@@ -24,6 +25,7 @@ export function useWebSocket({
   url,
   sourceLanguage,
   targetLanguages,
+  targetVoices = {}, // Default empty
   onTranscript,
   onPartialTranscript,
   onAudioData,
@@ -55,6 +57,12 @@ export function useWebSocket({
       wsUrl.searchParams.set('source', sourceLanguage)
       // Send comma-separated list of target languages
       wsUrl.searchParams.set('targets', targetLanguages.join(','))
+      
+      // Send voices map as JSON string
+      if (Object.keys(targetVoices).length > 0) {
+         wsUrl.searchParams.set('voices', JSON.stringify(targetVoices))
+      }
+
       if (sampleRate) {
         wsUrl.searchParams.set('sample_rate', sampleRate.toString())
       }
@@ -136,7 +144,7 @@ export function useWebSocket({
       setError('Failed to connect')
       setConnectionStatus('disconnected')
     }
-  }, [url, sourceLanguage, targetLanguages, onTranscript, onPartialTranscript, onAudioData, cleanup])
+  }, [url, sourceLanguage, targetLanguages, targetVoices, onTranscript, onPartialTranscript, onAudioData, cleanup])
 
   const disconnect = useCallback(() => {
     cleanup()

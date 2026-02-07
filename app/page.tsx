@@ -7,6 +7,7 @@ import { MicController } from "@/components/polydub/mic-controller"
 import { LanguageSelector } from "@/components/polydub/language-selector"
 import { TranscriptView, TranscriptEntry } from "@/components/polydub/transcript-view"
 import { AudioPlayback } from "@/components/polydub/audio-playback"
+import { WebcamBroadcaster } from "@/components/polydub/webcam-broadcaster"
 import { useWebSocket } from "@/hooks/use-websocket"
 import { Badge } from "@/components/ui/badge"
 import { 
@@ -26,6 +27,7 @@ const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"
 export default function Home() {
   const [sourceLanguage, setSourceLanguage] = useState("auto")
   const [targetLanguages, setTargetLanguages] = useState<string[]>(["es"])
+  const [targetVoices, setTargetVoices] = useState<Record<string, string>>({})
   const [isRecording, setIsRecording] = useState(false)
   const [transcripts, setTranscripts] = useState<TranscriptEntry[]>([])
   const [partialTranscript, setPartialTranscript] = useState<{ original: string; translated?: string } | undefined>()
@@ -66,6 +68,14 @@ export default function Home() {
      })
   }, [])
 
+  // Handle Voice Change
+  const handleVoiceChange = useCallback((lang: string, voiceId: string) => {
+      setTargetVoices(prev => ({
+          ...prev,
+          [lang]: voiceId
+      }))
+  }, [])
+
   // WebSocket connection
   const { 
     connect, 
@@ -77,6 +87,7 @@ export default function Home() {
     url: WS_URL,
     sourceLanguage,
     targetLanguages,
+    targetVoices,
     onTranscript: handleTranscript,
     onPartialTranscript: handlePartialTranscript,
     onAudioData: handleAudioData,
@@ -153,8 +164,10 @@ export default function Home() {
                 <LanguageSelector
                   sourceLanguage={sourceLanguage}
                   targetLanguages={targetLanguages}
+                  targetVoices={targetVoices}
                   onSourceLanguageChange={setSourceLanguage}
                   onToggleTargetLanguage={handleToggleTargetLanguage}
+                  onVoiceChange={handleVoiceChange}
                   disabled={isRecording}
                 />
 
@@ -167,15 +180,6 @@ export default function Home() {
                   connectionStatus={connectionStatus}
                 />
 
-                {/* NOTE: AudioPlayback removed for Host as per user request */}
-                {/* 
-                <AudioPlayback
-                  audioQueue={audioQueue}
-                  onAudioPlayed={handleAudioPlayed}
-                  isEnabled={isRecording}
-                />
-                */}
-
                 {/* Error display */}
                 {error && (
                   <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
@@ -184,8 +188,11 @@ export default function Home() {
                 )}
               </div>
 
-              {/* Right Column: Transcript */}
-              <div>
+              {/* Right Column: Video & Transcript */}
+              <div className="space-y-6">
+                {/* Webcam Broadcaster */}
+                <WebcamBroadcaster wsUrl={WS_URL} />
+
                 <TranscriptView
                   entries={transcripts}
                   isListening={isRecording}
