@@ -1,8 +1,9 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Cube, Lightning } from "@phosphor-icons/react/dist/ssr"
+import { Lightning } from "@phosphor-icons/react/dist/ssr"
 import { LocaleSwitcher } from "@/components/locale-switcher"
 import { Button } from "@/components/ui/button"
 
@@ -20,14 +21,16 @@ export function Header() {
       }
     >
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 lg:px-12">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="relative">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-baltic-sea-100)]">
-              <Cube weight="fill" className="h-5 w-5 text-[var(--color-baltic-sea-950)]" />
-            </div>
-            <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[var(--color-baltic-sea-950)] bg-[var(--color-keppel-400)]" />
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="relative h-8 w-8 transition-all duration-300 group-hover:scale-110">
+            <Image 
+              src="/logo.svg" 
+              alt="PolyDub Logo" 
+              fill 
+              className="object-contain"
+            />
           </div>
-          <span className="text-xl font-semibold tracking-tight text-[var(--color-baltic-sea-50)]">
+          <span className="text-xl font-bold tracking-tight text-foreground">
             PolyDub
           </span>
         </Link>

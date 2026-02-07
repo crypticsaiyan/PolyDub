@@ -191,52 +191,48 @@ export function AudioPlayback({
   }
 
   return (
-    <Card>
-      <CardContent className="py-4">
-        <div className="flex flex-col gap-4">
-          {/* Top Row: Playback & Volume */}
-          <div className="flex items-center gap-4">
-            {/* Playing indicator */}
-            <div className={`
-              w-10 h-10 rounded-full flex items-center justify-center
-              transition-all duration-300
-              ${isPlaying 
-                ? 'bg-accent/20 text-accent' 
-                : 'bg-muted text-muted-foreground'
-              }
-            `}>
-              <SpeakerHigh 
-                className={`h-5 w-5 ${isPlaying ? 'animate-pulse' : ''}`} 
-                weight={isPlaying ? 'fill' : 'regular'}
-              />
-            </div>
+    <div className="bg-card border rounded-lg p-2 flex flex-col sm:flex-row items-center gap-3 shadow-sm w-full">
+        {/* Playing indicator & Status */}
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <div className={`
+            w-8 h-8 rounded-full flex items-center justify-center shrink-0
+            transition-all duration-300
+            ${isPlaying 
+              ? 'bg-primary/20 text-primary' 
+              : 'bg-muted text-muted-foreground'
+            }
+          `}>
+            <SpeakerHigh 
+              className={`h-4 w-4 ${isPlaying ? 'animate-pulse' : ''}`} 
+              weight={isPlaying ? 'fill' : 'regular'}
+            />
+          </div>
 
-            {/* Label */}
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">
-                {isPlaying ? 'Playing translation...' : 'Translated Audio'}
-              </p>
+          <div className="min-w-0 flex flex-col">
+              <span className="text-xs font-semibold truncate">
+                {isPlaying ? 'Speaking...' : 'Ready'}
+              </span>
               {errorMessage ? (
-                 <p className="text-xs text-destructive truncate" title={errorMessage}>
-                   {errorMessage}
-                 </p>
+                  <span className="text-[10px] text-destructive truncate max-w-[120px]" title={errorMessage}>
+                    {errorMessage}
+                  </span>
               ) : (
-                <p className="text-xs text-muted-foreground truncate">
-                  {audioQueue.length > 0 
-                    ? `${audioQueue.length} segment${audioQueue.length > 1 ? 's' : ''} queued`
-                    : 'Waiting for audio'
-                  }
-                </p>
+                  <span className="text-[10px] text-muted-foreground truncate">
+                    {audioQueue.length > 0 ? `${audioQueue.length} queued` : 'Waiting for audio...'}
+                  </span>
               )}
-            </div>
+          </div>
+        </div>
 
-            {/* Volume controls */}
-            <div className="flex items-center gap-2">
+        {/* Controls Group */}
+        <div className="flex items-center gap-3 shrink-0">
+             {/* Volume controls */}
+            <div className="flex items-center gap-1.5 bg-muted/30 rounded-full px-2 py-1">
               <Button
                 variant="ghost"
-                size="icon-sm"
+                size="icon"
                 onClick={() => setIsMuted(!isMuted)}
-                className="text-muted-foreground hover:text-foreground"
+                className="h-5 w-5 text-muted-foreground hover:text-foreground"
               >
                 {getVolumeIcon()}
               </Button>
@@ -249,44 +245,45 @@ export function AudioPlayback({
                 }}
                 max={100}
                 step={1}
-                className="w-24"
+                className="w-16"
               />
             </div>
-          </div>
 
-          {/* Bottom Row: Output Device Selection */}
-          {outputDevices.length > 0 && (
-            <div className="flex items-center gap-2 pt-2 border-t mt-2">
-               <Faders className="h-4 w-4 text-muted-foreground shrink-0" />
-               <div className="text-xs text-muted-foreground whitespace-nowrap">Output Device:</div>
-               <Select 
-                 value={selectedOutputId} 
-                 onValueChange={setSelectedOutputId}
-               >
-                 <SelectTrigger className="h-8 text-xs w-full max-w-full truncate">
-                   <SelectValue placeholder="Default Output" />
-                 </SelectTrigger>
-                 <SelectContent>
-                   <SelectItem value="default" className="text-xs">
-                     System Default
-                   </SelectItem>
-                   {outputDevices
-                     .filter(device => device.deviceId && device.deviceId !== "default")
-                     .map((device) => (
-                     <SelectItem 
-                       key={device.deviceId} 
-                       value={device.deviceId}
-                       className="text-xs"
-                     >
-                       {device.label || `Speaker ${device.deviceId.slice(0, 5)}...`}
-                     </SelectItem>
-                   ))}
-                 </SelectContent>
-               </Select>
-            </div>
-          )}
+            {/* Device Selector (Compact) */}
+            {outputDevices.length > 0 && (
+                <Select 
+                  value={selectedOutputId} 
+                  onValueChange={setSelectedOutputId}
+                >
+                  <SelectTrigger className="h-7 text-[10px] w-[110px] bg-background border-muted-foreground/20">
+                    <div className="flex items-center gap-1.5 truncate">
+                        <Faders className="h-3 w-3 shrink-0" />
+                        <span className="truncate">
+                           {selectedOutputId === 'default' 
+                             ? 'Default Output' 
+                             : outputDevices.find(d => d.deviceId === selectedOutputId)?.label || 'Output'}
+                        </span>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="default" className="text-xs">
+                      System Default
+                    </SelectItem>
+                    {outputDevices
+                      .filter(device => device.deviceId && device.deviceId !== "default")
+                      .map((device) => (
+                      <SelectItem 
+                        key={device.deviceId} 
+                        value={device.deviceId}
+                        className="text-xs"
+                      >
+                        {device.label || `Speaker ${device.deviceId.slice(0, 5)}...`}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+            )}
         </div>
-      </CardContent>
-    </Card>
+    </div>
   )
 }

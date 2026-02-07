@@ -460,7 +460,7 @@
       "hash": "a2497907f123",
       "location": {
         "filePath": "../components/header.tsx",
-        "line": 30,
+        "line": 33,
         "column": 10
       }
     },
@@ -1596,8 +1596,8 @@
       "hash": "e0ca98775941",
       "location": {
         "filePath": "../app/audio/[lang]/page.tsx",
-        "line": 338,
-        "column": 15
+        "line": 368,
+        "column": 16
       }
     },
     "612b4a6097f0": {
@@ -1610,8 +1610,8 @@
       "hash": "612b4a6097f0",
       "location": {
         "filePath": "../app/audio/[lang]/page.tsx",
-        "line": 356,
-        "column": 13
+        "line": 353,
+        "column": 17
       }
     },
     "2d5a81d5e629": {
@@ -1624,8 +1624,8 @@
       "hash": "2d5a81d5e629",
       "location": {
         "filePath": "../app/audio/[lang]/page.tsx",
-        "line": 360,
-        "column": 13
+        "line": 357,
+        "column": 17
       }
     },
     "d50b146b0932": {
@@ -1638,7 +1638,7 @@
       "hash": "d50b146b0932",
       "location": {
         "filePath": "../app/audio/[lang]/page.tsx",
-        "line": 366,
+        "line": 377,
         "column": 18
       }
     },
@@ -1652,7 +1652,7 @@
       "hash": "67a47f985949",
       "location": {
         "filePath": "../app/audio/[lang]/page.tsx",
-        "line": 382,
+        "line": 393,
         "column": 8
       }
     },
@@ -1723,8 +1723,8 @@
       "hash": "96bfd670ed6e",
       "location": {
         "filePath": "../components/polydub/audio-playback.tsx",
-        "line": 270,
-        "column": 19
+        "line": 269,
+        "column": 20
       }
     },
     "0e5412853c22": {
@@ -1923,10 +1923,40 @@
         "line": 313,
         "column": 18
       }
+    },
+    "e3c14c43665b": {
+      "type": "attribute",
+      "sourceText": "Download Transcript",
+      "context": {
+        "attributeName": "title",
+        "componentName": "AudioListenerPage",
+        "filePath": "../app/audio/[lang]/page.tsx"
+      },
+      "hash": "e3c14c43665b",
+      "location": {
+        "filePath": "../app/audio/[lang]/page.tsx",
+        "line": 359,
+        "column": 13
+      }
+    },
+    "75f0733f7e3f": {
+      "type": "attribute",
+      "sourceText": "PolyDub Logo",
+      "context": {
+        "attributeName": "alt",
+        "componentName": "Header",
+        "filePath": "../components/header.tsx"
+      },
+      "hash": "75f0733f7e3f",
+      "location": {
+        "filePath": "../components/header.tsx",
+        "line": 26,
+        "column": 12
+      }
     }
   },
   "stats": {
-    "totalEntries": 137,
-    "lastUpdated": "2026-02-07T12:24:01.314Z"
+    "totalEntries": 139,
+    "lastUpdated": "2026-02-07T12:54:41.716Z"
   }
 }

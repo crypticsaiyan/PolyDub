@@ -334,11 +334,7 @@ export default function AudioListenerPage() {
               </div>
            </div>
            
-           <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-               <Button variant="outline" size="sm" onClick={handleDownloadTranscript} className="h-8 gap-1 text-xs shrink-0">
-                   <Waveform className="h-3 w-3" />
-                   Download Transcript
-               </Button>
+           <div className="flex items-center gap-2 w-full sm:w-auto">
                {/* Audio Controls */}
                <AudioPlayback 
                   audioQueue={audioQueue}
@@ -352,12 +348,27 @@ export default function AudioListenerPage() {
 
         {/* Transcript Feed */}
         <Card className="h-[300px] flex flex-col overflow-hidden shadow-sm">
-          <CardHeader className="pb-2">
-             <CardTitle className="text-sm font-medium flex items-center gap-2">
-               <Waveform className="h-4 w-4" />
-               Live Transcripts
-             </CardTitle>
-             <CardDescription>Real-time translations appearing here</CardDescription>
+          <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
+             <div className="space-y-1">
+                 <CardTitle className="text-sm font-medium flex items-center gap-2">
+                   <Waveform className="h-4 w-4" />
+                   Live Transcripts
+                 </CardTitle>
+                 <CardDescription>Real-time translations appearing here</CardDescription>
+             </div>
+             <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleDownloadTranscript} 
+                className="group h-10 px-2 hover:bg-primary/5 hover:text-primary transition-all duration-300 rounded-full flex items-center gap-0 hover:gap-2 border border-transparent hover:border-primary/10"
+             >
+                <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors shadow-sm">
+                    <Waveform className="h-4 w-4" />
+                </div>
+                <span className="text-xs font-semibold max-w-0 overflow-hidden group-hover:max-w-[120px] transition-all duration-300 whitespace-nowrap opacity-0 group-hover:opacity-100">
+                    Download Transcript
+                </span>
+             </Button>
           </CardHeader>
           <CardContent className="flex-1 min-h-0 p-0">
             <ScrollArea className="h-full p-4">
