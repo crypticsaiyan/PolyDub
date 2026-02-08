@@ -1,285 +1,31 @@
 {
   "entries": {
-    "744c68adda3a": {
-      "type": "content",
-      "sourceText": "Loading...",
+    "03f226c20593": {
+      "type": "metadata",
+      "sourceText": "PolyDub | Real-Time Video Dubbing",
       "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
+        "fieldPath": "title",
+        "filePath": "../app/layout.tsx"
       },
-      "hash": "744c68adda3a",
+      "hash": "03f226c20593",
       "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 341,
-        "column": 22
+        "filePath": "../app/layout.tsx",
+        "line": 18,
+        "column": 9
       }
     },
-    "537e5d14c19b": {
-      "type": "content",
-      "sourceText": "Room",
+    "e284e517e575": {
+      "type": "metadata",
+      "sourceText": "Real-time video dubbing that preserves background audio while translating vocals. Upload, translate, and share dubbed videos instantly.",
       "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
+        "fieldPath": "description",
+        "filePath": "../app/layout.tsx"
       },
-      "hash": "537e5d14c19b",
+      "hash": "e284e517e575",
       "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 354,
-        "column": 27
-      }
-    },
-    "745bb214d87f": {
-      "type": "content",
-      "sourceText": "User",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "745bb214d87f",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 279,
-        "column": 23
-      }
-    },
-    "6b4401f9a243": {
-      "type": "content",
-      "sourceText": "I speak:",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "6b4401f9a243",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 288,
-        "column": 24
-      }
-    },
-    "d6f638ee82fd": {
-      "type": "content",
-      "sourceText": "I hear:",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "d6f638ee82fd",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 305,
-        "column": 24
-      }
-    },
-    "f8b29fcd40e8": {
-      "type": "content",
-      "sourceText": "Error: {error}",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "f8b29fcd40e8",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 446,
-        "column": 19
-      }
-    },
-    "3a64010e7a91": {
-      "type": "content",
-      "sourceText": "Camera Off",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "3a64010e7a91",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 476,
-        "column": 31
-      }
-    },
-    "7edd4c7d5269": {
-      "type": "content",
-      "sourceText": "Join to start streaming",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "7edd4c7d5269",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 477,
-        "column": 31
-      }
-    },
-    "10e145ca2957": {
-      "type": "content",
-      "sourceText": "{expression0} You {expression1}",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "10e145ca2957",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 480,
-        "column": 23
-      }
-    },
-    "1695cce92c22": {
-      "type": "content",
-      "sourceText": "Live Transcript",
-      "context": {
-        "componentName": "TranscriptView",
-        "filePath": "../components/polydub/transcript-view.tsx"
-      },
-      "hash": "1695cce92c22",
-      "location": {
-        "filePath": "../components/polydub/transcript-view.tsx",
-        "line": 58,
-        "column": 10
-      }
-    },
-    "174396e4da70": {
-      "type": "content",
-      "sourceText": "Live",
-      "context": {
-        "componentName": "TranscriptView",
-        "filePath": "../components/polydub/transcript-view.tsx"
-      },
-      "hash": "174396e4da70",
-      "location": {
-        "filePath": "../components/polydub/transcript-view.tsx",
-        "line": 63,
-        "column": 12
-      }
-    },
-    "91b24fa02581": {
-      "type": "content",
-      "sourceText": "Waiting for speech...",
-      "context": {
-        "componentName": "TranscriptView",
-        "filePath": "../components/polydub/transcript-view.tsx"
-      },
-      "hash": "91b24fa02581",
-      "location": {
-        "filePath": "../components/polydub/transcript-view.tsx",
-        "line": 78,
-        "column": 16
-      }
-    },
-    "103b835dab47": {
-      "type": "content",
-      "sourceText": "Speaking...",
-      "context": {
-        "componentName": "TranscriptView",
-        "filePath": "../components/polydub/transcript-view.tsx"
-      },
-      "hash": "103b835dab47",
-      "location": {
-        "filePath": "../components/polydub/transcript-view.tsx",
-        "line": 125,
-        "column": 23
-      }
-    },
-    "ecd07fdbaca4": {
-      "type": "content",
-      "sourceText": "I Speak",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "ecd07fdbaca4",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 330,
-        "column": 24
-      }
-    },
-    "8c1aac8d7809": {
-      "type": "content",
-      "sourceText": "I Hear",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "8c1aac8d7809",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 347,
-        "column": 24
-      }
-    },
-    "ccc295f19e33": {
-      "type": "content",
-      "sourceText": "Voice",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "ccc295f19e33",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 402,
-        "column": 27
-      }
-    },
-    "cab17f8d7f3f": {
-      "type": "attribute",
-      "sourceText": "Default",
-      "context": {
-        "attributeName": "placeholder",
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "cab17f8d7f3f",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 367,
-        "column": 33
-      }
-    },
-    "cf0719c08b03": {
-      "type": "content",
-      "sourceText": "Speaking (Input)",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "cf0719c08b03",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 364,
-        "column": 27
-      }
-    },
-    "0aa31d9cd947": {
-      "type": "content",
-      "sourceText": "Listening (Output)",
-      "context": {
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "0aa31d9cd947",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 383,
-        "column": 27
-      }
-    },
-    "000f89465fbf": {
-      "type": "attribute",
-      "sourceText": "Select Voice",
-      "context": {
-        "attributeName": "placeholder",
-        "componentName": "RoomPage",
-        "filePath": "../app/room/[roomId]/page.tsx"
-      },
-      "hash": "000f89465fbf",
-      "location": {
-        "filePath": "../app/room/[roomId]/page.tsx",
-        "line": 407,
-        "column": 35
+        "filePath": "../app/layout.tsx",
+        "line": 20,
+        "column": 4
       }
     },
     "75f0733f7e3f": {
@@ -311,20 +57,6 @@
         "column": 10
       }
     },
-    "24a97cf0f97a": {
-      "type": "content",
-      "sourceText": "Rooms",
-      "context": {
-        "componentName": "Header",
-        "filePath": "../components/header.tsx"
-      },
-      "hash": "24a97cf0f97a",
-      "location": {
-        "filePath": "../components/header.tsx",
-        "line": 43,
-        "column": 12
-      }
-    },
     "bdb9f3d6f965": {
       "type": "content",
       "sourceText": "Broadcast",
@@ -339,410 +71,47 @@
         "column": 12
       }
     },
-    "a6297cc0521b": {
-      "type": "content",
-      "sourceText": "Real-time video dubbing",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "a6297cc0521b",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 35,
-        "column": 14
-      }
-    },
-    "a808fbbdd0a5": {
-      "type": "content",
-      "sourceText": "Speak once. <br0></br0><span0>Listen in any language.</span0>",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "a808fbbdd0a5",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 38,
-        "column": 14
-      }
-    },
-    "9e349cea20d4": {
-      "type": "content",
-      "sourceText": "PolyDub turns your voice into live translation. Choose your languages, hit the mic, and your audience hears you in theirs—with natural AI voice and minimal delay.",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "9e349cea20d4",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 43,
-        "column": 14
-      }
-    },
-    "63a06a0a7d25": {
-      "type": "content",
-      "sourceText": "Try PolyDub",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "63a06a0a7d25",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 52,
-        "column": 18
-      }
-    },
-    "413445294443": {
-      "type": "content",
-      "sourceText": "How it works",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "413445294443",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 97,
-        "column": 12
-      }
-    },
-    "b574af044abb": {
-      "type": "content",
-      "sourceText": "Three steps from speech to translated audio",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "b574af044abb",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 100,
-        "column": 12
-      }
-    },
-    "a2c44d4f4868": {
-      "type": "content",
-      "sourceText": "Speak",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "a2c44d4f4868",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 108,
-        "column": 16
-      }
-    },
-    "3bad38b5b92e": {
-      "type": "content",
-      "sourceText": "Pick source and target languages, then speak into your mic. No scripts—just talk.",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "3bad38b5b92e",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 109,
-        "column": 16
-      }
-    },
-    "18b24bde0401": {
-      "type": "content",
-      "sourceText": "Translate",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "18b24bde0401",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 117,
-        "column": 16
-      }
-    },
-    "74a217c3e9c4": {
-      "type": "content",
-      "sourceText": "Speech is transcribed and translated in real time with Lingo.dev and Deepgram.",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "74a217c3e9c4",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 118,
-        "column": 16
-      }
-    },
-    "24059f6abcf1": {
-      "type": "content",
-      "sourceText": "Listen",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "24059f6abcf1",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 126,
-        "column": 16
-      }
-    },
-    "7c4d756804a2": {
-      "type": "content",
-      "sourceText": "Translated speech is spoken back with natural AI voice so others hear it live.",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "7c4d756804a2",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 127,
-        "column": 16
-      }
-    },
-    "c067d89c01dd": {
-      "type": "content",
-      "sourceText": "Built for real-time",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "c067d89c01dd",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 138,
-        "column": 12
-      }
-    },
-    "6df9adb45269": {
-      "type": "content",
-      "sourceText": "Powered by Lingo.dev and Deepgram",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "6df9adb45269",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 141,
-        "column": 12
-      }
-    },
-    "37582051a6c2": {
-      "type": "content",
-      "sourceText": "Deepgram",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "37582051a6c2",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 149,
-        "column": 16
-      }
-    },
-    "ddfd4d0457ae": {
-      "type": "content",
-      "sourceText": "Real-time speech-to-text and text-to-speech with Aura voices.",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "ddfd4d0457ae",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 150,
-        "column": 16
-      }
-    },
-    "5e2230e193de": {
-      "type": "content",
-      "sourceText": "Lingo.dev",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "5e2230e193de",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 158,
-        "column": 16
-      }
-    },
-    "c4c13a370c84": {
-      "type": "content",
-      "sourceText": "Translation that keeps context and tone so output sounds natural.",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "c4c13a370c84",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 159,
-        "column": 16
-      }
-    },
-    "342cf17ff39d": {
-      "type": "content",
-      "sourceText": "WebSockets",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "342cf17ff39d",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 167,
-        "column": 16
-      }
-    },
-    "92d2e0aaad0f": {
-      "type": "content",
-      "sourceText": "Streaming pipeline for low-latency speech in and audio out.",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "92d2e0aaad0f",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 168,
-        "column": 16
-      }
-    },
-    "b01f8e5cca22": {
-      "type": "content",
-      "sourceText": "Global Communication Platform",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "b01f8e5cca22",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 35,
-        "column": 14
-      }
-    },
-    "56c3a0255f2c": {
-      "type": "content",
-      "sourceText": "Connect in any language. <br0></br0><span0>Live.</span0>",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "56c3a0255f2c",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 38,
-        "column": 14
-      }
-    },
-    "913fc0343c58": {
-      "type": "content",
-      "sourceText": "PolyDub powers seamless cross-language communication. Whether you're broadcasting to the world or collaborating with a team, our AI translates and dubs your voice in real-time.",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "913fc0343c58",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 43,
-        "column": 14
-      }
-    },
-    "31e666a5941e": {
-      "type": "content",
-      "sourceText": "Broadcast",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "31e666a5941e",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 54,
-        "column": 20
-      }
-    },
-    "b9a47fc1a018": {
-      "type": "content",
-      "sourceText": "One-to-many live translation. Perfect for keynote speeches, webinars, and events.",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "b9a47fc1a018",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 55,
-        "column": 20
-      }
-    },
-    "6df70fe3cd91": {
-      "type": "content",
-      "sourceText": "Start Broadcast",
-      "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
-      },
-      "hash": "6df70fe3cd91",
-      "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 62,
-        "column": 23
-      }
-    },
-    "2a7946418226": {
+    "24a97cf0f97a": {
       "type": "content",
       "sourceText": "Rooms",
       "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
+        "componentName": "Header",
+        "filePath": "../components/header.tsx"
       },
-      "hash": "2a7946418226",
+      "hash": "24a97cf0f97a",
       "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 74,
-        "column": 20
+        "filePath": "../components/header.tsx",
+        "line": 43,
+        "column": 12
       }
     },
-    "eea45395a4bd": {
-      "type": "content",
-      "sourceText": "Many-to-many multilingual meetings. Collaborate with video and real-time dubbing.",
+    "e2264eb5a2d9": {
+      "type": "attribute",
+      "sourceText": "GitHub",
       "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
+        "attributeName": "aria-label",
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
       },
-      "hash": "eea45395a4bd",
+      "hash": "e2264eb5a2d9",
       "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 75,
-        "column": 20
+        "filePath": "../components/footer.tsx",
+        "line": 8,
+        "column": 8
       }
     },
-    "2f1dd386c5ca": {
+    "f0ecaf1c37b5": {
       "type": "content",
-      "sourceText": "Join a Room",
+      "sourceText": "GitHub",
       "context": {
-        "componentName": "LandingPage",
-        "filePath": "../components/landing-page.tsx"
+        "componentName": "Footer",
+        "filePath": "../components/footer.tsx"
       },
-      "hash": "2f1dd386c5ca",
+      "hash": "f0ecaf1c37b5",
       "location": {
-        "filePath": "../components/landing-page.tsx",
-        "line": 82,
-        "column": 23
+        "filePath": "../components/footer.tsx",
+        "line": 16,
+        "column": 10
       }
     },
     "b41c1bb25756": {
@@ -984,276 +353,359 @@
         "column": 8
       }
     },
-    "ce891159c045": {
+    "b01f8e5cca22": {
       "type": "content",
-      "sourceText": "I am speaking",
+      "sourceText": "Global Communication Platform",
       "context": {
-        "componentName": "LanguageSelector",
-        "filePath": "../components/polydub/language-selector.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "ce891159c045",
+      "hash": "b01f8e5cca22",
       "location": {
-        "filePath": "../components/polydub/language-selector.tsx",
-        "line": 161,
+        "filePath": "../components/landing-page.tsx",
+        "line": 35,
         "column": 14
       }
     },
-    "80383b1d5083": {
-      "type": "attribute",
-      "sourceText": "Select language",
+    "56c3a0255f2c": {
+      "type": "content",
+      "sourceText": "Connect in any language. <br0></br0><span0>Live.</span0>",
       "context": {
-        "attributeName": "placeholder",
-        "componentName": "LanguageSelector",
-        "filePath": "../components/polydub/language-selector.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "80383b1d5083",
+      "hash": "56c3a0255f2c",
       "location": {
-        "filePath": "../components/polydub/language-selector.tsx",
-        "line": 174,
-        "column": 18
+        "filePath": "../components/landing-page.tsx",
+        "line": 38,
+        "column": 14
       }
     },
-    "a85976411e0a": {
+    "913fc0343c58": {
       "type": "content",
-      "sourceText": "Broadcast Languages",
+      "sourceText": "PolyDub powers seamless cross-language communication. Whether you're broadcasting to the world or collaborating with a team, our AI translates and dubs your voice in real-time.",
       "context": {
-        "componentName": "LanguageSelector",
-        "filePath": "../components/polydub/language-selector.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "a85976411e0a",
+      "hash": "913fc0343c58",
       "location": {
-        "filePath": "../components/polydub/language-selector.tsx",
-        "line": 196,
-        "column": 17
+        "filePath": "../components/landing-page.tsx",
+        "line": 43,
+        "column": 14
       }
     },
-    "d23061a2a8bc": {
+    "31e666a5941e": {
       "type": "content",
-      "sourceText": "Channel Configuration",
+      "sourceText": "Broadcast",
       "context": {
-        "componentName": "LanguageSelector",
-        "filePath": "../components/polydub/language-selector.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "d23061a2a8bc",
+      "hash": "31e666a5941e",
       "location": {
-        "filePath": "../components/polydub/language-selector.tsx",
-        "line": 231,
-        "column": 13
-      }
-    },
-    "6ad782f95f6d": {
-      "type": "content",
-      "sourceText": "Select languages on the left<br0></br0>to configure channels",
-      "context": {
-        "componentName": "LanguageSelector",
-        "filePath": "../components/polydub/language-selector.tsx"
-      },
-      "hash": "6ad782f95f6d",
-      "location": {
-        "filePath": "../components/polydub/language-selector.tsx",
-        "line": 313,
-        "column": 18
-      }
-    },
-    "c0a3ba3aece2": {
-      "type": "content",
-      "sourceText": "Join Broadcast",
-      "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
-      },
-      "hash": "c0a3ba3aece2",
-      "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 234,
-        "column": 12
-      }
-    },
-    "bf3afece714f": {
-      "type": "content",
-      "sourceText": "Listen to the live translation in {expression0}",
-      "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
-      },
-      "hash": "bf3afece714f",
-      "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 235,
-        "column": 12
-      }
-    },
-    "a40e1f6c860e": {
-      "type": "content",
-      "sourceText": "Join & Enable Audio",
-      "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
-      },
-      "hash": "a40e1f6c860e",
-      "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 240,
-        "column": 12
-      }
-    },
-    "5198bd2373f1": {
-      "type": "content",
-      "sourceText": "Click below to start listening. Ensure your speakers are on.",
-      "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
-      },
-      "hash": "5198bd2373f1",
-      "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 243,
-        "column": 12
-      }
-    },
-    "26316f6f4788": {
-      "type": "content",
-      "sourceText": "Broadcast Unavailable",
-      "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
-      },
-      "hash": "26316f6f4788",
-      "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 261,
-        "column": 12
-      }
-    },
-    "6b32189d2409": {
-      "type": "content",
-      "sourceText": "Retry Connection",
-      "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
-      },
-      "hash": "6b32189d2409",
-      "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 267,
-        "column": 13
-      }
-    },
-    "6cd0fb4f0652": {
-      "type": "content",
-      "sourceText": "Record Session",
-      "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
-      },
-      "hash": "6cd0fb4f0652",
-      "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 293,
+        "filePath": "../components/landing-page.tsx",
+        "line": 54,
         "column": 20
       }
     },
-    "91c1fa066aab": {
+    "b9a47fc1a018": {
       "type": "content",
-      "sourceText": "Stop & Save",
+      "sourceText": "One-to-many live translation. Perfect for keynote speeches, webinars, and events.",
       "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "91c1fa066aab",
+      "hash": "b9a47fc1a018",
       "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 303,
+        "filePath": "../components/landing-page.tsx",
+        "line": 55,
         "column": 20
       }
     },
-    "728d5b579242": {
+    "6df70fe3cd91": {
       "type": "content",
-      "sourceText": "PolyDub Live",
+      "sourceText": "Start Broadcast",
       "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "728d5b579242",
+      "hash": "6df70fe3cd91",
       "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 323,
-        "column": 17
+        "filePath": "../components/landing-page.tsx",
+        "line": 62,
+        "column": 23
       }
     },
-    "a7bfc48ec358": {
+    "2a7946418226": {
       "type": "content",
-      "sourceText": "Live Transcripts",
+      "sourceText": "Rooms",
       "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "a7bfc48ec358",
+      "hash": "2a7946418226",
       "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 353,
-        "column": 17
+        "filePath": "../components/landing-page.tsx",
+        "line": 74,
+        "column": 20
       }
     },
-    "b50e684f600b": {
+    "eea45395a4bd": {
       "type": "content",
-      "sourceText": "Real-time translations appearing here",
+      "sourceText": "Many-to-many multilingual meetings. Collaborate with video and real-time dubbing.",
       "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "b50e684f600b",
+      "hash": "eea45395a4bd",
       "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 357,
-        "column": 17
+        "filePath": "../components/landing-page.tsx",
+        "line": 75,
+        "column": 20
       }
     },
-    "4287511d8d05": {
+    "2f1dd386c5ca": {
       "type": "content",
-      "sourceText": "Download Transcript",
+      "sourceText": "Join a Room",
       "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "4287511d8d05",
+      "hash": "2f1dd386c5ca",
       "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 368,
+        "filePath": "../components/landing-page.tsx",
+        "line": 82,
+        "column": 23
+      }
+    },
+    "413445294443": {
+      "type": "content",
+      "sourceText": "How it works",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "413445294443",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 97,
+        "column": 12
+      }
+    },
+    "b574af044abb": {
+      "type": "content",
+      "sourceText": "Three steps from speech to translated audio",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "b574af044abb",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 100,
+        "column": 12
+      }
+    },
+    "a2c44d4f4868": {
+      "type": "content",
+      "sourceText": "Speak",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "a2c44d4f4868",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 108,
         "column": 16
       }
     },
-    "3a33eb2b07a3": {
+    "3bad38b5b92e": {
       "type": "content",
-      "sourceText": "Waiting for speaker to start talking...",
+      "sourceText": "Pick source and target languages, then speak into your mic. No scripts—just talk.",
       "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "3a33eb2b07a3",
+      "hash": "3bad38b5b92e",
       "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 377,
-        "column": 18
+        "filePath": "../components/landing-page.tsx",
+        "line": 109,
+        "column": 16
       }
     },
-    "23e8cff90c0f": {
+    "18b24bde0401": {
       "type": "content",
-      "sourceText": "Make sure your audio output device is set correctly.",
+      "sourceText": "Translate",
       "context": {
-        "componentName": "AudioListenerPage",
-        "filePath": "../app/broadcast/[lang]/page.tsx"
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
       },
-      "hash": "23e8cff90c0f",
+      "hash": "18b24bde0401",
       "location": {
-        "filePath": "../app/broadcast/[lang]/page.tsx",
-        "line": 393,
-        "column": 8
+        "filePath": "../components/landing-page.tsx",
+        "line": 117,
+        "column": 16
+      }
+    },
+    "74a217c3e9c4": {
+      "type": "content",
+      "sourceText": "Speech is transcribed and translated in real time with Lingo.dev and Deepgram.",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "74a217c3e9c4",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 118,
+        "column": 16
+      }
+    },
+    "24059f6abcf1": {
+      "type": "content",
+      "sourceText": "Listen",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "24059f6abcf1",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 126,
+        "column": 16
+      }
+    },
+    "7c4d756804a2": {
+      "type": "content",
+      "sourceText": "Translated speech is spoken back with natural AI voice so others hear it live.",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "7c4d756804a2",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 127,
+        "column": 16
+      }
+    },
+    "c067d89c01dd": {
+      "type": "content",
+      "sourceText": "Built for real-time",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "c067d89c01dd",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 138,
+        "column": 12
+      }
+    },
+    "6df9adb45269": {
+      "type": "content",
+      "sourceText": "Powered by Lingo.dev and Deepgram",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "6df9adb45269",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 141,
+        "column": 12
+      }
+    },
+    "37582051a6c2": {
+      "type": "content",
+      "sourceText": "Deepgram",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "37582051a6c2",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 149,
+        "column": 16
+      }
+    },
+    "ddfd4d0457ae": {
+      "type": "content",
+      "sourceText": "Real-time speech-to-text and text-to-speech with Aura voices.",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "ddfd4d0457ae",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 150,
+        "column": 16
+      }
+    },
+    "5e2230e193de": {
+      "type": "content",
+      "sourceText": "Lingo.dev",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "5e2230e193de",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 158,
+        "column": 16
+      }
+    },
+    "c4c13a370c84": {
+      "type": "content",
+      "sourceText": "Translation that keeps context and tone so output sounds natural.",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "c4c13a370c84",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 159,
+        "column": 16
+      }
+    },
+    "342cf17ff39d": {
+      "type": "content",
+      "sourceText": "WebSockets",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "342cf17ff39d",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 167,
+        "column": 16
+      }
+    },
+    "92d2e0aaad0f": {
+      "type": "content",
+      "sourceText": "Streaming pipeline for low-latency speech in and audio out.",
+      "context": {
+        "componentName": "LandingPage",
+        "filePath": "../components/landing-page.tsx"
+      },
+      "hash": "92d2e0aaad0f",
+      "location": {
+        "filePath": "../components/landing-page.tsx",
+        "line": 168,
+        "column": 16
       }
     }
   },
   "stats": {
-    "totalEntries": 89,
-    "lastUpdated": "2026-02-07T23:13:44.653Z"
+    "totalEntries": 50,
+    "lastUpdated": "2026-02-08T00:33:36.417Z"
   }
 }
