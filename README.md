@@ -7,6 +7,8 @@
 [![Lingo.dev](https://img.shields.io/badge/Lingo.dev-Translation-green?style=flat)](https://lingo.dev/)
 [![Deepgram](https://img.shields.io/badge/Deepgram-STT%2FTTS-orange?style=flat)](https://deepgram.com/)
 
+**DEMO:** https://youtu.be/JiXxj8-gv-A
+
 ## 🌐 Overview
 
 PolyDub is a cutting-edge platform that breaks down language barriers in real-time communication. Whether you're broadcasting to a global audience or collaborating in multilingual meetings, PolyDub translates and dubs speech instantly, preserving your natural voice while speaking to listeners in their native language.
