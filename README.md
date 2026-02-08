@@ -24,9 +24,6 @@ PolyDub is a cutting-edge platform that breaks down language barriers in real-ti
 
 ## 📸 Screenshots
 
-### The Problem
-![The Problem](./public/problem.png)
-*Language barriers in global communication*
 
 ### Landing Page
 ![Landing Page](./public/landing.png)
