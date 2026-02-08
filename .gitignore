@@ -1,16 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# lingo.dev
-src/lingo/cache
-src/lingo/translation-server.log
-
-# logs and caches
-*.log
-.cache
-cache/
-
 # dependencies
 /node_modules
+/.pnp
+.pnp.js
 
 # next.js
 /.next/
@@ -19,14 +12,27 @@ cache/
 # production
 /build
 
-# debug
+# lingo.dev - translation system
+src/lingo/cache/
+src/lingo/translation-server.log
+app/lingo/translation-server.log
+app/lingo/metadata-dev.json
+
+# logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
-.env*
+# caches
+.cache
+cache/
+
+# environment variables
+.env
+.env*.local
+!.env.example
 
 # vercel
 .vercel
@@ -34,4 +40,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-!.env.example
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+.vscode/settings.json

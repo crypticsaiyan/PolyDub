@@ -42,14 +42,7 @@ export default function AudioListenerPage() {
   
   const wsRef = useRef<WebSocket | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
 
   // Initialize Recording Destination when AudioContext is ready
   useEffect(() => {
