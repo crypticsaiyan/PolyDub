@@ -11,42 +11,27 @@ export class TTSService {
     // If a specific voice ID is requested, use it (could validate against map but Deepgram validates anyway)
     if (overrideVoiceId) return overrideVoiceId;
 
-    // Map languages to Aura voices
-    // Using Aura-2 models as default for better quality
+    // Deepgram Aura current valid models are all English variants
     const VOICE_MAP: Record<string, string> = {
-      // English (US/UK) - Featured
-      'en': 'aura-2-thalia-en',    // Thalia (US, F), Andromeda (US, F), Apollo (US, M), Arcas (US, M)
-      
-      // Spanish - Featured
-      'es': 'aura-2-celeste-es',   // Celeste (CO, F), Estrella (MX, F), Nestor (ES, M)
-      
-      // French - Featured
-      'fr': 'aura-2-agathe-fr',    // Agathe (F), Hector (M)
-      
-      // German - Featured
-      'de': 'aura-2-viktoria-de',  // Viktoria (F), Julius (M)
-      
-      // Italian - Featured
-      'it': 'aura-2-livia-it',     // Livia (F), Dionisio (M)
-      
-      // Japanese - Featured
-      'ja': 'aura-2-fujin-ja',     // Fujin (M), Izanami (F)
-      
-      // Dutch - Featured
-      'nl': 'aura-2-rhea-nl',      // Rhea (F), Sander (M), Beatrix (F)
+      'en': 'aura-asteria-en',
+      'es': 'aura-stella-en',
+      'fr': 'aura-athena-en',
+      'de': 'aura-hera-en',
+      'it': 'aura-asteria-en',
+      'ja': 'aura-luna-en',
+      'nl': 'aura-stella-en',
     };
     
-    // Deepgram voice names often follow pattern aura-[name]-[lang]
     // Robust fallback: if language starts with 'en', 'es', etc.
-    if (lang.startsWith('en')) return 'aura-2-thalia-en';
-    if (lang.startsWith('es')) return 'aura-2-celeste-es';
-    if (lang.startsWith('fr')) return 'aura-2-agathe-fr';
-    if (lang.startsWith('de')) return 'aura-2-viktoria-de';
-    if (lang.startsWith('it')) return 'aura-2-livia-it';
-    if (lang.startsWith('ja')) return 'aura-2-fujin-ja';
-    if (lang.startsWith('nl')) return 'aura-2-rhea-nl';
+    if (lang.startsWith('en')) return 'aura-asteria-en';
+    if (lang.startsWith('es')) return 'aura-stella-en';
+    if (lang.startsWith('fr')) return 'aura-athena-en';
+    if (lang.startsWith('de')) return 'aura-hera-en';
+    if (lang.startsWith('it')) return 'aura-asteria-en';
+    if (lang.startsWith('ja')) return 'aura-luna-en';
+    if (lang.startsWith('nl')) return 'aura-stella-en';
     
-    return VOICE_MAP[lang] || 'aura-2-thalia-en';
+    return VOICE_MAP[lang] || 'aura-asteria-en';
   }
 
   public async streamAudio(text: string, targetLang: string = 'en', onChunk: (chunk: Buffer) => void, voiceId?: string): Promise<void> {
