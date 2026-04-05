@@ -1,4 +1,5 @@
 import { withLingo } from '@lingo.dev/compiler/next';
+process.env.LINGODOTDEV_API_KEY = process.env.LINGO_API_KEY;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
