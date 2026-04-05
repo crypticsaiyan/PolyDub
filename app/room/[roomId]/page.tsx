@@ -13,7 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { User, VideoCamera, VideoCameraSlash, Microphone, MicrophoneSlash, Globe, Translate, SpeakerHigh } from "@phosphor-icons/react"
+import { User, VideoCamera, VideoCameraSlash, Microphone, MicrophoneSlash, Globe, Translate, SpeakerHigh, DownloadSimple } from "@phosphor-icons/react"
+import { convertLiveTranscriptsToSRT } from "@/lib/srt"
 import { Label } from "@/components/ui/label"
 
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"
@@ -237,6 +238,23 @@ export default function RoomPage() {
          }
      }
   }, [])
+
+  const handleDownloadSRT = useCallback(() => {
+    if (transcripts.length === 0) return;
+    const srt = convertLiveTranscriptsToSRT(transcripts.map(t => ({
+       original: t.original,
+       translated: t.translated,
+       timestamp: t.timestamp
+    })));
+    const blob = new Blob([srt], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `room_${roomId}_subtitles_${targetLang}.srt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }, [transcripts, targetLang, roomId]);
 
   const toggleMedia = async () => {
     if (isConnected) {
@@ -532,6 +550,18 @@ export default function RoomPage() {
            
            {/* Transcripts Sidebar */}
            <div className="w-full md:w-80 lg:w-96 border-l border-border/60 bg-card/60 backdrop-blur-xl flex flex-col shrink-0 z-30 h-[40vh] md:h-auto shadow-[-4px_0_16px_rgba(0,0,0,0.1)]">
+               <div className="p-3 border-b border-border/50 flex justify-between items-center bg-card/50">
+                  <h3 className="font-semibold text-sm">Room Transcript</h3>
+                  <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={handleDownloadSRT}
+                      disabled={transcripts.length === 0}
+                      className="h-8 gap-2 text-xs"
+                  >
+                     <DownloadSimple className="h-3 w-3" /> .SRT
+                  </Button>
+               </div>
                <div className="flex-1 overflow-hidden relative">
                    <div className="absolute inset-0">
                        <TranscriptView 

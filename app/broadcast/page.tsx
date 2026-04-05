@@ -4,15 +4,18 @@ import { useState, useCallback, useEffect } from "react"
 import { MicController } from "@/components/polydub/mic-controller"
 import { LanguageSelector } from "@/components/polydub/language-selector"
 import { TranscriptView, TranscriptEntry } from "@/components/polydub/transcript-view"
+import { Button } from "@/components/ui/button"
 import { WebcamBroadcaster } from "@/components/polydub/webcam-broadcaster"
 import { useWebSocket } from "@/hooks/use-websocket"
+import { convertLiveTranscriptsToSRT } from "@/lib/srt"
 import {
   Microphone,
   Translate,
   SpeakerHigh,
   Lightning,
   Waveform,
-  Globe
+  Globe,
+  DownloadSimple
 } from "@phosphor-icons/react"
 
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"
@@ -81,6 +84,23 @@ export default function AppPage() {
     if (isRecording && connectionStatus === 'disconnected') setIsRecording(false)
   }, [isRecording, connectionStatus])
 
+  const handleDownloadSRT = useCallback(() => {
+    if (transcripts.length === 0) return;
+    const srt = convertLiveTranscriptsToSRT(transcripts.map(t => ({
+       original: t.original,
+       translated: t.translated,
+       timestamp: t.timestamp
+    })));
+    const blob = new Blob([srt], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `broadcast_subtitles_${targetLanguages.join("_")}.srt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }, [transcripts, targetLanguages]);
+
   return (
     <div className="flex-1 w-full bg-background">
       <div className="h-16" />
@@ -121,7 +141,19 @@ export default function AppPage() {
                 </div>
 
                 {/* Col 2: Transcript */}
-                <div className="h-full">
+                <div className="h-full flex flex-col gap-4">
+                  <div className="flex justify-between items-center px-2">
+                     <h3 className="font-semibold text-lg">Live Transcript</h3>
+                     <Button 
+                         variant="outline" 
+                         size="sm" 
+                         disabled={transcripts.length === 0}
+                         onClick={handleDownloadSRT}
+                         className="gap-2"
+                     >
+                         <DownloadSimple className="h-4 w-4" /> Download .SRT
+                     </Button>
+                  </div>
                   <TranscriptView
                     entries={transcripts}
                     isListening={isRecording}
