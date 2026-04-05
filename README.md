@@ -18,7 +18,9 @@ PolyDub is a cutting-edge platform that breaks down language barriers in real-ti
 - **🎙️ Real-Time Translation**: Speak in your language, and your audience hears you in theirs—instantly
 - **🎬 Broadcast Mode**: One-to-many live translation perfect for webinars, keynotes, and events
 - **👥 Room Mode**: Many-to-many multilingual video meetings with real-time dubbing
-- **🗣️ Natural Voice Synthesis**: AI-powered text-to-speech with Deepgram Aura voices
+- **🎥 Video Dubbing Studio (VOD)**: Upload existing videos and instantly generate translated `.mp4` video files with Deepgram AI voiceovers.
+- **📄 SRT Subtitle Export**: Download standard `.srt` subtitle files from both Live streaming modes and pre-recorded dubbing.
+- **🗣️ Natural Voice Synthesis**: AI-powered text-to-speech with targeted Deepgram Aura voices (Per-Speaker Voice assignment).
 - **🌍 15+ Languages**: Support for English, Spanish, French, German, Italian, Dutch, Japanese, Portuguese, Hindi, Arabic, Korean, Turkish, Vietnamese, Polish, Ukrainian, and Chinese
 - **📹 Video Support**: Optional webcam streaming alongside audio translation
 - **📝 Live Transcription**: Real-time transcripts in both source and target languages
