@@ -41,6 +41,10 @@ PolyDub is a cutting-edge platform that breaks down language barriers in real-ti
 ![Room Mode](./public/room.png)
 *Multi-participant video room with language selection*
 
+### Video Dubbing Studio
+![Video Dubbing Studio](./public/vod.png)
+*Video dubbing studio with language selection*
+
 ## 🏗️ Tech Stack
 
 ### Frontend
