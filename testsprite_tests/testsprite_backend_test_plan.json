@@ -1,0 +1,47 @@
+[
+  {
+    "id": "TC001",
+    "title": "post api dub with valid file and target language",
+    "description": "Verify that POST /api/dub with a valid uploaded media file and target_language returns 200 status with JSON containing srt captions and base64-encoded mp3 dubbed audio."
+  },
+  {
+    "id": "TC002",
+    "title": "post api dub with missing parameters",
+    "description": "Verify that POST /api/dub with missing file or missing target_language returns 400 status with error message \"Missing parameters\"."
+  },
+  {
+    "id": "TC003",
+    "title": "post api dub with third party api failure",
+    "description": "Verify that POST /api/dub with valid inputs but missing third-party API keys or external call failure returns 500 status with appropriate processing error message."
+  },
+  {
+    "id": "TC004",
+    "title": "post api mux with valid video and audio",
+    "description": "Verify that POST /api/mux with multipart original_video file and dubbed_audio file returns 200 status with video/mp4 stream containing the muxed MP4."
+  },
+  {
+    "id": "TC005",
+    "title": "post api mux with missing video or audio",
+    "description": "Verify that POST /api/mux with missing video or audio parameters returns 400 status with error message \"Missing video or audio file\"."
+  },
+  {
+    "id": "TC006",
+    "title": "post api mux with ffmpeg execution failure",
+    "description": "Verify that POST /api/mux with valid inputs on a host without ffmpeg binary or with ffmpeg execution failure returns 500 status with error message \"ffmpeg or file processing error\"."
+  },
+  {
+    "id": "TC007",
+    "title": "post api tts preview with valid text and voice",
+    "description": "Verify that POST /api/tts-preview with valid JSON containing text and voice returns 200 status with audio/mpeg stream of synthesized preview audio."
+  },
+  {
+    "id": "TC008",
+    "title": "post api tts preview with missing parameters",
+    "description": "Verify that POST /api/tts-preview with missing text or voice parameters returns 400 status with error message \"Missing parameters\"."
+  },
+  {
+    "id": "TC009",
+    "title": "post api tts preview with synthesis failure",
+    "description": "Verify that POST /api/tts-preview with valid payload but missing third-party TTS API key or synthesis failure returns 500 status with error message \"Missing API key or synthesis error\"."
+  }
+]
