@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect, useRef, useMemo } from "react"
+import { useState, useCallback, useEffect, useRef } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { useRoom } from "@/hooks/use-room"
 import { TranscriptMessage } from "@/types/room"
@@ -18,6 +18,7 @@ import { convertLiveTranscriptsToSRT } from "@/lib/srt"
 import { Label } from "@/components/ui/label"
 
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"
+const ROOM_ID_PATTERN = /^[a-zA-Z0-9_-]{4,32}$/
 
 // Polyfill for randomUUID in insecure contexts (mobile dev)
 function generateUUID() {
@@ -112,7 +113,9 @@ const getUserColor = (userId?: string) => {
 
 export default function RoomPage() {
   const params = useParams()
+    const router = useRouter()
   const roomId = params.roomId as string
+    const isValidRoomId = ROOM_ID_PATTERN.test(roomId)
   
   // Fix Hydration Mismatch for specific random ID
   const [userId, setUserId] = useState<string>("")
@@ -134,6 +137,7 @@ export default function RoomPage() {
 
   const [isConnected, setIsConnected] = useState(false)
   const [members, setMembers] = useState<string[]>([])
+    const [localError, setLocalError] = useState<string | null>(null)
   
   const [transcripts, setTranscripts] = useState<TranscriptEntry[]>([])
   const [partialWait, setPartialWait] = useState<{ original: string; translated?: string; color?: string } | undefined>()
@@ -271,7 +275,7 @@ export default function RoomPage() {
             await enableAudio();
 
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                alert("Media access is not supported in this browser or context. Please use HTTPS or localhost.");
+                setLocalError("Media access is not supported in this browser or context. Please use HTTPS or localhost.")
                 setIsConnected(false);
                 return;
             }
@@ -282,6 +286,7 @@ export default function RoomPage() {
             })
             localStreamRef.current = stream
             setIsConnected(true)
+            setLocalError(null)
             connect()
 
             const audioContext = new AudioContext({ 
@@ -345,18 +350,37 @@ export default function RoomPage() {
                 msg = "Camera/Mic is being used by another application or tab."
             } else if (e.name === 'NotAllowedError') {
                 msg = "Permission denied. Please allow camera/mic access."
+            } else if (e.name === 'NotFoundError' || e.name === 'DevicesNotFoundError') {
+                msg = "No camera or microphone found on this device."
             } else if (e.name === 'AbortError') {
                 msg = "Media request was aborted. Please try again."
             } else if (e.name === 'NotSupportedError') {
                 msg = "Your device does not support the required audio sample rate (16kHz).";
             }
-            alert(msg)
-            setIsConnected(false)
+
+            // Fallback: allow joining room controls even when local media is unavailable.
+            setLocalError(`${msg} Joined room in listen-only mode.`)
+            connect()
+            setIsConnected(true)
+            setIsMicOn(false)
+            setIsCamOn(false)
         }
     }
   }
 
   if (!userId) return <div className="min-h-screen bg-background flex items-center justify-center">Loading...</div>;
+
+    if (!isValidRoomId) {
+        return (
+            <div className="min-h-screen bg-background pt-16 flex items-center justify-center p-4">
+                <div className="max-w-md w-full rounded-lg border bg-card p-6 text-center space-y-4">
+                    <h1 className="text-xl font-semibold">Invalid Room ID</h1>
+                    <p className="text-sm text-muted-foreground">Room IDs must be 4-32 characters and can only include letters, numbers, underscores, and hyphens.</p>
+                    <Button onClick={() => router.push('/rooms')}>Back to Rooms</Button>
+                </div>
+            </div>
+        )
+    }
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground pt-16">
@@ -382,7 +406,7 @@ export default function RoomPage() {
                            <Label className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold flex items-center gap-1">
                               <Globe className="h-3 w-3" /> Speaking (Input)
                            </Label>
-                           <Select value={sourceLang} onValueChange={setSourceLang} disabled={isConnected}>
+                           <Select value={sourceLang} onValueChange={setSourceLang}>
                                <SelectTrigger className="w-[140px] h-8 text-xs bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20">
                                    <SelectValue />
                                </SelectTrigger>
@@ -401,7 +425,7 @@ export default function RoomPage() {
                            <Label className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold flex items-center gap-1">
                               <Translate className="h-3 w-3" /> Listening (Output)
                            </Label>
-                           <Select value={targetLang} onValueChange={setTargetLang} disabled={isConnected}>
+                           <Select value={targetLang} onValueChange={setTargetLang}>
                                <SelectTrigger className="w-[140px] h-8 text-xs bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20">
                                    <SelectValue />
                                </SelectTrigger>
@@ -409,6 +433,25 @@ export default function RoomPage() {
                                    {TTS_LANGUAGES.map(l => (
                                        <SelectItem key={l.code} value={l.code} className="text-xs">
                                            <span className="mr-2">{l.flag}</span> {l.name}
+                                       </SelectItem>
+                                   ))}
+                               </SelectContent>
+                           </Select>
+                       </div>
+
+                       {/* Self Voice (Output) */}
+                       <div className="flex flex-col gap-1">
+                           <Label className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold flex items-center gap-1">
+                              <SpeakerHigh className="h-3 w-3" /> Voice
+                           </Label>
+                           <Select value={targetVoice} onValueChange={setTargetVoice} disabled={!(VOICE_OPTIONS[targetLang] || []).length}>
+                               <SelectTrigger className="w-[180px] h-8 text-xs bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20">
+                                   <SelectValue placeholder="Select voice" />
+                               </SelectTrigger>
+                               <SelectContent>
+                                   {(VOICE_OPTIONS[targetLang] || []).map(v => (
+                                       <SelectItem key={v.id} value={v.id} className="text-xs">
+                                           {v.name}
                                        </SelectItem>
                                    ))}
                                </SelectContent>
@@ -460,9 +503,9 @@ export default function RoomPage() {
        <main className="flex-1 overflow-hidden flex flex-col md:flex-row bg-background relative">
            {/* Video Grid */}
            <div className="flex-1 p-4 overflow-y-auto bg-slate-950/20">
-               {error && (
+               {(localError || error) && (
                    <div className="mb-4 p-3 bg-destructive/10 text-destructive rounded border border-destructive/30 text-sm font-medium flex items-center justify-center">
-                       Error: {error}
+                       Error: {localError || error}
                    </div>
                )}
                
