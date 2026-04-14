@@ -1,0 +1,145 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - Next.js App Router
+  - React 19
+  - Tailwind CSS
+  - Radix UI
+  - WebSockets
+  - Deepgram SDK
+  - lingo.dev
+routes:
+  - path: /
+    file: app/page.tsx
+    auth_required: false
+    description: Landing page with navigation to broadcast, room, and VOD experiences.
+  - path: /broadcast
+    file: app/broadcast/page.tsx
+    auth_required: false
+    description: Host setup flow for starting a live multilingual broadcast.
+  - path: /broadcast/[lang]
+    file: app/broadcast/[lang]/page.tsx
+    auth_required: false
+    description: Listener page for a selected target language during a live broadcast.
+  - path: /rooms
+    file: app/rooms/page.tsx
+    auth_required: false
+    description: Room lobby for creating a room or joining an existing room by ID.
+  - path: /room/[roomId]
+    file: app/room/[roomId]/page.tsx
+    auth_required: false
+    description: Real-time multilingual room with audio, optional video, and participant controls.
+  - path: /vod
+    file: app/vod/page.tsx
+    auth_required: false
+    description: Video dubbing studio for uploading media, selecting languages, and exporting outputs.
+features:
+  - name: Landing Navigation
+    description: Users can navigate from the landing page into the core product flows and switch interface locale.
+    files:
+      - app/page.tsx
+      - components/landing-page.tsx
+      - components/header.tsx
+      - components/polydub/language-selector.tsx
+    entry_route: /
+    user_interactions:
+      - Open the landing page.
+      - Switch the interface language.
+      - Click into Broadcast, Rooms, or VOD flows.
+    api_calls: []
+    auth_required: false
+  - name: Live Broadcast Hosting
+    description: A broadcaster selects source and target languages, uses microphone and optional webcam, and starts a live translated stream.
+    files:
+      - app/broadcast/page.tsx
+      - components/polydub/mic-controller.tsx
+      - components/polydub/webcam-broadcaster.tsx
+      - hooks/use-websocket.ts
+      - server/index.ts
+      - server/stt.ts
+      - server/translate.ts
+      - server/tts.ts
+    entry_route: /broadcast
+    user_interactions:
+      - Open the broadcast setup page.
+      - Choose source and target languages.
+      - Allow microphone access.
+      - Optionally enable webcam streaming.
+      - Start broadcasting and share the listener link.
+    api_calls:
+      - method: WS
+        endpoint: / (WebSocket server)
+    auth_required: false
+  - name: Broadcast Listening
+    description: Listeners join a language-specific broadcast page to hear dubbed audio and view transcripts.
+    files:
+      - app/broadcast/[lang]/page.tsx
+      - components/polydub/audio-playback.tsx
+      - components/polydub/transcript-view.tsx
+      - components/polydub/video-receiver.tsx
+      - hooks/use-websocket.ts
+    entry_route: /broadcast/[lang]
+    user_interactions:
+      - Open a shared listener URL for a selected language.
+      - Start or allow audio playback.
+      - Watch transcripts update live.
+      - View optional incoming webcam video if available.
+    api_calls:
+      - method: WS
+        endpoint: / (WebSocket server)
+    auth_required: false
+  - name: Multilingual Rooms
+    description: Users create or join rooms, configure language and voice preferences, and communicate in real time.
+    files:
+      - app/rooms/page.tsx
+      - app/room/[roomId]/page.tsx
+      - hooks/use-room.ts
+      - hooks/use-websocket.ts
+      - components/polydub/mic-controller.tsx
+      - components/polydub/video-receiver.tsx
+      - components/polydub/webcam-broadcaster.tsx
+      - server/index.ts
+    entry_route: /rooms
+    user_interactions:
+      - Open the rooms lobby.
+      - Create a new room or enter an existing room ID.
+      - Choose source language, target language, and preferred voice.
+      - Allow microphone access and optionally enable camera.
+      - Speak and receive translated audio and transcripts in the room.
+    api_calls:
+      - method: WS
+        endpoint: / (WebSocket server)
+    auth_required: false
+  - name: Video Dubbing Studio
+    description: Users upload a supported media file, choose output languages and voices, then generate dubbed video and subtitle output.
+    files:
+      - app/vod/page.tsx
+      - components/polydub/video-upload.tsx
+      - components/polydub/video-player.tsx
+      - lib/srt.ts
+      - app/api/dub/route.ts
+      - app/api/tts-preview/route.ts
+      - app/api/mux/route.ts
+    entry_route: /vod
+    user_interactions:
+      - Open the VOD page.
+      - Upload a supported video file.
+      - Select source and target languages and voice options.
+      - Start the dubbing pipeline.
+      - Preview the result and export subtitle or video output.
+    api_calls:
+      - method: POST
+        endpoint: /api/dub
+      - method: POST
+        endpoint: /api/tts-preview
+      - method: POST
+        endpoint: /api/mux
+    auth_required: false
+known_limitations:
+  - issue: Core live translation features depend on a separate WebSocket server and external Deepgram/Lingo credentials.
+    location: server/index.ts
+    impact: End-to-end live audio and translation scenarios may fail unless the local WebSocket service and API keys are configured.
+  - issue: Video dubbing relies on backend API routes and media-processing dependencies.
+    location: app/api/dub/route.ts
+    impact: Upload and dubbing tests may fail or be partial in environments without required API keys or ffmpeg-compatible setup.

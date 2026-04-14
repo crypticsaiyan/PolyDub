@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans antialiased ${spaceGrotesk.variable} min-h-screen flex flex-col`}>
-        <LingoProvider>
+        <LingoProvider devWidget={{ enabled: false }}>
           <Header />
             {children}
           <Footer />

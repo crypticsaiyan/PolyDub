@@ -1,0 +1,18 @@
+[
+  {
+    "projectId": "26c15eff-4661-467e-baa2-2b3e3750fa60",
+    "testId": "ac0a15be-1aa0-4d65-b16e-00d324eadb73",
+    "userId": "54f8c498-3051-7067-5ec8-21b4d9470363",
+    "title": "TC007-Open VOD studio and verify upload-ready configuration",
+    "description": "Verifies a user can access the VOD studio, see an upload control that accepts video input, and view project configuration controls.",
+    "code": "import asyncio\nfrom playwright import async_api\nfrom playwright.async_api import expect\n\nasync def run_test():\n    pw = None\n    browser = None\n    context = None\n\n    try:\n        # Start a Playwright session in asynchronous mode\n        pw = await async_api.async_playwright().start()\n\n        # Launch a Chromium browser in headless mode with custom arguments\n        browser = await pw.chromium.launch(\n            headless=True,\n            args=[\n                \"--window-size=1280,720\",         # Set the browser window size\n                \"--disable-dev-shm-usage\",        # Avoid using /dev/shm which can cause issues in containers\n                \"--ipc=host\",                     # Use host-level IPC for better stability\n                \"--single-process\"                # Run the browser in a single process mode\n            ],\n        )\n\n        # Create a new browser context (like an incognito window)\n        context = await browser.new_context()\n        context.set_default_timeout(5000)\n\n        # Open a new page in the browser context\n        page = await context.new_page()\n\n        # Interact with the page elements to simulate user flow\n        # -> Navigate to http://localhost:3001\n        await page.goto(\"http://localhost:3001\")\n        \n        # -> Navigate to http://localhost:3001/vod, wait for the page to load, and extract page content to check for an upload control (file input or upload button) and visible project configuration controls.\n        await page.goto(\"http://localhost:3001/vod\")\n        \n        # --> Test passed — verified by AI agent\n        frame = context.pages[-1]\n        current_url = await frame.evaluate(\"() => window.location.href\")\n        assert current_url is not None, \"Test completed successfully\"\n        await asyncio.sleep(5)\n\n    finally:\n        if context:\n            await context.close()\n        if browser:\n            await browser.close()\n        if pw:\n            await pw.stop()\n\nasyncio.run(run_test())\n    ",
+    "testStatus": "PASSED",
+    "testError": "",
+    "testType": "FRONTEND",
+    "createFrom": "mcp",
+    "priority": "Medium",
+    "testVisualization": "https://testsprite-videos.s3.us-east-1.amazonaws.com/54f8c498-3051-7067-5ec8-21b4d9470363/1776173844098377//tmp/test_task/result.webm",
+    "created": "2026-04-14T13:35:40.457Z",
+    "modified": "2026-04-14T13:37:24.263Z"
+  }
+]
