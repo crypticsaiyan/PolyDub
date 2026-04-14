@@ -11,7 +11,11 @@ const nextConfig = {
   },
 }
 
-export default withLingo(nextConfig, {
+const lingoConfig = {
   sourceLocale: "en",
   targetLocales: ["es", "fr", "de", "it", "nl", "ja", "pt", "hi", "ar", "ko", "tr", "vi", "pl", "uk", "zh"]
-});
+};
+
+const useLingo = process.env.NODE_ENV === "production";
+
+export default useLingo ? withLingo(nextConfig, lingoConfig) : nextConfig;
