@@ -47,3 +47,6 @@ next-env.d.ts
 
 # debug
 .vscode/settings.json
+
+# testsprite runtime secrets
+testsprite_tests/tmp/config.json
