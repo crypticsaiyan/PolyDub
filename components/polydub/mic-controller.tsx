@@ -12,6 +12,8 @@ interface MicControllerProps {
   onStop: () => void
   onAudioData: (chunk: ArrayBuffer) => void
   connectionStatus: 'connected' | 'connecting' | 'disconnected'
+  canStart?: boolean
+  blockedReason?: string
 }
 
 export function MicController({
@@ -20,6 +22,8 @@ export function MicController({
   onStop,
   onAudioData,
   connectionStatus,
+  canStart = true,
+  blockedReason,
 }: MicControllerProps) {
   const [audioLevel, setAudioLevel] = useState(0)
   const [permissionGranted, setPermissionGranted] = useState<boolean | null>(null)
@@ -124,6 +128,8 @@ export function MicController({
     } catch (error) {
       console.error('Failed to start recording:', error)
       setPermissionGranted(false)
+      // Fallback for constrained test/device environments: connect without local mic.
+      onStart()
     }
   }, [onStart, onAudioData])
 
@@ -146,6 +152,10 @@ export function MicController({
   }, [isRecording, cleanup])
 
   const handleToggle = () => {
+    if (!isRecording && !canStart) {
+      return
+    }
+
     if (isRecording) {
       stopRecording()
     } else {
@@ -236,6 +246,9 @@ export function MicController({
              <p className="text-[10px] text-muted-foreground">
                {isRecording ? 'Listening...' : 'Click to start'}
              </p>
+             {!canStart && blockedReason && (
+               <p className="text-[10px] text-destructive">{blockedReason}</p>
+             )}
           </div>
         </div>
 

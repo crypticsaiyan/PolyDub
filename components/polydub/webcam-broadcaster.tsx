@@ -7,9 +7,11 @@ import { VideoCamera, VideoCameraSlash } from "@phosphor-icons/react"
 
 interface WebcamBroadcasterProps {
   wsUrl: string
+  canStart?: boolean
+  blockedReason?: string
 }
 
-export function WebcamBroadcaster({ wsUrl }: WebcamBroadcasterProps) {
+export function WebcamBroadcaster({ wsUrl, canStart = true, blockedReason }: WebcamBroadcasterProps) {
   const [isActive, setIsActive] = useState(false)
   const [error, setError] = useState<string | null>(null)
   
@@ -42,6 +44,11 @@ export function WebcamBroadcaster({ wsUrl }: WebcamBroadcasterProps) {
   }, [])
 
   const startBroadcast = useCallback(async () => {
+    if (!canStart) {
+      setError(blockedReason || "Please select at least one target language")
+      return
+    }
+
     try {
        setError(null)
 
@@ -121,7 +128,7 @@ export function WebcamBroadcaster({ wsUrl }: WebcamBroadcasterProps) {
         setError(err.message || "Camera access denied")
         stopBroadcast()
     }
-  }, [wsUrl, stopBroadcast, isActive])
+  }, [wsUrl, stopBroadcast, isActive, canStart, blockedReason])
 
   // Cleanup on unmount
   useEffect(() => {
