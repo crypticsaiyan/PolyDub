@@ -13,8 +13,8 @@ const nextConfig = {
 
 const lingoConfig = {
   sourceLocale: "en",
-  targetLocales: ["es", "fr", "de", "it", "nl", "ja", "pt", "ko", "tr", "vi", "pl", "zh"],
-  buildMode: "cache-only",
+  targetLocales: ["es", "fr", "de", "it", "nl", "ja", "pt", "ko", "vi", "pl", "zh"],
+  buildMode: process.env.LINGO_BUILD_MODE || "cache-only",
 };
 
 export default withLingo(nextConfig, lingoConfig);
