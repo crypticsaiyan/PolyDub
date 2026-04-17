@@ -12,10 +12,9 @@ dotenv.config();
 
 const PORT = parseInt(process.env.PORT || process.env.WEBSOCKET_PORT || "8080", 10);
 const DEEPGRAM_API_KEY = process.env.DEEPGRAM_API_KEY;
-const LINGO_API_KEY = process.env.LINGO_API_KEY;
 
-if (!DEEPGRAM_API_KEY || !LINGO_API_KEY) {
-  console.error("Missing API keys");
+if (!DEEPGRAM_API_KEY) {
+  console.error("Missing DEEPGRAM_API_KEY");
   process.exit(1);
 }
 
