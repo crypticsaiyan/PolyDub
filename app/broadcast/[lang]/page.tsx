@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "next/navigation"
+
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { AudioPlayback } from "@/components/polydub/audio-playback"
+import { AudioPlayback, AudioPlaybackHandle } from "@/components/polydub/audio-playback"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Globe, Broadcast, Waveform } from "@phosphor-icons/react"
@@ -43,6 +45,8 @@ export default function AudioListenerPage() {
   const wsRef = useRef<WebSocket | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
+  const audioPlaybackRef = useRef<AudioPlaybackHandle>(null)
+  const ttsMetaRef = useRef<{ sampleRate: number } | null>(null)
 
   // Initialize Recording Destination when AudioContext is ready
   useEffect(() => {
@@ -97,26 +101,30 @@ export default function AudioListenerPage() {
       setError(null)
     }
 
-    ws.onmessage = async (event) => {
+    ws.onmessage = (event) => {
       if (event.data instanceof ArrayBuffer) {
-        console.log("Received Audio Chunk:", event.data.byteLength, "bytes")
-        setAudioQueue(prev => [...prev, event.data])
+        const meta = ttsMetaRef.current
+        const sampleRate = meta?.sampleRate ?? 24000
+        audioPlaybackRef.current?.playPCM(event.data, sampleRate)
         setHasAudioStarted(true)
         return
       }
-      
+
       try {
         if (typeof event.data !== 'string') return
-
         const data = JSON.parse(event.data)
-        
+
         if (data.type === "transcript") {
           setMessages(prev => [...prev, data])
+        } else if (data.type === "tts-start") {
+          ttsMetaRef.current = { sampleRate: data.sampleRate ?? 24000 }
+        } else if (data.type === "tts-end") {
+          ttsMetaRef.current = null
         } else if (data.type === "info") {
           console.log("Server Info:", data.message)
         } else if (data.type === "error") {
-             setError(data.message)
-             ws.close()
+          setError(data.message)
+          ws.close()
         }
       } catch (e) {
         console.error("Failed to parse message", e)
@@ -273,11 +281,11 @@ export default function AudioListenerPage() {
         
         {/* Video Player - Primary Focus */}
         <div className="relative group rounded-lg overflow-hidden border border-border/50 shadow-sm">
-            <VideoReceiver 
+            <VideoReceiver
                 ref={videoReceiverRef}
-                wsUrl="ws://localhost:8080" 
-                delayMs={8000} 
-                startRendering={hasAudioStarted} 
+                wsUrl={WS_URL}
+                delayMs={0}
+                startRendering={isConnected}
             />
             
             {/* Recording Controls Overlay */}
@@ -329,7 +337,8 @@ export default function AudioListenerPage() {
            
            <div className="flex items-center gap-2 w-full sm:w-auto">
                {/* Audio Controls */}
-               <AudioPlayback 
+               <AudioPlayback
+                  ref={audioPlaybackRef}
                   audioQueue={audioQueue}
                   onAudioPlayed={handleAudioPlayed}
                   isEnabled={true}
