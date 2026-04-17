@@ -1,4 +1,4 @@
-# PolyDub — Real-Time Multilingual Video Dubbing
+# PolyDub — Real-Time Multilingual Video Dubbing 
 
 > Speak any language. Be heard in any language. Live.
 
