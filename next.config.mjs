@@ -17,6 +17,4 @@ const lingoConfig = {
   buildMode: "cache-only",
 };
 
-const useLingo = process.env.NODE_ENV === "production";
-
-export default useLingo ? withLingo(nextConfig, lingoConfig) : nextConfig;
+export default nextConfig;
