@@ -2,7 +2,7 @@
 
 > Speak any language. Be heard in any language. Live.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat&logo=next.js)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![Deepgram](https://img.shields.io/badge/Deepgram-STT%2FTTS-orange?style=flat)](https://deepgram.com/)
 [![Lingo.dev](https://img.shields.io/badge/Lingo.dev-i18n-green?style=flat)](https://lingo.dev/)
@@ -30,12 +30,14 @@ Three modes:
 - **Sub-1.5s real-time dubbing** in a plain browser tab, no extensions or native apps
 - **Genuine native-accent TTS voices** per language via Deepgram Aura-2 (not English voices relabelled)
 - **Per-listener audio serialization** so multi-speaker rooms produce clean audio, not interleaved noise
-- **15-locale UI** compiled at build time via Lingo.dev so every part of the interface is translated, not just the audio
+- **12-locale UI** compiled at build time via Lingo.dev so every part of the interface is translated, not just the audio
 - **Full VOD pipeline** using the same STT/translate/TTS stack plus FFmpeg muxing, producing a playable MP4 and a time-coded SRT file
 
 ---
 
 ## How It Works
+
+Need deeper internals? See [ARCHITECTURE.md](./ARCHITECTURE.md) for full sequence diagrams, role routing, and pipeline details.
 
 ```
 Mic (PCM 16kHz) → WebSocket
@@ -85,13 +87,13 @@ All voices use Aura-2 — the model that ships with genuine per-language native 
 
 ## Tech Stack
 
-- **Frontend** — Next.js 15, React 19, Tailwind CSS v4, shadcn/ui, Phosphor Icons
+- **Frontend** — Next.js 16, React 19, Tailwind CSS v4, shadcn/ui, Phosphor Icons
 - **WebSocket Server** — Node.js, `ws`, TypeScript
 - **STT** — Deepgram Nova-2 (streaming, 16 kHz linear16 PCM)
 - **Translation** — Google Translate unofficial `gtx` endpoint (250–350ms warm, LRU + in-flight dedup)
 - **TTS** — Deepgram Aura-2 (streaming PCM, native voices per language)
 - **VOD Muxing** — FFmpeg via `fluent-ffmpeg` + `@ffmpeg-installer/ffmpeg` (bundled, no system install needed)
-- **UI i18n** — Lingo.dev compiler (build-time, 15 locales)
+- **UI i18n** — Lingo.dev compiler (build-time, 12 locales)
 
 ---
 
@@ -133,6 +135,9 @@ Edit `.env`:
 ```env
 DEEPGRAM_API_KEY=your_key
 LINGO_API_KEY=your_key
+LINGO_BUILD_MODE=translate
+PORT=8080
+WEBSOCKET_PORT=8080
 NEXT_PUBLIC_WS_URL=ws://localhost:8080
 ```
 
