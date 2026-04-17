@@ -7,21 +7,31 @@
 [![Deepgram](https://img.shields.io/badge/Deepgram-STT%2FTTS-orange?style=flat)](https://deepgram.com/)
 [![Lingo.dev](https://img.shields.io/badge/Lingo.dev-i18n-green?style=flat)](https://lingo.dev/)
 
-**Demo:** https://youtu.be/JiXxj8-gv-A
+**Demo:** https://youtu.be/Vomt_04eN-Q
+
+> **30-second pitch:** PolyDub is a real-time multilingual dubbing platform. Speak into your mic. Everyone listening hears you in their own language within 1.5 seconds, in a browser, with no plugins. It supports live one-to-many broadcasts, multi-party rooms where each person speaks their own language, and async video dubbing with MP4 + SRT output.
 
 ---
 
 ## What Is PolyDub?
 
-PolyDub is a full-stack real-time dubbing platform. It listens to a speaker, transcribes them, translates the speech, and plays back a dubbed audio stream in the listener's language — all within ~1.5 seconds, in a browser, with no plugins.
+PolyDub is a full-stack real-time dubbing platform. It listens to a speaker, transcribes them, translates the speech, and plays back a dubbed audio stream in the listener's language, all within ~1.5 seconds, in a browser, with no plugins.
 
 Three modes:
 
 | Mode | Who it's for |
 |------|-------------|
-| **Live Broadcast** | One host speaks → audience worldwide hears a live dubbed stream in their language |
+| **Live Broadcast** | One host speaks and the audience worldwide hears a live dubbed stream in their language |
 | **Multilingual Rooms** | Multi-party video calls where everyone speaks their own language and hears everyone else in theirs |
-| **VOD Dubbing** | Upload any video → download a fully dubbed MP4 + SRT subtitle file |
+| **VOD Dubbing** | Upload any video and download a fully dubbed MP4 + SRT subtitle file |
+
+### What Makes This Different
+
+- **Sub-1.5s real-time dubbing** in a plain browser tab, no extensions or native apps
+- **Genuine native-accent TTS voices** per language via Deepgram Aura-2 (not English voices relabelled)
+- **Per-listener audio serialization** so multi-speaker rooms produce clean audio, not interleaved noise
+- **15-locale UI** compiled at build time via Lingo.dev so every part of the interface is translated, not just the audio
+- **Full VOD pipeline** using the same STT/translate/TTS stack plus FFmpeg muxing, producing a playable MP4 and a time-coded SRT file
 
 ---
 
@@ -150,12 +160,40 @@ pnpm server  # start WebSocket server
 
 ## Deployment
 
-PolyDub needs **two services** running simultaneously. Railway is the easiest option.
+PolyDub needs **two services** running simultaneously.
 
-1. **Next.js service** — build: `pnpm build`, start: `pnpm start`, port `3000`
-2. **WebSocket service** — start: `pnpm server`, port via `PORT` env var (Railway injects this automatically)
+### Render (Recommended)
 
-Set `NEXT_PUBLIC_WS_URL=wss://your-ws-service.railway.app` on the Next.js service. Use `wss://` (not `ws://`) in production — browsers block unencrypted WebSocket connections from HTTPS pages.
+Use the included Blueprint file to create both services at once:
+
+1. Push this repo to GitHub.
+2. In Render, choose **New +** → **Blueprint** and connect the repo.
+3. Render will read `render.yaml` and create:
+  - `polydub-web` (Next.js app)
+  - `polydub-ws` (WebSocket server)
+4. Add required env vars on both services:
+  - `DEEPGRAM_API_KEY`
+  - `LINGO_API_KEY`
+5. After first deploy, copy the public URL of `polydub-ws` and set on `polydub-web`:
+  - `NEXT_PUBLIC_WS_URL=wss://<your-ws-service>.onrender.com`
+6. Redeploy `polydub-web` so the client picks up the updated public WS URL.
+
+Use `wss://` (not `ws://`) in production — browsers block unencrypted WebSocket connections from HTTPS pages.
+
+### Render Free Tier Notes
+
+- Free instances can spin down when idle, which adds cold starts and can interrupt real-time WebSocket sessions.
+- For demos and testing, free tier is usually fine.
+- For reliable live sessions, use a paid always-on instance for at least the WebSocket service.
+
+### Railway (Alternative)
+
+Railway also works with the same two-service split:
+
+1. **Next.js service** — build: `pnpm build`, start: `pnpm start`
+2. **WebSocket service** — start: `pnpm server` (or `pnpm server:start` if prebuilt)
+
+Set `NEXT_PUBLIC_WS_URL` on the Next.js service to the WebSocket service public URL.
 
 ---
 
@@ -187,19 +225,34 @@ Set `NEXT_PUBLIC_WS_URL=wss://your-ws-service.railway.app` on the Next.js servic
 
 ## Testing
 
-Tests are generated and run using [TestSprite MCP](https://testsprite.com). The suite covers backend API contracts and frontend end-to-end flows.
+Tests are generated and executed using [TestSprite MCP](https://testsprite.com). Two full rounds were run: an initial baseline pass, followed by fixes and a confirmation pass.
 
-### Backend API Tests — 5/5 Passing ✅
+### Round 1 — Issues Found
+
+TestSprite surfaced two concrete bugs on the first run:
+
+1. **TC003 (`POST /api/dub` third-party failure):** The error handler was returning a plain text string on API failures instead of a JSON response. This caused clients to receive an unparseable body on 500 errors.
+2. **TC009 (malformed room ID):** The frontend form was submitting malformed room IDs to the server without client-side validation. The server rejected them but no user-visible error was shown.
+
+Both were fixed before Round 2.
+
+### Round 2 — All Tests Passing ✅
+
+![TestSprite MCP dashboard showing PolyDub run history, progressing from 0/5 to 5/5 Pass across multiple runs](./public/testsprite-dashboard.png)
+
+*Run history in the TestSprite dashboard. Early runs show 0/5 and partial passes. The final run lands at 5/5 after fixes.*
+
+**Backend API Tests — 5/5 Passing**
 
 | Test | What it checks |
 |------|---------------|
-| TC001 | `POST /api/dub` — valid file + target language returns `{ srt, mp3 }` |
-| TC002 | `POST /api/dub` — missing params → 400 |
-| TC003 | `POST /api/dub` — third-party API failure → 500 |
-| TC004 | `POST /api/mux` — valid video + audio produces MP4 stream |
-| TC005 | `POST /api/mux` — missing inputs → 400 |
+| TC001 | `POST /api/dub` — builds a minimal valid WAV inline, posts it, then asserts the response is JSON with a non-empty `srt` string **and** a `mp3` field whose base64 actually decodes to non-zero bytes |
+| TC002 | `POST /api/dub` — missing params returns 400 with `"Missing parameters"` |
+| TC003 | `POST /api/dub` — third-party API failure returns 500 with JSON error body |
+| TC004 | `POST /api/mux` — valid video + audio produces a `video/mp4` stream |
+| TC005 | `POST /api/mux` — missing inputs returns 400 with `"Missing video or audio file"` |
 
-### Frontend / E2E Tests
+**Frontend / E2E Tests — 12 Cases**
 
 | Test | What it checks |
 |------|---------------|
@@ -215,6 +268,8 @@ Tests are generated and run using [TestSprite MCP](https://testsprite.com). The 
 | TC010 | Navigate from landing page to rooms lobby |
 | TC011 | Reject unsupported VOD file type on upload |
 | TC012 | Navigate from landing page to VOD studio |
+
+All test files are in [`testsprite_tests/`](./testsprite_tests/). Run results and the full TestSprite report are in [`testsprite_tests/tmp/`](./testsprite_tests/tmp/).
 
 ---
 
