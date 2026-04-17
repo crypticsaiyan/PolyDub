@@ -6,9 +6,10 @@ import { VideoCameraSlash } from "@phosphor-icons/react"
 import { Badge } from "@/components/ui/badge"
 
 interface VideoReceiverProps {
-  wsUrl: string // Base URL
-  delayMs?: number // Delay in milliseconds
-  startRendering?: boolean // Only start showing frames when this is true
+  wsUrl: string
+  broadcastId?: string
+  delayMs?: number
+  startRendering?: boolean
 }
 
 export interface VideoReceiverRef {
@@ -16,7 +17,7 @@ export interface VideoReceiverRef {
 }
 
 export const VideoReceiver = forwardRef<VideoReceiverRef, VideoReceiverProps>(function VideoReceiver(
-  { wsUrl, delayMs = 0, startRendering = true },
+  { wsUrl, broadcastId, delayMs = 0, startRendering = true },
   ref
 ) {
   const [isConnected, setIsConnected] = useState(false)
@@ -52,9 +53,10 @@ export const VideoReceiver = forwardRef<VideoReceiverRef, VideoReceiverProps>(fu
              urlObj.port = "8080"
         }
         urlObj.searchParams.set("role", "listener-video")
+        if (broadcastId) urlObj.searchParams.set("id", broadcastId)
         finalUrl = urlObj.toString()
     } catch (e) {
-        finalUrl = `${wsUrl}?role=listener-video`
+        finalUrl = `${wsUrl}?role=listener-video${broadcastId ? `&id=${broadcastId}` : ''}`
     }
     
     console.log("Connecting to Video Stream:", finalUrl)
@@ -101,7 +103,7 @@ export const VideoReceiver = forwardRef<VideoReceiverRef, VideoReceiverProps>(fu
     return () => {
        ws.close()
     }
-  }, [wsUrl, delayMs])
+  }, [wsUrl, broadcastId, delayMs])
 
   return (
     <Card className="overflow-hidden bg-black border-border/50">

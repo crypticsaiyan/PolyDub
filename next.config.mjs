@@ -17,4 +17,4 @@ const lingoConfig = {
   buildMode: "cache-only",
 };
 
-export default nextConfig;
+export default withLingo(nextConfig, lingoConfig);

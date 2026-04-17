@@ -73,13 +73,15 @@ function streamTTSToSocket(ws: WebSocket, text: string, targetLang: string, voic
   });
 }
 
-// --- LEGACY BROADCAST STATE ---
-// Store listeners: "es" -> Set of WebSockets
-const listeners = new Map<string, Set<WebSocket>>();
-// Store active broadcasts (languages currently being streamed by a host)
-const activeBroadcasts = new Set<string>();
-// Video Listeners
-const videoListeners = new Set<WebSocket>();
+// --- BROADCAST STATE (one session per host) ---
+interface BroadcastSession {
+  targetLangs: string[];
+  listeners: Map<string, Set<WebSocket>>; // targetLang -> listener sockets
+}
+const broadcasts = new Map<string, BroadcastSession>(); // broadcastId -> session
+const videoRooms = new Map<string, Set<WebSocket>>();   // broadcastId -> video listener sockets
+// Listeners who connected before the host started
+const waitingListeners = new Map<string, Map<string, Set<WebSocket>>>(); // broadcastId -> lang -> sockets
 
 // --- NEW ROOM STATE ---
 interface RoomMember {
@@ -360,14 +362,15 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     });
   }
   
-  // --- LEGACY HOST LOGIC (Speaker) ---
+  // --- HOST LOGIC (Speaker) ---
   else if (role === 'host') {
     const sourceLang = url.searchParams.get("source") || "en";
     const targetsParam = url.searchParams.get("targets") || "es";
     const targetLangs = targetsParam.split(',').filter(t => t.length > 0);
     const sampleRate = parseInt(url.searchParams.get("sample_rate") || "16000", 10);
     const voicesParam = url.searchParams.get("voices");
-    
+    const broadcastId = url.searchParams.get("id") || randomUUID();
+
     let targetVoices: Record<string, string> = {};
     if (voicesParam) {
        try {
@@ -376,11 +379,28 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
            console.error("Failed to parse voices param", e);
        }
     }
-    
-    console.log(`[Server] Host connected: ${sourceLang} -> [${targetLangs.join(', ')}]`, targetVoices);
 
-    // Register active broadcasts
-    targetLangs.forEach(lang => activeBroadcasts.add(lang));
+    console.log(`[Server] Host connected id=${broadcastId}: ${sourceLang} -> [${targetLangs.join(', ')}]`, targetVoices);
+
+    // Create session
+    const session: BroadcastSession = { targetLangs, listeners: new Map() };
+    broadcasts.set(broadcastId, session);
+
+    // Migrate any listeners who connected before the host started
+    const waiting = waitingListeners.get(broadcastId);
+    if (waiting) {
+      waiting.forEach((sockets, lang) => {
+        if (!session.listeners.has(lang)) session.listeners.set(lang, new Set());
+        sockets.forEach(sock => {
+          if (sock.readyState === WebSocket.OPEN) {
+            session.listeners.get(lang)!.add(sock);
+            sock.send(JSON.stringify({ type: 'info', message: 'Broadcast has started!' }));
+            sock.on("close", () => session.listeners.get(lang)?.delete(sock));
+          }
+        });
+      });
+      waitingListeners.delete(broadcastId);
+    }
 
     const sttService = new STTService({
       apiKey: DEEPGRAM_API_KEY,
@@ -420,7 +440,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
                   const translatedText = await translationService.translate(text, actualSourceLang, lang);
                   const translatedAt = Date.now();
 
-                  const specificListeners = listeners.get(lang);
+                  const specificListeners = session.listeners.get(lang);
                   if (!specificListeners || specificListeners.size === 0) return;
 
                   console.log(`[Broadcast] lang=${lang} translate=${translatedAt - finalAt}ms`);
@@ -467,70 +487,71 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     });
 
     ws.on("close", () => {
-      console.log(`[Server] Host disconnected. Cleaning up broadcasts: ${targetLangs.join(', ')}`);
-      targetLangs.forEach(lang => activeBroadcasts.delete(lang));
-      
-      targetLangs.forEach(lang => {
-         const specificListeners = listeners.get(lang);
-         if (specificListeners) {
-            specificListeners.forEach(l => {
-               if (l.readyState === WebSocket.OPEN) {
-                  l.send(JSON.stringify({ type: 'info', message: 'Host ended the broadcast.' }));
-               }
-            });
-         }
+      console.log(`[Server] Host disconnected id=${broadcastId}`);
+      broadcasts.delete(broadcastId);
+      waitingListeners.delete(broadcastId);
+
+      session.listeners.forEach(sockets => {
+        sockets.forEach(l => {
+          if (l.readyState === WebSocket.OPEN) {
+            l.send(JSON.stringify({ type: 'info', message: 'Host ended the broadcast.' }));
+          }
+        });
       });
-      
+
       sttService.stop();
     });
 
     ws.on("error", (error) => {
       console.error(`[Server] Host error: ${error.message}`);
       sttService.stop();
-      targetLangs.forEach(lang => activeBroadcasts.delete(lang));
+      broadcasts.delete(broadcastId);
+      waitingListeners.delete(broadcastId);
     });
   } 
   
-  // LEGACY LISTENER LOGIC (Receiver)
+  // LISTENER LOGIC (Receiver)
   else if (role === 'listener') {
     const listenLang = url.searchParams.get("lang") || "es";
-    if (!activeBroadcasts.has(listenLang)) {
-       ws.send(JSON.stringify({ 
-         type: 'error', 
-         message: `Start a broadcast in ${listenLang} first.` 
-       }));
-    } else {
-        ws.send(JSON.stringify({ 
-          type: 'info', 
-          message: `Connected to LIVE ${listenLang} broadcast.` 
-        }));
-    }
-    
-    if (!listeners.has(listenLang)) {
-      listeners.set(listenLang, new Set());
-    }
-    listeners.get(listenLang)?.add(ws);
+    const broadcastId = url.searchParams.get("id");
 
-    ws.on("close", () => {
-      listeners.get(listenLang)?.delete(ws);
-    });
-    
-    ws.on("error", (err) => {
-      listeners.get(listenLang)?.delete(ws);
-    });
+    const session = broadcastId ? broadcasts.get(broadcastId) : undefined;
+
+    if (!session) {
+      // Host hasn't started yet — park listener in the waiting pool
+      ws.send(JSON.stringify({ type: 'waiting', message: 'Waiting for the broadcaster to start...' }));
+      if (broadcastId) {
+        if (!waitingListeners.has(broadcastId)) waitingListeners.set(broadcastId, new Map());
+        const byLang = waitingListeners.get(broadcastId)!;
+        if (!byLang.has(listenLang)) byLang.set(listenLang, new Set());
+        byLang.get(listenLang)!.add(ws);
+        ws.on("close", () => byLang.get(listenLang)?.delete(ws));
+        ws.on("error", () => byLang.get(listenLang)?.delete(ws));
+      }
+      return;
+    }
+
+    ws.send(JSON.stringify({ type: 'info', message: 'Connected to live broadcast.' }));
+    if (!session.listeners.has(listenLang)) session.listeners.set(listenLang, new Set());
+    session.listeners.get(listenLang)!.add(ws);
+
+    ws.on("close", () => session.listeners.get(listenLang)?.delete(ws));
+    ws.on("error", () => session.listeners.get(listenLang)?.delete(ws));
   }
   else if (role === 'host-video') {
+    const broadcastId = url.searchParams.get("id") || "default";
     ws.on('message', (message) => {
-      videoListeners.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(message);
-        }
+      videoRooms.get(broadcastId)?.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) client.send(message);
       });
     });
   }
   else if (role === 'listener-video') {
-    videoListeners.add(ws);
-    ws.on('close', () => videoListeners.delete(ws));
+    const broadcastId = url.searchParams.get("id") || "default";
+    if (!videoRooms.has(broadcastId)) videoRooms.set(broadcastId, new Set());
+    const room = videoRooms.get(broadcastId)!;
+    room.add(ws);
+    ws.on('close', () => room.delete(ws));
   }
 });
 

@@ -7,11 +7,12 @@ import { VideoCamera, VideoCameraSlash } from "@phosphor-icons/react"
 
 interface WebcamBroadcasterProps {
   wsUrl: string
+  broadcastId?: string
   canStart?: boolean
   blockedReason?: string
 }
 
-export function WebcamBroadcaster({ wsUrl, canStart = true, blockedReason }: WebcamBroadcasterProps) {
+export function WebcamBroadcaster({ wsUrl, broadcastId, canStart = true, blockedReason }: WebcamBroadcasterProps) {
   const [isActive, setIsActive] = useState(false)
   const [error, setError] = useState<string | null>(null)
   
@@ -77,10 +78,11 @@ export function WebcamBroadcaster({ wsUrl, canStart = true, blockedReason }: Web
            }
            
            urlObj.searchParams.set("role", "host-video")
+           if (broadcastId) urlObj.searchParams.set("id", broadcastId)
            finalUrl = urlObj.toString()
        } catch (e) {
            console.warn("Invalid WS URL", wsUrl)
-           finalUrl = `${wsUrl}?role=host-video`
+           finalUrl = `${wsUrl}?role=host-video${broadcastId ? `&id=${broadcastId}` : ''}`
        }
        
        console.log("Connecting video WS to:", finalUrl)
@@ -128,7 +130,7 @@ export function WebcamBroadcaster({ wsUrl, canStart = true, blockedReason }: Web
         setError(err.message || "Camera access denied")
         stopBroadcast()
     }
-  }, [wsUrl, stopBroadcast, isActive, canStart, blockedReason])
+  }, [wsUrl, broadcastId, stopBroadcast, isActive, canStart, blockedReason])
 
   // Cleanup on unmount
   useEffect(() => {

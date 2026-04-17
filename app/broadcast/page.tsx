@@ -21,6 +21,7 @@ import {
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"
 
 export default function AppPage() {
+  const [broadcastId] = useState(() => crypto.randomUUID())
   const [sourceLanguage, setSourceLanguage] = useState("auto")
   const [targetLanguages, setTargetLanguages] = useState<string[]>(["es"])
   const [targetVoices, setTargetVoices] = useState<Record<string, string>>({})
@@ -59,6 +60,7 @@ export default function AppPage() {
     error,
   } = useWebSocket({
     url: WS_URL,
+    broadcastId,
     sourceLanguage,
     targetLanguages,
     targetVoices,
@@ -135,11 +137,11 @@ export default function AppPage() {
                 )}
                 {targetLanguages.length > 0 && (
                   <div className="mt-4 p-4 rounded-lg border bg-muted/20 space-y-2">
-                    <p className="text-xs text-muted-foreground">Listener link</p>
+                    <p className="text-xs text-muted-foreground">Listener links — share after starting the broadcast</p>
                     <div className="space-y-1">
                       {targetLanguages.map((lang) => (
                         <p key={lang} className="text-sm font-mono break-all">
-                          {typeof window !== "undefined" ? `${window.location.origin}/broadcast/${lang}` : `/broadcast/${lang}`}
+                          {typeof window !== "undefined" ? `${window.location.origin}/broadcast/${broadcastId}/${lang}` : `/broadcast/${broadcastId}/${lang}`}
                         </p>
                       ))}
                     </div>
@@ -153,6 +155,7 @@ export default function AppPage() {
                 <div className="space-y-6">
                   <WebcamBroadcaster
                     wsUrl={WS_URL}
+                    broadcastId={broadcastId}
                     canStart={targetLanguages.length > 0}
                     blockedReason="Please select at least one target language"
                   />
