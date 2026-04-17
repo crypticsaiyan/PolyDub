@@ -7,7 +7,9 @@
     "dev": "next dev",
     "lint": "eslint .",
     "start": "next start",
-    "server": "tsx server/index.ts"
+    "server": "tsx server/index.ts",
+    "server:build": "tsc --outDir dist-server --module commonjs --moduleResolution node --esModuleInterop --skipLibCheck server/index.ts server/stt.ts server/tts.ts server/translate.ts",
+    "server:start": "node dist-server/server/index.js"
   },
   "dependencies": {
     "@deepgram/sdk": "^4.11.3",
