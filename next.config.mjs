@@ -13,7 +13,7 @@ const nextConfig = {
 
 const lingoConfig = {
   sourceLocale: "en",
-  targetLocales: ["es", "fr", "de", "it", "nl", "ja", "pt", "hi", "ar", "ko", "tr", "vi", "pl", "uk", "zh"]
+  targetLocales: ["es", "fr", "de", "it", "nl", "ja", "pt", "ko", "tr", "vi", "pl", "zh"]
 };
 
 const useLingo = process.env.NODE_ENV === "production";

@@ -20,8 +20,8 @@ services:
     name: polydub-ws
     runtime: node
     plan: free
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm server:build
-    startCommand: pnpm server:start
+    buildCommand: corepack enable && pnpm install --frozen-lockfile
+    startCommand: pnpm server
     healthCheckPath: /
     envVars:
       - key: NODE_VERSION
