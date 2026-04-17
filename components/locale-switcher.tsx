@@ -10,6 +10,12 @@ import {
 } from "@/components/ui/select"
 import { Globe } from "@phosphor-icons/react"
 
+const LOCALE_ABBR: Record<string, string> = {
+  en: "Eng", es: "Esp", fr: "Fra", de: "Deu", it: "Ita",
+  nl: "Nld", ja: "Jpn", pt: "Por", zh: "Zho", ko: "Kor",
+  vi: "Vie", pl: "Pol",
+}
+
 export function LocaleSwitcher() {
   const { locale, sourceLocale, setLocale, isLoading } = useLingoContext()
 
@@ -27,9 +33,16 @@ export function LocaleSwitcher() {
 
   return (
     <Select value={locale} onValueChange={onSelectChange} disabled={isLoading}>
-      <SelectTrigger className="w-[140px] h-9 gap-2">
-        <Globe className="h-4 w-4 text-muted-foreground" />
-        <SelectValue placeholder="Language" />
+      <SelectTrigger className="sm:w-[140px] h-9 px-2 sm:px-3 gap-1.5 sm:gap-2">
+        <Globe className="hidden sm:block h-4 w-4 text-muted-foreground shrink-0" />
+        {/* Mobile: 3-char abbreviation only (no globe, auto width) */}
+        <span className="sm:hidden text-xs font-semibold">
+          {LOCALE_ABBR[locale ?? ""] ?? locale?.toUpperCase() ?? "---"}
+        </span>
+        {/* Desktop: full language name */}
+        <span className="hidden sm:inline">
+          <SelectValue placeholder="Language" />
+        </span>
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="en">English</SelectItem>

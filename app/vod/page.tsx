@@ -149,9 +149,9 @@ export default function VODPage() {
     <div className="flex-1 w-full bg-background pt-16 min-h-screen">
       <main>
         <section className="py-12 sm:py-16">
-          <div className="mx-auto max-w-4xl px-6 lg:px-12">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-12">
             <div className="mb-8">
-               <h1 className="text-3xl font-bold mb-2">Video Dubbing Studio (VOD)</h1>
+               <h1 className="text-2xl sm:text-3xl font-bold mb-2">Video Dubbing Studio (VOD)</h1>
                <p className="text-muted-foreground">Upload a video file, select your target language, and generate a fully dubbed MP3 audio track and SRT subtitles instantly.</p>
               <p className="text-sm font-medium mt-3">Project configuration</p>
               <p className="text-xs text-muted-foreground">VOD project-configuration</p>

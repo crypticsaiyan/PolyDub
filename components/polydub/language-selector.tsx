@@ -257,22 +257,22 @@ export function LanguageSelector({
                              if (!langInfo) return null
 
                              return (
-                                <div key={langCode} className="grid grid-cols-[auto_1fr_auto] gap-3 p-3 text-sm hover:bg-muted/50 transition-colors items-center">
+                                <div key={langCode} className="flex flex-wrap items-center gap-2 p-3 text-sm hover:bg-muted/50 transition-colors">
                                    {/* Language Info */}
-                                   <div className="flex items-center gap-2 w-24 shrink-0">
+                                   <div className="flex items-center gap-2 w-20 shrink-0">
                                       <span className="text-lg">{langInfo.flag}</span>
                                       <span className="font-medium text-muted-foreground text-xs">{langInfo.name}</span>
                                    </div>
 
                                    {/* Voice Select */}
                                    {onVoiceChange && voiceOptions.length > 0 && (
-                                     <div className="flex items-center gap-1.5">
+                                     <div className="flex items-center gap-1.5 flex-1 min-w-[140px]">
                                         <Select
                                             value={currentVoice}
                                             onValueChange={(val) => onVoiceChange(langCode, val)}
                                             disabled={disabled}
                                         >
-                                            <SelectTrigger className="h-7 w-[140px] bg-background text-xs border-muted-foreground/20">
+                                            <SelectTrigger className="h-7 flex-1 max-w-[140px] bg-background text-xs border-muted-foreground/20">
                                                <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -283,9 +283,9 @@ export function LanguageSelector({
                                                ))}
                                             </SelectContent>
                                         </Select>
-                                        
+
                                         <Button
-                                            variant="ghost" 
+                                            variant="ghost"
                                             size="icon"
                                             className="h-7 w-7 shrink-0 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
                                             disabled={disabled || (playingVoiceId !== null && playingVoiceId !== currentVoice)}
@@ -297,14 +297,15 @@ export function LanguageSelector({
                                    )}
 
                                    {/* Link Copy */}
-                                   <div className="flex items-center gap-1 pl-3 border-l ml-auto">
+                                   <div className="flex items-center gap-1 ml-auto">
                                       <Button
                                         variant="ghost"
                                         size="sm"
                                         className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground gap-1.5 font-mono"
                                         onClick={() => copyLink(langCode)}
                                       >
-                                        <span>/broadcast/{langCode}</span>
+                                        <span className="hidden sm:inline">/broadcast/{langCode}</span>
+                                        <span className="sm:hidden">{langCode}</span>
                                         <Copy className="h-3 w-3" />
                                       </Button>
                                    </div>

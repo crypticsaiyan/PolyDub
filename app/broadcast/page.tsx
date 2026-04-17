@@ -112,7 +112,7 @@ export default function AppPage() {
       <div className="h-16" />
       <main>
         <section className="py-12 sm:py-16">
-          <div className="mx-auto max-w-5xl px-6 lg:px-12">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-12">
             <div className="flex flex-col gap-6">
               {/* Row 1: Language Selector (Full Width) */}
               <div className="w-full">

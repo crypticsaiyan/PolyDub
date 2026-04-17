@@ -193,7 +193,7 @@ export default function AudioListenerPage() {
 
   if (!hasJoined) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4 pt-20">
         <Card className="max-w-sm w-full text-center">
           <CardHeader>
             <div className="mx-auto mb-4 bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center">
@@ -219,7 +219,7 @@ export default function AudioListenerPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4 pt-20">
         <Card className="max-w-sm w-full border-destructive/50 bg-destructive/5">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 bg-destructive/10 w-12 h-12 rounded-full flex items-center justify-center">
@@ -241,7 +241,7 @@ export default function AudioListenerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8 flex flex-col items-center">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 pt-20 pb-8 md:px-8 md:pt-24">
       <div className="w-full max-w-5xl space-y-6">
 
         {/* Waiting overlay shown inside video area */}
@@ -332,12 +332,12 @@ export default function AudioListenerPage() {
               variant="ghost"
               size="sm"
               onClick={handleDownloadTranscript}
-              className="group h-10 px-2 hover:bg-primary/5 hover:text-primary transition-all duration-300 rounded-full flex items-center gap-0 hover:gap-2 border border-transparent hover:border-primary/10"
+              className="group h-10 px-2 hover:bg-primary/5 hover:text-primary transition-all duration-300 rounded-full flex items-center gap-2 sm:gap-0 sm:hover:gap-2 border border-transparent hover:border-primary/10"
             >
-              <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors shadow-sm">
+              <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors shadow-sm shrink-0">
                 <Waveform className="h-4 w-4" />
               </div>
-              <span className="text-xs font-semibold max-w-0 overflow-hidden group-hover:max-w-[120px] transition-all duration-300 whitespace-nowrap opacity-0 group-hover:opacity-100">
+              <span className="text-xs font-semibold overflow-hidden whitespace-nowrap opacity-100 max-w-[120px] sm:max-w-0 sm:opacity-0 transition-all duration-300 sm:group-hover:max-w-[120px] sm:group-hover:opacity-100">
                 Download Transcript
               </span>
             </Button>

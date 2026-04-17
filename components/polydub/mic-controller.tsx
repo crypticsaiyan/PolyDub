@@ -207,9 +207,9 @@ export function MicController({
 
   return (
     <Card className="overflow-hidden">
-      <CardContent className="p-3 flex items-center justify-between gap-4">
+      <CardContent className="p-3 flex items-center justify-between gap-3">
         {/* Left: Button & Status */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
           <Button
             size="icon"
             onClick={handleToggle}
@@ -217,8 +217,8 @@ export function MicController({
             className={`
               relative w-10 h-10 rounded-full shrink-0
               transition-all duration-300
-              ${isRecording 
-                ? 'bg-destructive hover:bg-destructive/90 text-destructive-foreground' 
+              ${isRecording
+                ? 'bg-destructive hover:bg-destructive/90 text-destructive-foreground'
                 : 'bg-primary hover:bg-primary/90 text-primary-foreground'
               }
             `}
@@ -230,14 +230,14 @@ export function MicController({
             )}
           </Button>
 
-          <div className="flex flex-col gap-0.5">
-             <div className="flex items-center gap-2">
-                <span className="text-sm font-medium leading-none">
+          <div className="flex flex-col gap-0.5 min-w-0">
+             <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-sm font-medium leading-none shrink-0">
                   {isRecording ? 'Broadcasting' : 'Mic Ready'}
                 </span>
-                <Badge 
-                  variant="outline" 
-                  className={`${getConnectionColor()} px-1.5 py-0 text-[10px] h-4 gap-1`}
+                <Badge
+                  variant="outline"
+                  className={`${getConnectionColor()} px-1.5 py-0 text-[10px] h-4 gap-1 shrink-0`}
                 >
                   {getConnectionIcon()}
                   <span className="capitalize">{connectionStatus}</span>
@@ -252,8 +252,8 @@ export function MicController({
           </div>
         </div>
 
-        {/* Right: Audio Visualizer */}
-        <div className="flex items-end justify-end gap-0.5 h-6">
+        {/* Right: Audio Visualizer — hidden on small screens */}
+        <div className="hidden sm:flex items-end justify-end gap-0.5 h-6 shrink-0">
           {bars}
         </div>
       </CardContent>
