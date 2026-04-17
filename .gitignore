@@ -13,7 +13,6 @@
 /build
 
 # lingo.dev - translation system
-src/lingo/cache/
 src/lingo/translation-server.log
 app/lingo/translation-server.log
 app/lingo/metadata-dev.json
