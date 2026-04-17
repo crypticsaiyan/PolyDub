@@ -1,0 +1,378 @@
+[
+  {
+    "id": "TC001",
+    "title": "Start live broadcast after selecting source and target languages",
+    "description": "Verifies a host can configure languages and start a broadcast, resulting in a shareable listener link being shown.",
+    "category": "Live Broadcast Hosting",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /broadcast"
+      },
+      {
+        "type": "action",
+        "description": "Select a source language"
+      },
+      {
+        "type": "action",
+        "description": "Select one target language"
+      },
+      {
+        "type": "action",
+        "description": "Allow microphone access when prompted"
+      },
+      {
+        "type": "action",
+        "description": "Start broadcasting"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a listener link is displayed for sharing"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Create a new room and reach the in-room conversation view",
+    "description": "Verifies a user can create a room from the lobby after configuring languages/voice and reach the in-room UI where conversation controls are available.",
+    "category": "Multilingual Rooms",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /rooms"
+      },
+      {
+        "type": "action",
+        "description": "Start creating a new room"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid source language"
+      },
+      {
+        "type": "action",
+        "description": "Select at least one valid target language"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid voice option"
+      },
+      {
+        "type": "action",
+        "description": "Confirm creation to enter the room"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user lands in a room session view with participant conversation controls visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Join an existing room by ID and reach the in-room conversation view",
+    "description": "Verifies a user can enter a room ID from the lobby, join the room, and reach the in-room UI where they can configure language/voice.",
+    "category": "Multilingual Rooms",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /rooms"
+      },
+      {
+        "type": "action",
+        "description": "Start creating a new room"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid source language"
+      },
+      {
+        "type": "action",
+        "description": "Select at least one valid target language"
+      },
+      {
+        "type": "action",
+        "description": "Confirm creation to enter the room"
+      },
+      {
+        "type": "action",
+        "description": "Copy the room ID shown in the room UI"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /rooms"
+      },
+      {
+        "type": "action",
+        "description": "Fill the room ID field with the copied room ID"
+      },
+      {
+        "type": "action",
+        "description": "Submit the join room form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user lands in the corresponding room session view"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Leave a room and rejoin using the same room ID",
+    "description": "Verifies a participant can leave an active room and then rejoin it from the lobby using the room ID, returning to an active room view.",
+    "category": "Multilingual Rooms",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /rooms"
+      },
+      {
+        "type": "action",
+        "description": "Start creating a new room"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid source language"
+      },
+      {
+        "type": "action",
+        "description": "Select at least one valid target language"
+      },
+      {
+        "type": "action",
+        "description": "Confirm creation to enter the room"
+      },
+      {
+        "type": "action",
+        "description": "Copy the room ID shown in the room UI"
+      },
+      {
+        "type": "action",
+        "description": "Leave the room to return to the lobby"
+      },
+      {
+        "type": "action",
+        "description": "Fill the room ID field with the copied room ID"
+      },
+      {
+        "type": "action",
+        "description": "Submit the join room form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user returns to the room session view after rejoining"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC005",
+    "title": "Prevent starting broadcast with no target languages selected",
+    "description": "Verifies the host cannot start a broadcast without selecting any target language and sees a validation error prompting for at least one target language.",
+    "category": "Live Broadcast Hosting",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /broadcast"
+      },
+      {
+        "type": "action",
+        "description": "Select a source language"
+      },
+      {
+        "type": "action",
+        "description": "Start broadcasting"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a target language selection validation error is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC006",
+    "title": "Change language and voice selection in an active room",
+    "description": "Verifies a participant can change their target language and voice settings within a room and the selection remains applied in the UI.",
+    "category": "Multilingual Rooms",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /rooms"
+      },
+      {
+        "type": "action",
+        "description": "Start creating a new room"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid source language"
+      },
+      {
+        "type": "action",
+        "description": "Select at least one valid target language"
+      },
+      {
+        "type": "action",
+        "description": "Confirm creation to enter the room"
+      },
+      {
+        "type": "action",
+        "description": "Change the participant target language to a different valid option"
+      },
+      {
+        "type": "action",
+        "description": "Change the participant voice to a different valid option"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated language and voice selections are reflected in the participant controls"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC007",
+    "title": "Open VOD studio and verify upload-ready configuration",
+    "description": "Verifies a user can access the VOD studio, see an upload control that accepts video input, and view project configuration controls.",
+    "category": "Video Dubbing Studio (VOD)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /vod"
+      },
+      {
+        "type": "action",
+        "description": "Verify the upload control is visible and ready to accept a video file"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the VOD project configuration UI is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC008",
+    "title": "Navigate from landing page to broadcast setup",
+    "description": "Verifies a user can switch the interface locale on the landing page and navigate into the broadcast setup where configuration options are available.",
+    "category": "Landing Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a different interface language in the language selector"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to the broadcast experience"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the broadcast setup options are displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC009",
+    "title": "Show validation when joining with a malformed room ID",
+    "description": "Verifies the app prevents joining when the user enters a malformed room ID and shows a validation error.",
+    "category": "Multilingual Rooms",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /rooms"
+      },
+      {
+        "type": "action",
+        "description": "Fill the room ID field with an invalid malformed value"
+      },
+      {
+        "type": "action",
+        "description": "Submit the join room form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a room ID validation error is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC010",
+    "title": "Navigate from landing page to rooms lobby",
+    "description": "Verifies a user can switch the interface locale on the landing page and navigate into the rooms lobby where create/join options are available.",
+    "category": "Landing Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a different interface language in the language selector"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to the rooms experience"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the room lobby and its create or join options are displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC011",
+    "title": "Reject an unsupported VOD file type on upload",
+    "description": "Verifies the VOD studio blocks unsupported file types and shows a validation error without starting a project.",
+    "category": "Video Dubbing Studio (VOD)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /vod"
+      },
+      {
+        "type": "action",
+        "description": "Select an unsupported file type using the upload control"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a file type validation error is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC012",
+    "title": "Navigate from landing page to VOD studio",
+    "description": "Verifies a user can switch the interface locale on the landing page and navigate into the VOD studio where upload and dubbing options are available.",
+    "category": "Landing Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a different interface language in the language selector"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to the VOD experience"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the video dubbing studio is displayed"
+      }
+    ],
+    "priority": "Low"
+  }
+]

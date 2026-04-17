@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { useLingoContext } from "@lingo.dev/compiler/react"
 import {
   Select,
@@ -12,17 +11,22 @@ import {
 import { Globe } from "@phosphor-icons/react"
 
 export function LocaleSwitcher() {
-  const { locale, setLocale } = useLingoContext()
-  const [isPending, startTransition] = React.useTransition()
+  const { locale, sourceLocale, setLocale, isLoading } = useLingoContext()
 
-  const onSelectChange = (nextLocale: string) => {
-    startTransition(() => {
-      setLocale(nextLocale as any)
-    })
+  const onSelectChange = async (nextLocale: string) => {
+    if (nextLocale === locale) return
+
+    const isSourceToTargetSwitch = locale === sourceLocale && nextLocale !== sourceLocale
+    await setLocale(nextLocale as any)
+
+    // Work around a Lingo dev-mode stale hash cache issue after selecting source locale.
+    if (isSourceToTargetSwitch) {
+      window.location.reload()
+    }
   }
 
   return (
-    <Select value={locale} onValueChange={onSelectChange} disabled={isPending}>
+    <Select value={locale} onValueChange={onSelectChange} disabled={isLoading}>
       <SelectTrigger className="w-[140px] h-9 gap-2">
         <Globe className="h-4 w-4 text-muted-foreground" />
         <SelectValue placeholder="Language" />
@@ -37,13 +41,9 @@ export function LocaleSwitcher() {
         <SelectItem value="ja">日本語</SelectItem>
         <SelectItem value="pt">Português</SelectItem>
         <SelectItem value="zh">中文</SelectItem>
-        <SelectItem value="hi">हिन्दी</SelectItem>
-        <SelectItem value="ar">العربية</SelectItem>
         <SelectItem value="ko">한국어</SelectItem>
-        <SelectItem value="tr">Türkçe</SelectItem>
         <SelectItem value="vi">Tiếng Việt</SelectItem>
         <SelectItem value="pl">Polski</SelectItem>
-        <SelectItem value="uk">Українська</SelectItem>
       </SelectContent>
     </Select>
   )

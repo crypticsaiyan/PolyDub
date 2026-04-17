@@ -38,37 +38,48 @@ const TTS_LANGUAGES = [
   { code: "ja", name: "Japanese", flag: "🇯🇵" },
 ]
 
-// Available Voices per Language (Using validated Aura models)
+// Available Voices per Language — Aura 2 native voices only
 export const VOICE_OPTIONS: Record<string, { id: string; name: string; gender: 'M' | 'F' }[]> = {
   en: [
-    { id: 'aura-asteria-en', name: 'Asteria (F)', gender: 'F' },
-    { id: 'aura-luna-en', name: 'Luna (F)', gender: 'F' },
-    { id: 'aura-orion-en', name: 'Orion (M)', gender: 'M' },
-    { id: 'aura-arcas-en', name: 'Arcas (M)', gender: 'M' },
+    { id: 'aura-2-thalia-en', name: 'Thalia (F)', gender: 'F' },
+    { id: 'aura-2-andromeda-en', name: 'Andromeda (F)', gender: 'F' },
+    { id: 'aura-2-apollo-en', name: 'Apollo (M)', gender: 'M' },
+    { id: 'aura-2-arcas-en', name: 'Arcas (M)', gender: 'M' },
   ],
   es: [
-    { id: 'aura-stella-en', name: 'Stella (F)', gender: 'F' },
-    { id: 'aura-perseus-en', name: 'Perseus (M)', gender: 'M' },
+    { id: 'aura-2-celeste-es', name: 'Celeste (F)', gender: 'F' },
+    { id: 'aura-2-estrella-es', name: 'Estrella (F)', gender: 'F' },
+    { id: 'aura-2-nestor-es', name: 'Nestor (M)', gender: 'M' },
+    { id: 'aura-2-sirio-es', name: 'Sirio (M)', gender: 'M' },
   ],
   fr: [
-    { id: 'aura-athena-en', name: 'Athena (F)', gender: 'F' },
-    { id: 'aura-helios-en', name: 'Helios (M)', gender: 'M' },
+    { id: 'aura-2-agathe-fr', name: 'Agathe (F)', gender: 'F' },
+    { id: 'aura-2-hector-fr', name: 'Hector (M)', gender: 'M' },
   ],
   de: [
-    { id: 'aura-hera-en', name: 'Hera (F)', gender: 'F' },
-    { id: 'aura-zeus-en', name: 'Zeus (M)', gender: 'M' },
+    { id: 'aura-2-viktoria-de', name: 'Viktoria (F)', gender: 'F' },
+    { id: 'aura-2-elara-de', name: 'Elara (F)', gender: 'F' },
+    { id: 'aura-2-julius-de', name: 'Julius (M)', gender: 'M' },
+    { id: 'aura-2-fabian-de', name: 'Fabian (M)', gender: 'M' },
   ],
   it: [
-    { id: 'aura-asteria-en', name: 'Livia (F)', gender: 'F' },
-    { id: 'aura-orion-en', name: 'Dionisio (M)', gender: 'M' },
+    { id: 'aura-2-livia-it', name: 'Livia (F)', gender: 'F' },
+    { id: 'aura-2-melia-it', name: 'Melia (F)', gender: 'F' },
+    { id: 'aura-2-dionisio-it', name: 'Dionisio (M)', gender: 'M' },
+    { id: 'aura-2-elio-it', name: 'Elio (M)', gender: 'M' },
   ],
   ja: [
-    { id: 'aura-luna-en', name: 'Izanami (F)', gender: 'F' },
-    { id: 'aura-arcas-en', name: 'Fujin (M)', gender: 'M' },
+    { id: 'aura-2-izanami-ja', name: 'Izanami (F)', gender: 'F' },
+    { id: 'aura-2-uzume-ja', name: 'Uzume (F)', gender: 'F' },
+    { id: 'aura-2-ama-ja', name: 'Ama (F)', gender: 'F' },
+    { id: 'aura-2-ebisu-ja', name: 'Ebisu (M)', gender: 'M' },
+    { id: 'aura-2-fujin-ja', name: 'Fujin (M)', gender: 'M' },
   ],
   nl: [
-    { id: 'aura-stella-en', name: 'Rhea (F)', gender: 'F' },
-    { id: 'aura-perseus-en', name: 'Sander (M)', gender: 'M' },
+    { id: 'aura-2-rhea-nl', name: 'Rhea (F)', gender: 'F' },
+    { id: 'aura-2-beatrix-nl', name: 'Beatrix (F)', gender: 'F' },
+    { id: 'aura-2-sander-nl', name: 'Sander (M)', gender: 'M' },
+    { id: 'aura-2-lars-nl', name: 'Lars (M)', gender: 'M' },
   ],
 }
 

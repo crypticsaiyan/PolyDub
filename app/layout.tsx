@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
-import { LingoProvider } from "@lingo.dev/compiler/react"
+import { LingoProvider } from "@lingo.dev/compiler/react/next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans antialiased ${spaceGrotesk.variable} min-h-screen flex flex-col`}>
-        <LingoProvider>
+        <LingoProvider devWidget={{ enabled: false }}>
           <Header />
             {children}
           <Footer />

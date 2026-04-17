@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback } from "react"
 import { MicController } from "@/components/polydub/mic-controller"
 import { LanguageSelector } from "@/components/polydub/language-selector"
 import { TranscriptView, TranscriptEntry } from "@/components/polydub/transcript-view"
@@ -21,10 +21,12 @@ import {
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"
 
 export default function AppPage() {
+  const [broadcastId] = useState(() => crypto.randomUUID())
   const [sourceLanguage, setSourceLanguage] = useState("auto")
   const [targetLanguages, setTargetLanguages] = useState<string[]>(["es"])
   const [targetVoices, setTargetVoices] = useState<Record<string, string>>({})
   const [isRecording, setIsRecording] = useState(false)
+  const [broadcastValidationError, setBroadcastValidationError] = useState<string | null>(null)
   const [transcripts, setTranscripts] = useState<TranscriptEntry[]>([])
   const [partialTranscript, setPartialTranscript] = useState<{ original: string; translated?: string } | undefined>()
 
@@ -43,6 +45,7 @@ export default function AppPage() {
     setTargetLanguages(prev =>
       prev.includes(lang) ? prev.filter(l => l !== lang) : [...prev, lang]
     )
+    setBroadcastValidationError(null)
   }, [])
 
   const handleVoiceChange = useCallback((lang: string, voiceId: string) => {
@@ -57,6 +60,7 @@ export default function AppPage() {
     error,
   } = useWebSocket({
     url: WS_URL,
+    broadcastId,
     sourceLanguage,
     targetLanguages,
     targetVoices,
@@ -66,11 +70,17 @@ export default function AppPage() {
   })
 
   const handleStart = useCallback((sampleRate?: number) => {
+    if (targetLanguages.length === 0) {
+      setBroadcastValidationError("Please select at least one target language")
+      return
+    }
+
+    setBroadcastValidationError(null)
     connect(sampleRate)
     setIsRecording(true)
     setTranscripts([])
     setPartialTranscript(undefined)
-  }, [connect])
+  }, [connect, targetLanguages])
 
   const handleStop = useCallback(() => {
     disconnect()
@@ -79,10 +89,6 @@ export default function AppPage() {
   }, [disconnect])
 
   const handleMicAudioData = useCallback((chunk: ArrayBuffer) => sendAudio(chunk), [sendAudio])
-
-  useEffect(() => {
-    if (isRecording && connectionStatus === 'disconnected') setIsRecording(false)
-  }, [isRecording, connectionStatus])
 
   const handleDownloadSRT = useCallback(() => {
     if (transcripts.length === 0) return;
@@ -124,19 +130,43 @@ export default function AppPage() {
                     <p className="text-sm text-destructive">{error}</p>
                   </div>
                 )}
+                {broadcastValidationError && (
+                  <div className="mt-4 p-4 rounded-lg bg-destructive/10 border border-destructive/20">
+                    <p className="text-sm text-destructive">{broadcastValidationError}</p>
+                  </div>
+                )}
+                {targetLanguages.length > 0 && (
+                  <div className="mt-4 p-4 rounded-lg border bg-muted/20 space-y-2">
+                    <p className="text-xs text-muted-foreground">Listener links — share after starting the broadcast</p>
+                    <div className="space-y-1">
+                      {targetLanguages.map((lang) => (
+                        <p key={lang} className="text-sm font-mono break-all">
+                          {typeof window !== "undefined" ? `${window.location.origin}/broadcast/${broadcastId}/${lang}` : `/broadcast/${broadcastId}/${lang}`}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Row 2: Video/Mic + Transcript */}
               <div className="grid gap-6 lg:grid-cols-2">
                 {/* Col 1: Video + Mic */}
                 <div className="space-y-6">
-                  <WebcamBroadcaster wsUrl={WS_URL} />
+                  <WebcamBroadcaster
+                    wsUrl={WS_URL}
+                    broadcastId={broadcastId}
+                    canStart={targetLanguages.length > 0}
+                    blockedReason="Please select at least one target language"
+                  />
                   <MicController
                     isRecording={isRecording}
                     onStart={handleStart}
                     onStop={handleStop}
                     onAudioData={handleMicAudioData}
                     connectionStatus={connectionStatus}
+                    canStart={targetLanguages.length > 0}
+                    blockedReason="Please select at least one target language"
                   />
                 </div>
 

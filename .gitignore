@@ -13,8 +13,8 @@
 /build
 
 # lingo.dev - translation system
-src/lingo/cache/
 src/lingo/translation-server.log
+src/lingo/metadata-dev/
 app/lingo/translation-server.log
 app/lingo/metadata-dev.json
 
@@ -47,3 +47,12 @@ next-env.d.ts
 
 # debug
 .vscode/settings.json
+.playwright-mcp/
+.idea/
+
+# local MCP/server configs (may contain API keys)
+.vscode/mcp.json
+.cursor/mcp.json
+
+# testsprite runtime secrets
+testsprite_tests/tmp/config.json

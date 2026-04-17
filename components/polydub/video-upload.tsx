@@ -12,6 +12,20 @@ interface VideoUploadProps {
 
 export function VideoUpload({ onVideoSelect, selectedVideo }: VideoUploadProps) {
   const [dragActive, setDragActive] = useState(false)
+  const [validationError, setValidationError] = useState<string | null>(null)
+
+  const validateVideoFile = (file: File) => {
+    const allowedExtensions = ["mp4", "mov", "avi", "mkv", "webm"]
+    const ext = file.name.includes(".") ? file.name.split(".").pop()?.toLowerCase() : ""
+    const isVideoMime = file.type.startsWith("video/")
+    const hasAllowedExtension = !!ext && allowedExtensions.includes(ext)
+
+    if (!isVideoMime && !hasAllowedExtension) {
+      return "Unsupported file type. Please upload MP4, MOV, AVI, MKV, or WEBM."
+    }
+
+    return null
+  }
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault()
@@ -28,23 +42,39 @@ export function VideoUpload({ onVideoSelect, selectedVideo }: VideoUploadProps) 
     e.stopPropagation()
     setDragActive(false)
     
-    // TODO: Add file validation (video type, size limit)
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const file = e.dataTransfer.files[0]
-      if (file.type.startsWith("video/")) {
-        onVideoSelect(file)
+      const err = validateVideoFile(file)
+      if (err) {
+        setValidationError(err)
+        onVideoSelect(null)
+        return
       }
+
+      setValidationError(null)
+      onVideoSelect(file)
     }
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      onVideoSelect(e.target.files[0])
+      const file = e.target.files[0]
+      const err = validateVideoFile(file)
+      if (err) {
+        setValidationError(err)
+        onVideoSelect(null)
+        e.target.value = ""
+        return
+      }
+
+      setValidationError(null)
+      onVideoSelect(file)
     }
   }
 
   const handleRemove = () => {
     onVideoSelect(null)
+    setValidationError(null)
   }
 
   if (selectedVideo) {
@@ -107,6 +137,9 @@ export function VideoUpload({ onVideoSelect, selectedVideo }: VideoUploadProps) 
         <p className="mt-3 text-xs text-muted-foreground">
           Supports MP4, MOV, AVI • Max 500MB
         </p>
+        {validationError && (
+          <p className="mt-2 text-sm text-destructive" role="alert">{validationError}</p>
+        )}
       </CardContent>
     </Card>
   )

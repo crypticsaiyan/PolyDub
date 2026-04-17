@@ -1,0 +1,70 @@
+version: "2"
+type: backend
+tech_stack:
+  - TypeScript
+  - Next.js Route Handlers
+  - Node.js
+  - ffmpeg
+features:
+  - name: Dubbing Pipeline API
+    description: Accepts uploaded media, performs STT/translation/TTS pipeline, and returns SRT plus dubbed audio.
+    files:
+      - app/api/dub/route.ts
+      - server/translate.ts
+      - server/tts.ts
+      - lib/srt.ts
+    endpoints:
+      - method: POST
+        path: /api/dub
+        description: Process uploaded file and target language to return SRT and base64 MP3.
+        auth_required: false
+        response_schema:
+          "200":
+            srt: string
+            mp3: base64 string
+          "400": Missing parameters
+          "500": Missing API keys or processing error
+    depends_on:
+      - Deepgram API
+      - Lingo translation API
+  - name: Media Mux API
+    description: Muxes original video and dubbed audio using ffmpeg and returns MP4 output.
+    files:
+      - app/api/mux/route.ts
+    endpoints:
+      - method: POST
+        path: /api/mux
+        description: Combine input video and audio into one downloadable MP4 file.
+        auth_required: false
+        response_schema:
+          "200": video/mp4 stream
+          "400": Missing video or audio file
+          "500": ffmpeg or file processing error
+    depends_on:
+      - System ffmpeg binary
+  - name: TTS Preview API
+    description: Streams synthesized preview audio for provided text/voice inputs.
+    files:
+      - app/api/tts-preview/route.ts
+      - server/tts.ts
+    endpoints:
+      - method: POST
+        path: /api/tts-preview
+        description: Generate and stream preview audio in MPEG format.
+        auth_required: false
+        response_schema:
+          "200": audio/mpeg stream
+          "400": Missing parameters
+          "500": Missing API key or synthesis error
+    depends_on:
+      - Deepgram API
+known_limitations:
+  - issue: API routes are unauthenticated and open by default.
+    location: app/api/dub/route.ts
+    impact: Public callers can trigger expensive processing.
+  - issue: /api/mux executes shell ffmpeg command directly and depends on host binary presence.
+    location: app/api/mux/route.ts
+    impact: Fails in environments without ffmpeg and increases operational risk.
+  - issue: Error responses expose raw error messages.
+    location: app/api/dub/route.ts
+    impact: May leak internal details to clients.

@@ -26,7 +26,9 @@ export class STTService {
         sample_rate: this.options.sampleRate || 16000,
         channels: 1,
         interim_results: true,
-        endpointing: 300,
+        endpointing: 150,
+        utterance_end_ms: 1000,
+        vad_events: true,
       };
 
       if (this.options.sourceLanguage === 'multi' || this.options.sourceLanguage === 'auto') {
@@ -101,7 +103,7 @@ export class STTService {
     }
 
     if (this.connection) {
-      // this.connection.finish(); // Clean disconnect
+      try { this.connection.finish(); } catch (_) {}
       this.connection = null;
     }
   }

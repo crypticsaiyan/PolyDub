@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect, useState, useCallback } from "react"
+import { useRef, useEffect, useState, useCallback, forwardRef, useImperativeHandle } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
@@ -21,13 +21,18 @@ interface AudioPlaybackProps {
   recordingDestination?: MediaStreamAudioDestinationNode | null
 }
 
-export function AudioPlayback({ 
-  audioQueue, 
+export interface AudioPlaybackHandle {
+  /** Schedule a raw PCM chunk (Int16 LE) for immediate gapless playback. */
+  playPCM: (chunk: ArrayBuffer, sampleRate: number) => void
+}
+
+export const AudioPlayback = forwardRef<AudioPlaybackHandle, AudioPlaybackProps>(function AudioPlayback({
+  audioQueue,
   onAudioPlayed,
   isEnabled,
   audioContext,
   recordingDestination
-}: AudioPlaybackProps) {
+}, ref) {
   const [volume, setVolume] = useState(80)
   const [isMuted, setIsMuted] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -111,6 +116,45 @@ export function AudioPlayback({
       gainNodeRef.current.gain.value = isMuted ? 0 : volume / 100
     }
   }, [volume, isMuted])
+
+  // Expose imperative playPCM for progressive PCM streaming
+  useImperativeHandle(ref, () => ({
+    playPCM(chunk: ArrayBuffer, sampleRate: number) {
+      const ctx = audioContextRef.current
+      const gain = gainNodeRef.current
+      if (!ctx || !gain) return
+      if (ctx.state === 'suspended') ctx.resume().catch(() => {})
+
+      const numSamples = chunk.byteLength / 2
+      const audioBuffer = ctx.createBuffer(1, numSamples, sampleRate)
+      const channelData = audioBuffer.getChannelData(0)
+      const view = new DataView(chunk)
+      for (let i = 0; i < numSamples; i++) {
+        channelData[i] = view.getInt16(i * 2, true) / 32768
+      }
+
+      const source = ctx.createBufferSource()
+      source.buffer = audioBuffer
+      source.connect(gain)
+      if (recordingDestination) source.connect(recordingDestination)
+
+      const now = ctx.currentTime
+      const startTime = Math.max(now, nextStartTimeRef.current)
+      source.start(startTime)
+      nextStartTimeRef.current = startTime + audioBuffer.duration
+
+      activeSourcesRef.current++
+      setIsPlaying(true)
+      source.onended = () => {
+        activeSourcesRef.current--
+        if (activeSourcesRef.current <= 0) {
+          activeSourcesRef.current = 0
+          setIsPlaying(false)
+          nextStartTimeRef.current = ctx.currentTime
+        }
+      }
+    }
+  }), [recordingDestination])
 
   // Process audio queue
   // Process audio queue
@@ -286,4 +330,4 @@ export function AudioPlayback({
         </div>
     </div>
   )
-}
+})

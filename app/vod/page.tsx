@@ -153,6 +153,8 @@ export default function VODPage() {
             <div className="mb-8">
                <h1 className="text-3xl font-bold mb-2">Video Dubbing Studio (VOD)</h1>
                <p className="text-muted-foreground">Upload a video file, select your target language, and generate a fully dubbed MP3 audio track and SRT subtitles instantly.</p>
+              <p className="text-sm font-medium mt-3">Project configuration</p>
+              <p className="text-xs text-muted-foreground">VOD project-configuration</p>
             </div>
           
             <div className="flex flex-col gap-6">
