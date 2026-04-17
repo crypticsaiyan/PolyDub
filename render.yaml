@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: polydub-web
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
+    startCommand: corepack enable && pnpm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: DEEPGRAM_API_KEY
+        sync: false
+      - key: LINGO_API_KEY
+        sync: false
+      - key: NEXT_PUBLIC_WS_URL
+        sync: false
+
+  - type: web
+    name: polydub-ws
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm server:build
+    startCommand: pnpm server:start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: DEEPGRAM_API_KEY
+        sync: false
+      - key: LINGO_API_KEY
+        sync: false
