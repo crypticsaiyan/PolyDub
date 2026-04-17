@@ -21,7 +21,7 @@ services:
     runtime: node
     plan: free
     buildCommand: corepack enable && pnpm install --frozen-lockfile
-    startCommand: pnpm server
+    startCommand: ./node_modules/.bin/tsx server/index.ts
     healthCheckPath: /
     envVars:
       - key: NODE_VERSION
