@@ -90,8 +90,11 @@ const VOICE_OPTIONS: Record<string, { id: string; name: string; gender: 'M' | 'F
     { id: 'aura-2-dionisio-it', name: 'Dionisio (IT)', gender: 'M' },
   ],
   ja: [
+    { id: 'aura-2-ebisu-ja', name: 'Ebisu (JP)', gender: 'M' },
     { id: 'aura-2-fujin-ja', name: 'Fujin (JP)', gender: 'M' },
     { id: 'aura-2-izanami-ja', name: 'Izanami (JP)', gender: 'F' },
+    { id: 'aura-2-uzume-ja', name: 'Uzume (JP)', gender: 'F' },
+    { id: 'aura-2-ama-ja', name: 'Ama (JP)', gender: 'F' },
   ],
   nl: [
     { id: 'aura-2-rhea-nl', name: 'Rhea (NL)', gender: 'F' },
@@ -144,6 +147,8 @@ export default function RoomPage() {
   
   const videoRefs = useRef<Map<string, HTMLImageElement>>(new Map())
   const localStreamRef = useRef<MediaStream | null>(null)
+  const audioContextRef = useRef<AudioContext | null>(null)
+  const videoLoopRef = useRef<NodeJS.Timeout | null>(null)
   
   const handleTranscript = useCallback((msg: TranscriptMessage) => {
      const userColor = getUserColor(msg.userId);
@@ -237,9 +242,9 @@ export default function RoomPage() {
   // Cleanup media on unmount
   useEffect(() => {
      return () => {
-         if (localStreamRef.current) {
-             localStreamRef.current.getTracks().forEach(track => track.stop())
-         }
+         if (videoLoopRef.current) clearInterval(videoLoopRef.current)
+         if (localStreamRef.current) localStreamRef.current.getTracks().forEach(track => track.stop())
+         if (audioContextRef.current) audioContextRef.current.close().catch(() => {})
      }
   }, [])
 
@@ -262,9 +267,17 @@ export default function RoomPage() {
 
   const toggleMedia = async () => {
     if (isConnected) {
+        if (videoLoopRef.current) {
+            clearInterval(videoLoopRef.current)
+            videoLoopRef.current = null
+        }
         if (localStreamRef.current) {
             localStreamRef.current.getTracks().forEach(track => track.stop())
             localStreamRef.current = null
+        }
+        if (audioContextRef.current) {
+            audioContextRef.current.close().catch(() => {})
+            audioContextRef.current = null
         }
         setIsConnected(false)
         setIsMicOn(true)
@@ -289,10 +302,11 @@ export default function RoomPage() {
             setLocalError(null)
             connect()
 
-            const audioContext = new AudioContext({ 
+            const audioContext = new AudioContext({
                 sampleRate: 16000,
                 latencyHint: 'interactive'
             });
+            audioContextRef.current = audioContext
             if (audioContext.state === 'suspended') {
                 await audioContext.resume();
             }
@@ -328,9 +342,10 @@ export default function RoomPage() {
             const canvas = document.createElement('canvas')
             const ctx = canvas.getContext('2d')
             
-            const videoLoop = setInterval(() => {
+            videoLoopRef.current = setInterval(() => {
                if (!localStreamRef.current?.active) {
-                   clearInterval(videoLoop)
+                   clearInterval(videoLoopRef.current!)
+                   videoLoopRef.current = null
                    return
                }
                if (videoEl.readyState >= 2 && ctx) {
@@ -341,7 +356,7 @@ export default function RoomPage() {
                        if (blob) sendVideoFrame(blob)
                    }, 'image/jpeg', 0.6)
                }
-            }, 100)
+            }, 100) as unknown as NodeJS.Timeout
             
         } catch (e: any) {
             console.error("Failed to access media", e)

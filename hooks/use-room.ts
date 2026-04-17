@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useRef } from "react"
+import React, { useState, useCallback, useRef } from "react"
 import { RoomMember, TranscriptMessage } from "@/types/room"
 
 interface UseRoomOptions {
@@ -16,10 +16,6 @@ interface UseRoomOptions {
   onMemberLeft: (userId: string) => void
 }
 
-// Global player variables (client only)
-let audioContext: AudioContext | null = null;
-let nextStartTime = 0;
-
 export function useRoom({
   url,
   roomId,
@@ -34,17 +30,19 @@ export function useRoom({
 }: UseRoomOptions) {
   const [status, setStatus] = useState<'connected' | 'connecting' | 'disconnected'>('disconnected')
   const [error, setError] = useState<string | null>(null)
-  
+
   const audioWsRef = useRef<WebSocket | null>(null)
   const videoWsRef = useRef<WebSocket | null>(null)
+  const audioContextRef = useRef<AudioContext | null>(null)
+  const nextStartTimeRef = useRef<number>(0)
 
   const enableAudio = useCallback(async () => {
     try {
-        if (!audioContext) {
-            audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        if (!audioContextRef.current) {
+            audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
         }
-        if (audioContext.state === 'suspended') {
-            await audioContext.resume();
+        if (audioContextRef.current.state === 'suspended') {
+            await audioContextRef.current.resume();
         }
     } catch (e) {
         console.error("Audio Enable Failed", e);
@@ -73,6 +71,9 @@ export function useRoom({
       setStatus('connected')
     }
 
+    // Track the current TTS session's encoding metadata
+    const pcmMeta: { sampleRate: number } = { sampleRate: 24000 }
+
     audioWs.onmessage = (event) => {
       if (typeof event.data === 'string') {
         try {
@@ -93,6 +94,11 @@ export function useRoom({
                  msg.participants.forEach((p: any) => onMemberJoined(p))
               }
               break
+            case 'tts-start':
+              pcmMeta.sampleRate = msg.sampleRate ?? 24000
+              break
+            case 'tts-end':
+              break
             case 'error':
               console.error('[Room] Server Error:', msg.message)
               setError(msg.message)
@@ -100,7 +106,7 @@ export function useRoom({
           }
         } catch (e) { console.error(e) }
       } else if (event.data instanceof ArrayBuffer) {
-          playAudio(event.data)
+        playPCMChunk(event.data, pcmMeta.sampleRate, audioContextRef, nextStartTimeRef)
       }
     }
     
@@ -182,33 +188,38 @@ export function useRoom({
   }
 }
 
-function playAudio(data: ArrayBuffer) {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+function playPCMChunk(
+    data: ArrayBuffer,
+    sampleRate: number,
+    audioContextRef: React.MutableRefObject<AudioContext | null>,
+    nextStartTimeRef: React.MutableRefObject<number>
+) {
+    if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
     }
-    
-    if (audioContext.state === 'suspended') {
-        audioContext.resume().catch(() => {});
+    const ctx = audioContextRef.current;
+    if (ctx.state === 'suspended') {
+        ctx.resume().catch(() => {});
     }
 
     try {
-        const bufferCopy = data.slice(0);
-        
-        audioContext.decodeAudioData(bufferCopy, (buffer) => {
-            if (!audioContext) return;
-            const source = audioContext.createBufferSource();
-            source.buffer = buffer;
-            source.connect(audioContext.destination);
-            
-            const now = audioContext.currentTime;
-            if (nextStartTime < now) nextStartTime = now;
-            
-            source.start(nextStartTime);
-            nextStartTime += buffer.duration;
-        }, (err) => {
-             // console.warn("Audio decode failed", err)
-        });
+        const numSamples = data.byteLength / 2;
+        const audioBuffer = ctx.createBuffer(1, numSamples, sampleRate);
+        const channelData = audioBuffer.getChannelData(0);
+        const view = new DataView(data);
+        for (let i = 0; i < numSamples; i++) {
+            channelData[i] = view.getInt16(i * 2, true) / 32768;
+        }
+
+        const source = ctx.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(ctx.destination);
+
+        const now = ctx.currentTime;
+        if (nextStartTimeRef.current < now) nextStartTimeRef.current = now;
+        source.start(nextStartTimeRef.current);
+        nextStartTimeRef.current += audioBuffer.duration;
     } catch (e) {
-        console.error("Audio Playback Error", e);
+        console.error("[Room] PCM Playback Error", e);
     }
 }
