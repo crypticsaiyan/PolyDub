@@ -148,6 +148,21 @@
     "0ee88dc0dd07": "Back to Rooms",
     "0e5ca8314b9b": "Select voice",
     "035e44103512": "Error: {expression0}",
-    "049712f47209": "Listener Links"
+    "049712f47209": "Listener Links",
+    "0fc6a6e6c8ff": "Listener links — share after starting the broadcast",
+    "bbb419002915": "Join Broadcast",
+    "d4dab88fb53f": "Listen to the live translation in {expression0}",
+    "32dd4d4eb9b3": "Join & Enable Audio",
+    "b5f18e2e9305": "Click below to start listening. Ensure your speakers are on.",
+    "30ba2d0b6069": "Broadcast Unavailable",
+    "916d5ab94c71": "Retry Connection",
+    "b030e26e601e": "Waiting for the broadcaster to start…",
+    "9a0f4bb376fc": "Record Session",
+    "3a3744d64ac8": "Stop & Save",
+    "714fb0a817aa": "PolyDub Live",
+    "d9302f803ca4": "Live Transcripts",
+    "872076b0e25a": "Real-time translations appearing here",
+    "2915a0ab5654": "Download Transcript",
+    "e426359a525d": "Make sure your audio output device is set correctly."
   }
 }
