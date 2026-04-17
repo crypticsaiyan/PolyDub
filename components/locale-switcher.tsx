@@ -38,7 +38,6 @@ export function LocaleSwitcher() {
         <SelectItem value="pt">Português</SelectItem>
         <SelectItem value="zh">中文</SelectItem>
         <SelectItem value="ko">한국어</SelectItem>
-        <SelectItem value="tr">Türkçe</SelectItem>
         <SelectItem value="vi">Tiếng Việt</SelectItem>
         <SelectItem value="pl">Polski</SelectItem>
       </SelectContent>
