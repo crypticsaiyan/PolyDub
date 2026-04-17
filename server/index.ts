@@ -10,7 +10,7 @@ import { TTSService } from "./tts";
 
 dotenv.config();
 
-const PORT = parseInt(process.env.WEBSOCKET_PORT || "8080", 10);
+const PORT = parseInt(process.env.PORT || process.env.WEBSOCKET_PORT || "8080", 10);
 const DEEPGRAM_API_KEY = process.env.DEEPGRAM_API_KEY;
 const LINGO_API_KEY = process.env.LINGO_API_KEY;
 
@@ -25,8 +25,54 @@ const server = http.createServer((req, res) => {
 });
 
 const wss = new WebSocketServer({ server });
-const translationService = new TranslationService(LINGO_API_KEY);
+const translationService = new TranslationService();
 const ttsService = new TTSService(DEEPGRAM_API_KEY);
+
+// PCM config streamed to listeners (Deepgram Aura native rate)
+const TTS_ENCODING = "linear16" as const;
+const TTS_SAMPLE_RATE = 24000;
+
+// Per-listener TTS queue: serializes audio from concurrent speakers so chunks
+// never interleave on the same socket. Depth is capped so stale utterances are
+// dropped rather than letting the queue grow and creating 8+ second backlogs.
+const listenerQueues = new WeakMap<WebSocket, Promise<void>>();
+const listenerQueueDepth = new WeakMap<WebSocket, number>();
+const MAX_QUEUE_DEPTH = 1; // 1 running + 1 waiting = max 2 in-flight at once
+
+function enqueueTTS(ws: WebSocket, fn: () => Promise<void>): void {
+  const prev = listenerQueues.get(ws) ?? Promise.resolve();
+  const next = prev.then(fn).catch((e) => {
+    console.error("[TTS Queue] Error:", e);
+  });
+  listenerQueues.set(ws, next);
+}
+
+function streamTTSToSocket(ws: WebSocket, text: string, targetLang: string, voiceId?: string): void {
+  const depth = listenerQueueDepth.get(ws) ?? 0;
+  if (depth > MAX_QUEUE_DEPTH) {
+    console.log(`[TTS Queue] Dropping utterance (depth=${depth}) to prevent backlog`);
+    return;
+  }
+  listenerQueueDepth.set(ws, depth + 1);
+
+  enqueueTTS(ws, async () => {
+    const ttsStart = Date.now();
+    try {
+      if (ws.readyState !== WebSocket.OPEN) return;
+      ws.send(JSON.stringify({ type: "tts-start", encoding: TTS_ENCODING, sampleRate: TTS_SAMPLE_RATE }));
+      await ttsService.streamAudio(text, targetLang, (chunk) => {
+        if (ws.readyState === WebSocket.OPEN) ws.send(chunk);
+      }, voiceId, { progressive: true, encoding: TTS_ENCODING, sampleRate: TTS_SAMPLE_RATE });
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ type: "tts-end" }));
+      }
+      console.log(`[TTS] done in ${Date.now() - ttsStart}ms`);
+    } finally {
+      const d = listenerQueueDepth.get(ws) ?? 1;
+      listenerQueueDepth.set(ws, Math.max(0, d - 1));
+    }
+  });
+}
 
 // --- LEGACY BROADCAST STATE ---
 // Store listeners: "es" -> Set of WebSockets
@@ -143,6 +189,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
         if (isFinal && text.trim().length > 0) {
             const currentRoom = rooms.get(roomId); // Refetch to be safe
             if (!currentRoom) return;
+            const finalAt = Date.now();
 
             // Iterate other members
             await Promise.all(Array.from(currentRoom.members.values()).map(async (otherMember) => {
@@ -150,32 +197,27 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
               if (!otherMember.wsAudio || otherMember.wsAudio.readyState !== WebSocket.OPEN) return;
 
               try {
-                // Translate
                 const translatedText = await translationService.translate(text, actualSourceLang, otherMember.targetLanguage);
-                
-                // Send Transcript
+                const translatedAt = Date.now();
+                console.log(`[Room ${roomId}] ${userId}->${otherMember.userId} translate=${translatedAt - finalAt}ms`);
+
+                if (!otherMember.wsAudio || otherMember.wsAudio.readyState !== WebSocket.OPEN) return;
+
                 otherMember.wsAudio.send(JSON.stringify({
                   type: "transcript",
                   userId: userId,
                   original: text,
                   translated: translatedText,
-                  timestamp: Date.now(),
+                  timestamp: translatedAt,
                   sourceLanguage: actualSourceLang
                 }));
 
-                // TTS
-                if (translatedText) {
-                  // Check if this listener has a specific voice preference for the speaker (userId)
-                  const specificVoice = otherMember.voicePreferences?.[userId];
-                  const finalVoice = specificVoice || otherMember.targetVoice;
-                  
-                  await ttsService.streamAudio(translatedText, otherMember.targetLanguage, (chunk) => {
-                      if (otherMember.wsAudio?.readyState === WebSocket.OPEN) {
-                          otherMember.wsAudio.send(chunk);
-                      }
-                  }, finalVoice || undefined);
-                }
+                if (!translatedText) return;
 
+                const specificVoice = otherMember.voicePreferences?.[userId];
+                const finalVoice = specificVoice || otherMember.targetVoice;
+                // Non-blocking: queued per-listener so concurrent speakers never interleave
+                streamTTSToSocket(otherMember.wsAudio, translatedText, otherMember.targetLanguage, finalVoice || undefined);
               } catch (e) {
                 console.error(`[Room ${roomId}] Translation/TTS failed for ${otherMember.userId}`, e);
               }
@@ -258,17 +300,19 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     
     let member = room.members.get(userId);
     if (!member) {
-       member = { 
-        userId, 
-        wsAudio: null, 
-        wsVideo: ws, 
-        sourceLanguage: 'en', 
-        targetLanguage: 'es', 
-        targetVoice: null 
+      // Audio socket hasn't connected yet — create a placeholder so wsVideo is
+      // registered. The audio socket will fill in real language/voice when it connects.
+      member = {
+        userId,
+        wsAudio: null,
+        wsVideo: ws,
+        sourceLanguage: '',
+        targetLanguage: '',
+        targetVoice: null,
       };
-       room.members.set(userId, member);
+      room.members.set(userId, member);
     } else {
-       member.wsVideo = ws;
+      member.wsVideo = ws;
     }
 
     console.log(`[Room ${roomId}] Video connected: ${userId}`);
@@ -367,40 +411,39 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
 
         if (isFinal && text.trim().length > 0) {
           console.log(`[STT] Final: "${text}" (Detected: ${detectedLanguage || 'N/A'})`);
-          
+          const finalAt = Date.now();
+
           try {
             console.log(`[Broadcast] Processing targets: ${targetLangs.join(', ')}`);
 
             await Promise.all(targetLangs.map(async (lang) => {
                try {
                   const translatedText = await translationService.translate(text, actualSourceLang, lang);
-                  
+                  const translatedAt = Date.now();
+
+                  const specificListeners = listeners.get(lang);
+                  if (!specificListeners || specificListeners.size === 0) return;
+
+                  console.log(`[Broadcast] lang=${lang} translate=${translatedAt - finalAt}ms`);
+
                   const updateMsg = JSON.stringify({
                     type: "transcript",
                     original: text,
                     translated: translatedText,
-                    timestamp: Date.now(),
+                    timestamp: translatedAt,
                     sourceLanguage: actualSourceLang,
                     targetLanguage: lang
                   });
 
-                  const specificListeners = listeners.get(lang);
-                  if (specificListeners && specificListeners.size > 0) {
-                    specificListeners.forEach(l => {
-                      if (l.readyState === WebSocket.OPEN) l.send(updateMsg);
-                    });
+                  specificListeners.forEach(l => {
+                    if (l.readyState === WebSocket.OPEN) l.send(updateMsg);
+                  });
 
-                    if (translatedText) {
-                      const voiceId = targetVoices[lang];
-                      await ttsService.streamAudio(translatedText, lang, (chunk) => {
-                        specificListeners.forEach(l => {
-                          if (l.readyState === WebSocket.OPEN) {
-                             l.send(chunk);
-                          }
-                        });
-                      }, voiceId);
-                    }
-                  } 
+                  if (!translatedText) return;
+
+                  const voiceId = targetVoices[lang];
+                  // Non-blocking: each listener gets its own serialized TTS queue
+                  specificListeners.forEach(l => streamTTSToSocket(l, translatedText, lang, voiceId));
                } catch (err) {
                   console.error(`[Broadcast] Error processing ${lang}:`, err);
                }
