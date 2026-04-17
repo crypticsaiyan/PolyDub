@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
     }
 
     const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
-    const translationService = new TranslationService(process.env.LINGO_API_KEY);
+    const translationService = new TranslationService();
     const ttsService = new TTSService(process.env.DEEPGRAM_API_KEY);
     
     const { result, error } = await deepgram.listen.prerecorded.transcribeFile(buffer, {
