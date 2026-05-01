@@ -54,5 +54,5 @@ next-env.d.ts
 .vscode/mcp.json
 .cursor/mcp.json
 
-# testsprite runtime secrets
-testsprite_tests/tmp/config.json
+# testsprite runtime artifacts
+testsprite_tests/tmp/
