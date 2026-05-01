@@ -136,7 +136,7 @@ pnpm dev
 ```
 
 ```bash
-pnpm server
+pnpm run server
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
