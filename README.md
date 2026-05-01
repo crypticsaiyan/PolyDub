@@ -146,11 +146,11 @@ Open [http://localhost:3000](http://localhost:3000).
 | Command | Description |
 | --- | --- |
 | `pnpm dev` | Start the Next.js dev server on `http://localhost:3000`. |
-| `pnpm server` | Start the TypeScript WebSocket server on port `8080`. |
+| `pnpm run server` | Start the TypeScript WebSocket server on port `8080`. |
 | `pnpm build` | Build the Next.js app and run Lingo compilation. |
 | `pnpm start` | Start the built Next.js app. |
-| `pnpm server:build` | Compile the WebSocket server into `dist-server/`. |
-| `pnpm server:start` | Start the compiled WebSocket server. |
+| `pnpm server:build` | Compile the WebSocket server TypeScript to `dist-server/`. |
+| `pnpm server:start` | Start the compiled WebSocket server from `dist-server/index.js`. |
 | `pnpm lint` | Run ESLint. |
 
 ## Environment Variables
@@ -199,29 +199,6 @@ Accepts multipart form data and returns a `video/mp4` response.
 
 Returns preview audio for a short text/voice sample used by the voice selector UI.
 
-## Deployment
-
-Production needs both services running:
-
-```bash
-pnpm build
-pnpm start
-```
-
-```bash
-pnpm server:build
-pnpm server:start
-```
-
-For HTTPS deployments, set `NEXT_PUBLIC_WS_URL` to a secure WebSocket URL:
-
-```env
-NEXT_PUBLIC_WS_URL=wss://your-websocket-service.example.com
-```
-
-The included [render.yaml](./render.yaml) defines separate Render services for the Next.js app and the WebSocket server. After deployment, set the web service's `NEXT_PUBLIC_WS_URL` to the public URL of the WebSocket service, using `wss://`.
-
-For VOD muxing in production, make sure the deployment environment provides the `ffmpeg` binary on `PATH`.
 
 ## Project Structure
 
@@ -293,4 +270,5 @@ Test files are in [testsprite_tests/](./testsprite_tests/). Run artifacts are in
 ## License
 
 MIT
+
 
