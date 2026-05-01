@@ -30,7 +30,7 @@ export function LandingPage() {
             <source src="/bg.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-[var(--color-baltic-sea-950)]/50 -z-10" />
-          <div className="relative mx-auto max-w-[1400px] px-6 lg:px-12 py-20">
+          <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-12 py-20">
             <div className="mx-auto max-w-4xl text-center">
               <p className="mb-6 text-sm font-medium tracking-wide text-[var(--color-keppel-400)] uppercase">
                 Global Communication Platform
@@ -93,7 +93,7 @@ export function LandingPage() {
 
         {/* How it works */}
         <section id="how-it-works" className="py-24 lg:py-32 border-b border-[var(--color-baltic-sea-800)]">
-          <div className="mx-auto max-w-[1400px] px-6 lg:px-12">
+          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-12">
             <p className="text-center text-sm font-medium tracking-wide text-[var(--color-keppel-400)] uppercase mb-3">
               How it works
             </p>
@@ -134,7 +134,7 @@ export function LandingPage() {
 
         {/* Stack */}
         <section className="py-24 lg:py-32 border-b border-[var(--color-baltic-sea-800)] bg-[var(--color-baltic-sea-900)]/30">
-          <div className="mx-auto max-w-[1400px] px-6 lg:px-12">
+          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-12">
             <p className="text-center text-sm font-medium tracking-wide text-[var(--color-keppel-400)] uppercase mb-3">
               Built for real-time
             </p>

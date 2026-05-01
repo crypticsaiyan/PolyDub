@@ -399,30 +399,64 @@ export default function RoomPage() {
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground pt-16">
-       {/* Room Toolbar - Enhanced */}
+       {/* Room Toolbar */}
        <div className="border-b px-4 py-3 bg-card/80 backdrop-blur-md sticky top-0 z-40 shrink-0 shadow-sm">
-           <div className="flex flex-wrap items-center justify-between gap-4">
-               
-               {/* Left Group: Identity & Controls */}
-               <div className="flex items-center gap-6">
-                   {/* Room Info */}
-                   <div className="flex items-center gap-3 pr-6 border-r border-border/50">
+           <div className="flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-4">
+
+               {/* Row 1 on mobile: Room ID + action buttons */}
+               <div className="flex items-center gap-3">
+                   <div className="flex items-center gap-3 border-r border-border/50 pr-3 md:pr-6 shrink-0">
                        <div className="flex flex-col">
                            <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">Room</span>
-                           <span className="font-mono text-base font-bold text-primary leading-none">{roomId}</span>
+                           <span className="font-mono text-sm md:text-base font-bold text-primary leading-none">{roomId}</span>
                        </div>
                    </div>
 
-                   {/* Language Configuration */}
-                   <div className="flex flex-wrap items-center gap-4">
-                       
-                       {/* Source Language (Input) */}
+                   {/* Mobile actions (inline with room ID) */}
+                   <div className="flex md:hidden items-center gap-2 ml-auto">
+                       {isConnected && (
+                           <div className="flex items-center gap-1 border-r pr-2 border-border/40">
+                               <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className={`h-8 w-8 rounded-full transition-colors ${!isMicOn ? 'bg-destructive/10 text-destructive hover:bg-destructive/20' : 'hover:bg-secondary'}`}
+                                    onClick={toggleMic}
+                                    title={isMicOn ? "Mute Microphone" : "Unmute Microphone"}
+                               >
+                                   {isMicOn ? <Microphone weight="fill" className="h-4 w-4" /> : <MicrophoneSlash weight="regular" className="h-4 w-4" />}
+                               </Button>
+                               <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className={`h-8 w-8 rounded-full transition-colors ${!isCamOn ? 'bg-destructive/10 text-destructive hover:bg-destructive/20' : 'hover:bg-secondary'}`}
+                                    onClick={toggleCam}
+                                    title={isCamOn ? "Turn Off Camera" : "Turn On Camera"}
+                               >
+                                   {isCamOn ? <VideoCamera weight="fill" className="h-4 w-4" /> : <VideoCameraSlash weight="regular" className="h-4 w-4" />}
+                               </Button>
+                           </div>
+                       )}
+                       <Button
+                            variant={isConnected ? "destructive" : "default"}
+                            onClick={toggleMedia}
+                            size="sm"
+                            className={`gap-1.5 font-semibold shadow-sm transition-all text-xs min-w-[72px] ${isConnected ? 'bg-red-500 hover:bg-red-600' : 'bg-primary hover:bg-primary/90'}`}
+                       >
+                           {!isConnected && <VideoCamera weight="bold" className="h-3.5 w-3.5" />}
+                           {isConnected ? "Leave" : "Join"}
+                       </Button>
+                   </div>
+               </div>
+
+               {/* Language selects: horizontally scrollable on mobile, flex-wrap on desktop */}
+               <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible md:flex-1">
+                   <div className="flex items-end gap-3 min-w-max md:min-w-0 md:flex-wrap pb-0.5 md:pb-0">
                        <div className="flex flex-col gap-1">
                            <Label className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold flex items-center gap-1">
-                              <Globe className="h-3 w-3" /> Speaking (Input)
+                              <Globe className="h-3 w-3" /> Speaking
                            </Label>
                            <Select value={sourceLang} onValueChange={setSourceLang}>
-                               <SelectTrigger className="w-[140px] h-8 text-xs bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20">
+                               <SelectTrigger className="w-[130px] h-8 text-xs bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20">
                                    <SelectValue />
                                </SelectTrigger>
                                <SelectContent>
@@ -435,13 +469,12 @@ export default function RoomPage() {
                            </Select>
                        </div>
 
-                       {/* Target Language (Output) */}
                        <div className="flex flex-col gap-1">
                            <Label className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold flex items-center gap-1">
-                              <Translate className="h-3 w-3" /> Listening (Output)
+                              <Translate className="h-3 w-3" /> Listening
                            </Label>
                            <Select value={targetLang} onValueChange={setTargetLang}>
-                               <SelectTrigger className="w-[140px] h-8 text-xs bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20">
+                               <SelectTrigger className="w-[130px] h-8 text-xs bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20">
                                    <SelectValue />
                                </SelectTrigger>
                                <SelectContent>
@@ -454,13 +487,12 @@ export default function RoomPage() {
                            </Select>
                        </div>
 
-                       {/* Self Voice (Output) */}
                        <div className="flex flex-col gap-1">
                            <Label className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold flex items-center gap-1">
                               <SpeakerHigh className="h-3 w-3" /> Voice
                            </Label>
                            <Select value={targetVoice} onValueChange={setTargetVoice} disabled={!(VOICE_OPTIONS[targetLang] || []).length}>
-                               <SelectTrigger className="w-[180px] h-8 text-xs bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20">
+                               <SelectTrigger className="w-[160px] h-8 text-xs bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20">
                                    <SelectValue placeholder="Select voice" />
                                </SelectTrigger>
                                <SelectContent>
@@ -472,12 +504,11 @@ export default function RoomPage() {
                                </SelectContent>
                            </Select>
                        </div>
-
                    </div>
                </div>
-               
-               {/* Right Group: Actions */}
-               <div className="flex items-center gap-3 ml-auto">
+
+               {/* Desktop actions */}
+               <div className="hidden md:flex items-center gap-3 ml-auto">
                    {isConnected && (
                        <div className="flex items-center gap-1 mr-2 border-r pr-3 border-border/40">
                            <Button
@@ -500,14 +531,12 @@ export default function RoomPage() {
                            </Button>
                        </div>
                    )}
-               
-                   <Button 
+                   <Button
                         variant={isConnected ? "destructive" : "default"}
                         onClick={toggleMedia}
                         size="sm"
                         className={`gap-2 font-semibold shadow-sm transition-all min-w-[120px] ${isConnected ? 'bg-red-500 hover:bg-red-600' : 'bg-primary hover:bg-primary/90'}`}
                    >
-                       {/* Icon only on Join */}
                        {!isConnected && <VideoCamera weight="bold" />}
                        {isConnected ? "Leave Room" : "Join Room"}
                    </Button>
