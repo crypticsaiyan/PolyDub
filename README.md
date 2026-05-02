@@ -12,11 +12,11 @@ PolyDub is a browser-based multilingual dubbing platform for live broadcasts, vi
 
 ## Features
 
-| Mode | Route | What it does |
-| --- | --- | --- |
-| Live Broadcast | `/broadcast`, `/broadcast/[id]/[lang]` | One host speaks while listeners receive translated transcripts and dubbed audio. |
-| Multilingual Rooms | `/rooms`, `/room/[roomId]` | Multiple participants speak in their own language and hear others in their selected language. |
-| VOD Dubbing | `/vod` | Upload media and generate dubbed audio, SRT subtitles, and a muxed MP4. |
+| Mode               | Route                                  | What it does                                                                                  |
+| ------------------ | -------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Live Broadcast     | `/broadcast`, `/broadcast/[id]/[lang]` | One host speaks while listeners receive translated transcripts and dubbed audio.              |
+| Multilingual Rooms | `/rooms`, `/room/[roomId]`             | Multiple participants speak in their own language and hear others in their selected language. |
+| VOD Dubbing        | `/vod`                                 | Upload media and generate dubbed audio, SRT subtitles, and a muxed MP4.                       |
 
 **Highlights:**
 
@@ -29,15 +29,19 @@ PolyDub is a browser-based multilingual dubbing platform for live broadcasts, vi
 ## Screenshots
 
 ### Landing Page
+
 ![Landing Page](./public/landing.png)
 
 ### Broadcast Mode
+
 ![Broadcast Mode](./public/broadcast.png)
 
 ### Multilingual Room
+
 ![Room Mode](./public/room.png)
 
 ### VOD Dubbing Studio
+
 ![VOD Studio](./public/vod.png)
 
 ## How It Works
@@ -79,15 +83,15 @@ WebSocket server (:8080)
 
 **Aura-2 target voices exposed in the UI:**
 
-| Language | Voices |
-| --- | --- |
-| English | Thalia, Andromeda, Apollo, Arcas |
-| Spanish | Celeste, Estrella, Nestor, Sirio |
-| French | Agathe, Hector |
-| German | Viktoria, Elara, Julius, Fabian |
-| Italian | Livia, Melia, Dionisio, Elio |
+| Language | Voices                            |
+| -------- | --------------------------------- |
+| English  | Thalia, Andromeda, Apollo, Arcas  |
+| Spanish  | Celeste, Estrella, Nestor, Sirio  |
+| French   | Agathe, Hector                    |
+| German   | Viktoria, Elara, Julius, Fabian   |
+| Italian  | Livia, Melia, Dionisio, Elio      |
 | Japanese | Izanami, Uzume, Ama, Ebisu, Fujin |
-| Dutch | Rhea, Beatrix, Sander, Lars |
+| Dutch    | Rhea, Beatrix, Sander, Lars       |
 
 ## Tech Stack
 
@@ -143,26 +147,26 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Command | Description |
-| --- | --- |
-| `pnpm dev` | Start the Next.js dev server on `http://localhost:3000`. |
-| `pnpm run server` | Start the TypeScript WebSocket server on port `8080`. |
-| `pnpm build` | Build the Next.js app and run Lingo compilation. |
-| `pnpm start` | Start the built Next.js app. |
-| `pnpm server:build` | Compile the WebSocket server TypeScript to `dist-server/`. |
+| Command             | Description                                                      |
+| ------------------- | ---------------------------------------------------------------- |
+| `pnpm dev`          | Start the Next.js dev server on `http://localhost:3000`.         |
+| `pnpm run server`   | Start the TypeScript WebSocket server on port `8080`.            |
+| `pnpm build`        | Build the Next.js app and run Lingo compilation.                 |
+| `pnpm start`        | Start the built Next.js app.                                     |
+| `pnpm server:build` | Compile the WebSocket server TypeScript to `dist-server/`.       |
 | `pnpm server:start` | Start the compiled WebSocket server from `dist-server/index.js`. |
-| `pnpm lint` | Run ESLint. |
+| `pnpm lint`         | Run ESLint.                                                      |
 
 ## Environment Variables
 
-| Variable | Used by | Required | Description |
-| --- | --- | --- | --- |
-| `DEEPGRAM_API_KEY` | Next.js API routes, WebSocket server | Yes | Deepgram STT and TTS API key. |
-| `LINGO_API_KEY` | Next.js build, `/api/dub` guard | Yes for full build/VOD flow | Mapped to `LINGODOTDEV_API_KEY` in `next.config.mjs` for Lingo.dev compilation. |
-| `LINGO_BUILD_MODE` | Next.js build | No | Optional Lingo compiler mode. Defaults to `translate`. |
-| `PORT` | WebSocket server | No | Primary WebSocket server port. Defaults to `8080`. |
-| `WEBSOCKET_PORT` | WebSocket server | No | Fallback port when `PORT` is not set. |
-| `NEXT_PUBLIC_WS_URL` | Browser client | Yes | Public WebSocket URL, for example `ws://localhost:8080` or `wss://your-ws-domain.com`. |
+| Variable             | Used by                              | Required                    | Description                                                                            |
+| -------------------- | ------------------------------------ | --------------------------- | -------------------------------------------------------------------------------------- |
+| `DEEPGRAM_API_KEY`   | Next.js API routes, WebSocket server | Yes                         | Deepgram STT and TTS API key.                                                          |
+| `LINGO_API_KEY`      | Next.js build, `/api/dub` guard      | Yes for full build/VOD flow | Mapped to `LINGODOTDEV_API_KEY` in `next.config.mjs` for Lingo.dev compilation.        |
+| `LINGO_BUILD_MODE`   | Next.js build                        | No                          | Optional Lingo compiler mode. Defaults to `translate`.                                 |
+| `PORT`               | WebSocket server                     | No                          | Primary WebSocket server port. Defaults to `8080`.                                     |
+| `WEBSOCKET_PORT`     | WebSocket server                     | No                          | Fallback port when `PORT` is not set.                                                  |
+| `NEXT_PUBLIC_WS_URL` | Browser client                       | Yes                         | Public WebSocket URL, for example `ws://localhost:8080` or `wss://your-ws-domain.com`. |
 
 ## API Reference
 
@@ -170,12 +174,12 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Accepts multipart form data and returns generated subtitles plus base64 audio.
 
-| Field | Required | Description |
-| --- | --- | --- |
-| `file` | Yes | Uploaded audio/video file. |
-| `targetLanguage` or `target_language` | Yes | Target language code for dubbing. |
-| `sourceLanguage` or `source_language` | No | Source language code. Defaults to `auto`. |
-| `voiceId` or `voice_id` | No | Deepgram Aura-2 voice ID override. |
+| Field                                 | Required | Description                               |
+| ------------------------------------- | -------- | ----------------------------------------- |
+| `file`                                | Yes      | Uploaded audio/video file.                |
+| `targetLanguage` or `target_language` | Yes      | Target language code for dubbing.         |
+| `sourceLanguage` or `source_language` | No       | Source language code. Defaults to `auto`. |
+| `voiceId` or `voice_id`               | No       | Deepgram Aura-2 voice ID override.        |
 
 Response:
 
@@ -190,15 +194,14 @@ Response:
 
 Accepts multipart form data and returns a `video/mp4` response.
 
-| Field | Required | Description |
-| --- | --- | --- |
-| `video` or `original_video` | Yes | Original video file. |
-| `audio` or `dubbed_audio` | Yes | Dubbed audio file. |
+| Field                       | Required | Description          |
+| --------------------------- | -------- | -------------------- |
+| `video` or `original_video` | Yes      | Original video file. |
+| `audio` or `dubbed_audio`   | Yes      | Dubbed audio file.   |
 
 ### `POST /api/tts-preview`
 
 Returns preview audio for a short text/voice sample used by the voice selector UI.
-
 
 ## Project Structure
 
@@ -240,35 +243,33 @@ Both were fixed before Round 2.
 
 **Backend API Tests (5/5 Passing)**
 
-| Test | What it checks |
-| --- | --- |
-| TC001 | `POST /api/dub` returns JSON with non-empty `srt` and valid base64 `mp3`. |
-| TC002 | `POST /api/dub` missing params returns 400 with `Missing parameters`. |
-| TC003 | `POST /api/dub` third-party failure returns 500 with an error body. |
-| TC004 | `POST /api/mux` valid video + audio produces a `video/mp4` stream. |
+| Test  | What it checks                                                                 |
+| ----- | ------------------------------------------------------------------------------ |
+| TC001 | `POST /api/dub` returns JSON with non-empty `srt` and valid base64 `mp3`.      |
+| TC002 | `POST /api/dub` missing params returns 400 with `Missing parameters`.          |
+| TC003 | `POST /api/dub` third-party failure returns 500 with an error body.            |
+| TC004 | `POST /api/mux` valid video + audio produces a `video/mp4` stream.             |
 | TC005 | `POST /api/mux` missing inputs returns 400 with `Missing video or audio file`. |
 
 **Frontend / E2E Tests (12 Cases Passing)**
 
-| Test | What it checks |
-| --- | --- |
+| Test  | What it checks                                                    |
+| ----- | ----------------------------------------------------------------- |
 | TC001 | Start live broadcast after selecting source and target languages. |
-| TC002 | Create a new room and reach the in-room view. |
-| TC003 | Join an existing room by ID. |
-| TC004 | Leave and rejoin a room with the same ID. |
-| TC005 | Prevent broadcast start when no target languages are selected. |
-| TC006 | Change language and voice selection in an active room. |
-| TC007 | VOD studio opens in upload-ready state. |
-| TC008 | Navigate from landing page to broadcast setup. |
-| TC009 | Show validation when joining with a malformed room ID. |
-| TC010 | Navigate from landing page to rooms lobby. |
-| TC011 | Reject unsupported VOD file type on upload. |
-| TC012 | Navigate from landing page to VOD studio. |
+| TC002 | Create a new room and reach the in-room view.                     |
+| TC003 | Join an existing room by ID.                                      |
+| TC004 | Leave and rejoin a room with the same ID.                         |
+| TC005 | Prevent broadcast start when no target languages are selected.    |
+| TC006 | Change language and voice selection in an active room.            |
+| TC007 | VOD studio opens in upload-ready state.                           |
+| TC008 | Navigate from landing page to broadcast setup.                    |
+| TC009 | Show validation when joining with a malformed room ID.            |
+| TC010 | Navigate from landing page to rooms lobby.                        |
+| TC011 | Reject unsupported VOD file type on upload.                       |
+| TC012 | Navigate from landing page to VOD studio.                         |
 
-Test files are in [testsprite_tests/](./testsprite_tests/). Run artifacts are in [testsprite_tests/tmp/](./testsprite_tests/tmp/).
+Test files are in [testsprite_tests/](./testsprite_tests/).
 
 ## License
 
 MIT
-
-
